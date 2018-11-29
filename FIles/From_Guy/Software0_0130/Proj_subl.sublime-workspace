@@ -1,0 +1,1070 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Src/main.c",
+			"settings":
+			{
+				"buffer_size": 39339,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "MDK-ARM/motor.c",
+			"settings":
+			{
+				"buffer_size": 7232,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "MDK-ARM/progress.c",
+			"settings":
+			{
+				"buffer_size": 3589,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "MDK-ARM/discreets.c",
+			"settings":
+			{
+				"buffer_size": 2191,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "MDK-ARM/commserv.c",
+			"settings":
+			{
+				"buffer_size": 5618,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "MDK-ARM/host_from_comm.c",
+			"settings":
+			{
+				"buffer_size": 5005,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "MDK-ARM/error.c",
+			"settings":
+			{
+				"buffer_size": 47,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 147 files for \"SEND_TO_TERMINAL\"\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\Src\\main.c:\n   43  /* USER CODE BEGIN Includes */\n   44  \n   45: //#define SEND_TO_TERMINAL 1\n   46  \n   47  #include \"host_from_comm.h\"\n   ..\n  626  \n  627  \n  628: #ifdef SEND_TO_TERMINAL\n  629  \t\t// If data transmision to debug UART is compleeted:\n  630  \t\t// -----------------------------------------------\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\main.crf:\n    <binary>\n\n3 matches across 2 files\n\n\nSearching 147 files for \"USART1\"\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\Inc\\stm32l0xx_it.h:\n   59  void I2C1_IRQHandler(void);\n   60  void I2C2_IRQHandler(void);\n   61: void USART1_IRQHandler(void);\n   62  void USART2_IRQHandler(void);\n   63  \n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\Src\\main.c:\n   79  UART_HandleTypeDef huart2;\n   80  UART_HandleTypeDef huart4;\n   81: DMA_HandleTypeDef hdma_usart1_tx;\n   82  DMA_HandleTypeDef hdma_usart2_rx;\n   83  DMA_HandleTypeDef hdma_usart2_tx;\n   ..\n  183  static void MX_SPI1_Init(void);\n  184  static void MX_TIM3_Init(void);\n  185: static void MX_USART1_UART_Init(void);\n  186  static void MX_USART2_UART_Init(void);\n  187  static void MX_USART4_UART_Init(void);\n  ...\n  309  void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)\n  310  {\n  311: \tif (huart->Instance == USART1) // debug channel\n  312  \t\tuart_tx_callback[1] = 1;\n  313  \t\n  ...\n  325  void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)\n  326  {\n  327: \tif (huart->Instance == USART1)\n  328  \t\tuart_rx_callback[1] = 1;\n  329  \t\n  ...\n  420    MX_SPI1_Init();\n  421    MX_TIM3_Init();\n  422:   MX_USART1_UART_Init();\n  423    MX_USART2_UART_Init();\n  424    MX_USART4_UART_Init();\n  ...\n  758    }\n  759  \n  760:   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2\n  761                                |RCC_PERIPHCLK_I2C1;\n  762:   PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;\n  763    PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;\n  764    PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_PCLK1;\n  ...\n 1037  }\n 1038  \n 1039: /* USART1 init function */\n 1040: static void MX_USART1_UART_Init(void)\n 1041  {\n 1042  \n 1043:   huart1.Instance = USART1;\n 1044    huart1.Init.BaudRate = 115200;\n 1045    huart1.Init.WordLength = UART_WORDLENGTH_8B;\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\Src\\stm32l0xx_hal_msp.c:\n   42  extern DMA_HandleTypeDef hdma_adc;\n   43  \n   44: extern DMA_HandleTypeDef hdma_usart1_tx;\n   45  \n   46  extern DMA_HandleTypeDef hdma_usart2_rx;\n   ..\n  396  \n  397    GPIO_InitTypeDef GPIO_InitStruct;\n  398:   if(huart->Instance==USART1)\n  399    {\n  400:   /* USER CODE BEGIN USART1_MspInit 0 */\n  401  \n  402:   /* USER CODE END USART1_MspInit 0 */\n  403      /* Peripheral clock enable */\n  404:     __HAL_RCC_USART1_CLK_ENABLE();\n  405    \n  406:     /**USART1 GPIO Configuration    \n  407:     PA9     ------> USART1_TX\n  408:     PA10     ------> USART1_RX \n  409      */\n  410      GPIO_InitStruct.Pin = GPIO_PIN_9|GPIO_PIN_10;\n  ...\n  412      GPIO_InitStruct.Pull = GPIO_NOPULL;\n  413      GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;\n  414:     GPIO_InitStruct.Alternate = GPIO_AF4_USART1;\n  415      HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);\n  416  \n  417:     /* USART1 DMA Init */\n  418:     /* USART1_TX Init */\n  419:     hdma_usart1_tx.Instance = DMA1_Channel2;\n  420:     hdma_usart1_tx.Init.Request = DMA_REQUEST_3;\n  421:     hdma_usart1_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;\n  422:     hdma_usart1_tx.Init.PeriphInc = DMA_PINC_DISABLE;\n  423:     hdma_usart1_tx.Init.MemInc = DMA_MINC_ENABLE;\n  424:     hdma_usart1_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;\n  425:     hdma_usart1_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;\n  426:     hdma_usart1_tx.Init.Mode = DMA_NORMAL;\n  427:     hdma_usart1_tx.Init.Priority = DMA_PRIORITY_LOW;\n  428:     if (HAL_DMA_Init(&hdma_usart1_tx) != HAL_OK)\n  429      {\n  430        _Error_Handler(__FILE__, __LINE__);\n  431      }\n  432  \n  433:     __HAL_LINKDMA(huart,hdmatx,hdma_usart1_tx);\n  434  \n  435:     /* USART1 interrupt Init */\n  436:     HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);\n  437:     HAL_NVIC_EnableIRQ(USART1_IRQn);\n  438:   /* USER CODE BEGIN USART1_MspInit 1 */\n  439  \n  440:   /* USER CODE END USART1_MspInit 1 */\n  441    }\n  442    else if(huart->Instance==USART2)\n  ...\n  534  {\n  535  \n  536:   if(huart->Instance==USART1)\n  537    {\n  538:   /* USER CODE BEGIN USART1_MspDeInit 0 */\n  539  \n  540:   /* USER CODE END USART1_MspDeInit 0 */\n  541      /* Peripheral clock disable */\n  542:     __HAL_RCC_USART1_CLK_DISABLE();\n  543    \n  544:     /**USART1 GPIO Configuration    \n  545:     PA9     ------> USART1_TX\n  546:     PA10     ------> USART1_RX \n  547      */\n  548      HAL_GPIO_DeInit(GPIOA, GPIO_PIN_9|GPIO_PIN_10);\n  549  \n  550:     /* USART1 DMA DeInit */\n  551      HAL_DMA_DeInit(huart->hdmatx);\n  552  \n  553:     /* USART1 interrupt DeInit */\n  554:     HAL_NVIC_DisableIRQ(USART1_IRQn);\n  555:   /* USER CODE BEGIN USART1_MspDeInit 1 */\n  556  \n  557:   /* USER CODE END USART1_MspDeInit 1 */\n  558    }\n  559    else if(huart->Instance==USART2)\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\Src\\stm32l0xx_it.c:\n   49  extern I2C_HandleTypeDef hi2c1;\n   50  extern I2C_HandleTypeDef hi2c2;\n   51: extern DMA_HandleTypeDef hdma_usart1_tx;\n   52  extern DMA_HandleTypeDef hdma_usart2_rx;\n   53  extern DMA_HandleTypeDef hdma_usart2_tx;\n   ..\n  171  \n  172    /* USER CODE END DMA1_Channel2_3_IRQn 0 */\n  173:   HAL_DMA_IRQHandler(&hdma_usart1_tx);\n  174    /* USER CODE BEGIN DMA1_Channel2_3_IRQn 1 */\n  175  \n  ...\n  243  \n  244  /**\n  245: * @brief This function handles USART1 global interrupt / USART1 wake-up interrupt through EXTI line 25.\n  246  */\n  247: void USART1_IRQHandler(void)\n  248  {\n  249:   /* USER CODE BEGIN USART1_IRQn 0 */\n  250  \n  251:   /* USER CODE END USART1_IRQn 0 */\n  252    HAL_UART_IRQHandler(&huart1);\n  253:   /* USER CODE BEGIN USART1_IRQn 1 */\n  254  \n  255:   /* USER CODE END USART1_IRQn 1 */\n  256  }\n  257  \n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\startup_stm32l073xx.lst:\n  203    118 000000A4 00000000        DCD              SPI1_IRQHandler ; SPI1\n  204    119 000000A8 00000000        DCD              SPI2_IRQHandler ; SPI2\n  205:   120 000000AC 00000000        DCD              USART1_IRQHandler ; USART1\n  206    121 000000B0 00000000        DCD              USART2_IRQHandler ; USART2\n  207    122 000000B4 00000000        DCD              RNG_LPUART1_IRQHandler \n  ...\n  332    194 00000012                 EXPORT           SPI2_IRQHandler                \n  333  [WEAK]\n  334:   195 00000012                 EXPORT           USART1_IRQHandler              \n  335  [WEAK]\n  336    196 00000012                 EXPORT           USART2_IRQHandler              \n  ...\n  370    226 00000012         SPI1_IRQHandler\n  371    227 00000012         SPI2_IRQHandler\n  372:   228 00000012         USART1_IRQHandler\n  373    229 00000012         USART2_IRQHandler\n  374    230 00000012         RNG_LPUART1_IRQHandler\n  ...\n  856        At line 177 in file startup_stm32l073xx.s\n  857  \n  858: USART1_IRQHandler 00000012\n  859  \n  860: Symbol: USART1_IRQHandler\n  861     Definitions\n  862        At line 228 in file startup_stm32l073xx.s\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\startup_stm32l073xx.s:\n  118                  DCD     SPI1_IRQHandler                ; SPI1\n  119                  DCD     SPI2_IRQHandler                ; SPI2\n  120:                 DCD     USART1_IRQHandler              ; USART1\n  121                  DCD     USART2_IRQHandler              ; USART2\n  122                  DCD     RNG_LPUART1_IRQHandler         ; RNG and LPUART1\n  ...\n  193                  EXPORT  SPI1_IRQHandler                [WEAK]\n  194                  EXPORT  SPI2_IRQHandler                [WEAK]\n  195:                 EXPORT  USART1_IRQHandler              [WEAK]\n  196                  EXPORT  USART2_IRQHandler              [WEAK]\n  197                  EXPORT  RNG_LPUART1_IRQHandler         [WEAK]\n  ...\n  226  SPI1_IRQHandler\n  227  SPI2_IRQHandler\n  228: USART1_IRQHandler\n  229  USART2_IRQHandler\n  230  RNG_LPUART1_IRQHandler\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\adc.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\board_temp.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\commserv.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\discreets.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\heater.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\host_from_comm.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\host_to_comm.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\init.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\ir_temp.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\main.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\miscel.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\motor.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\pid.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\progress.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\Proj7_0.axf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\Proj7_0.htm:\n   67   <LI><a href=\"#[30]\">UART_DMATransmitCplt</a> from stm32l0xx_hal_uart.o(i.UART_DMATransmitCplt) referenced from stm32l0xx_hal_uart.o(i.HAL_UART_Transmit_DMA)\n   68   <LI><a href=\"#[31]\">UART_DMATxHalfCplt</a> from stm32l0xx_hal_uart.o(i.UART_DMATxHalfCplt) referenced from stm32l0xx_hal_uart.o(i.HAL_UART_Transmit_DMA)\n   69:  <LI><a href=\"#[20]\">USART1_IRQHandler</a> from stm32l0xx_it.o(i.USART1_IRQHandler) referenced from startup_stm32l073xx.o(RESET)\n   70   <LI><a href=\"#[21]\">USART2_IRQHandler</a> from stm32l0xx_it.o(i.USART2_IRQHandler) referenced from startup_stm32l073xx.o(RESET)\n   71   <LI><a href=\"#[14]\">USART4_5_IRQHandler</a> from stm32l0xx_it.o(i.USART4_5_IRQHandler) referenced from startup_stm32l073xx.o(RESET)\n   ..\n  815  <BR>[Called By]<UL><LI><a href=\"#[14]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART4_5_IRQHandler\n  816  <LI><a href=\"#[21]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler\n  817: <LI><a href=\"#[20]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler\n  818  </UL>\n  819  \n  ...\n  827  </UL>\n  828  <BR>[Called By]<UL><LI><a href=\"#[bc]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART4_UART_Init\n  829: <LI><a href=\"#[ba]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init\n  830  </UL>\n  831  \n  ...\n  999  </UL>\n 1000  \n 1001: <P><STRONG><a name=\"[20]\"></a>USART1_IRQHandler</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, stm32l0xx_it.o(i.USART1_IRQHandler))\n 1002: <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = USART1_IRQHandler &rArr; HAL_UART_IRQHandler &rArr; UART_Receive_IT &rArr; HAL_UART_RxCpltCallback &rArr; init_receiving_from_som &rArr; HAL_UART_Receive_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig\n 1003  </UL>\n 1004  <BR>[Calls]<UL><LI><a href=\"#[8b]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler\n ....\n 1026  <LI><a href=\"#[bc]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART4_UART_Init\n 1027  <LI><a href=\"#[bb]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART2_UART_Init\n 1028: <LI><a href=\"#[ba]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init\n 1029  <LI><a href=\"#[b7]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init\n 1030  <LI><a href=\"#[b6]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_SPI1_Init\n ....\n 1234  <LI><a href=\"#[bc]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART4_UART_Init\n 1235  <LI><a href=\"#[bb]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART2_UART_Init\n 1236: <LI><a href=\"#[ba]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init\n 1237  <LI><a href=\"#[b7]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init\n 1238  <LI><a href=\"#[b6]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_SPI1_Init\n ....\n 1465  </UL>\n 1466  \n 1467: <P><STRONG><a name=\"[ba]\"></a>MX_USART1_UART_Init</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, main.o(i.MX_USART1_UART_Init))\n 1468: <BR><BR>[Stack]<UL><LI>Max Depth = 148<LI>Call Chain = MX_USART1_UART_Init &rArr; HAL_UART_Init &rArr; UART_SetConfig &rArr; HAL_RCCEx_GetPeriphCLKFreq &rArr; HAL_RCC_GetSysClockFreq &rArr; __aeabi_uidivmod\n 1469  </UL>\n 1470  <BR>[Calls]<UL><LI><a href=\"#[93]\">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\Proj7_0.map:\n   18      startup_stm32l073xx.o(RESET) refers to stm32l0xx_it.o(i.I2C1_IRQHandler) for I2C1_IRQHandler\n   19      startup_stm32l073xx.o(RESET) refers to stm32l0xx_it.o(i.I2C2_IRQHandler) for I2C2_IRQHandler\n   20:     startup_stm32l073xx.o(RESET) refers to stm32l0xx_it.o(i.USART1_IRQHandler) for USART1_IRQHandler\n   21      startup_stm32l073xx.o(RESET) refers to stm32l0xx_it.o(i.USART2_IRQHandler) for USART2_IRQHandler\n   22      startup_stm32l073xx.o(.text) refers to system_stm32l0xx.o(i.SystemInit) for SystemInit\n   ..\n  198      main.o(i.MX_TIM3_Init) refers to stm32l0xx_hal_msp.o(i.HAL_TIM_MspPostInit) for HAL_TIM_MspPostInit\n  199      main.o(i.MX_TIM3_Init) refers to main.o(.bss) for htim3\n  200:     main.o(i.MX_USART1_UART_Init) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Init) for HAL_UART_Init\n  201:     main.o(i.MX_USART1_UART_Init) refers to main.o(i._Error_Handler) for _Error_Handler\n  202:     main.o(i.MX_USART1_UART_Init) refers to main.o(.bss) for huart1\n  203      main.o(i.MX_USART2_UART_Init) refers to stm32l0xx_hal_uart_ex.o(i.HAL_RS485Ex_Init) for HAL_RS485Ex_Init\n  204      main.o(i.MX_USART2_UART_Init) refers to main.o(i._Error_Handler) for _Error_Handler\n  ...\n  225      main.o(i.main) refers to main.o(i.MX_SPI1_Init) for MX_SPI1_Init\n  226      main.o(i.main) refers to main.o(i.MX_TIM3_Init) for MX_TIM3_Init\n  227:     main.o(i.main) refers to main.o(i.MX_USART1_UART_Init) for MX_USART1_UART_Init\n  228      main.o(i.main) refers to main.o(i.MX_USART2_UART_Init) for MX_USART2_UART_Init\n  229      main.o(i.main) refers to main.o(i.MX_USART4_UART_Init) for MX_USART4_UART_Init\n  ...\n  258      stm32l0xx_it.o(i.DMA1_Channel1_IRQHandler) refers to main.o(.bss) for hdma_adc\n  259      stm32l0xx_it.o(i.DMA1_Channel2_3_IRQHandler) refers to stm32l0xx_hal_dma.o(i.HAL_DMA_IRQHandler) for HAL_DMA_IRQHandler\n  260:     stm32l0xx_it.o(i.DMA1_Channel2_3_IRQHandler) refers to main.o(.bss) for hdma_usart1_tx\n  261      stm32l0xx_it.o(i.DMA1_Channel4_5_6_7_IRQHandler) refers to stm32l0xx_hal_dma.o(i.HAL_DMA_IRQHandler) for HAL_DMA_IRQHandler\n  262      stm32l0xx_it.o(i.DMA1_Channel4_5_6_7_IRQHandler) refers to main.o(.bss) for hdma_usart2_tx\n  ...\n  273      stm32l0xx_it.o(i.SysTick_Handler) refers to stm32l0xx_hal.o(i.HAL_IncTick) for HAL_IncTick\n  274      stm32l0xx_it.o(i.SysTick_Handler) refers to stm32l0xx_hal_cortex.o(i.HAL_SYSTICK_IRQHandler) for HAL_SYSTICK_IRQHandler\n  275:     stm32l0xx_it.o(i.USART1_IRQHandler) refers to stm32l0xx_hal_uart.o(i.HAL_UART_IRQHandler) for HAL_UART_IRQHandler\n  276:     stm32l0xx_it.o(i.USART1_IRQHandler) refers to main.o(.bss) for huart1\n  277      stm32l0xx_it.o(i.USART2_IRQHandler) refers to stm32l0xx_hal_uart.o(i.HAL_UART_IRQHandler) for HAL_UART_IRQHandler\n  278      stm32l0xx_it.o(i.USART2_IRQHandler) refers to main.o(.bss) for huart2\n  ...\n  302      stm32l0xx_hal_msp.o(i.HAL_UART_MspInit) refers to stm32l0xx_hal_cortex.o(i.HAL_NVIC_SetPriority) for HAL_NVIC_SetPriority\n  303      stm32l0xx_hal_msp.o(i.HAL_UART_MspInit) refers to stm32l0xx_hal_cortex.o(i.HAL_NVIC_EnableIRQ) for HAL_NVIC_EnableIRQ\n  304:     stm32l0xx_hal_msp.o(i.HAL_UART_MspInit) refers to main.o(.bss) for hdma_usart1_tx\n  305      stm32l0xx_hal_adc.o(i.ADC_ConversionStop) refers to stm32l0xx_hal.o(i.HAL_GetTick) for HAL_GetTick\n  306      stm32l0xx_hal_adc.o(i.ADC_DMAConvCplt) refers to main.o(i.HAL_ADC_ConvCpltCallback) for HAL_ADC_ConvCpltCallback\n  ...\n 1671      i.MX_TIM3_Init                           0x08004e2c   Section        0  main.o(i.MX_TIM3_Init)\n 1672      MX_TIM3_Init                             0x08004e2d   Thumb Code   246  main.o(i.MX_TIM3_Init)\n 1673:     i.MX_USART1_UART_Init                    0x08004f44   Section        0  main.o(i.MX_USART1_UART_Init)\n 1674:     MX_USART1_UART_Init                      0x08004f45   Thumb Code    62  main.o(i.MX_USART1_UART_Init)\n 1675      i.MX_USART2_UART_Init                    0x08004fa0   Section        0  main.o(i.MX_USART2_UART_Init)\n 1676      MX_USART2_UART_Init                      0x08004fa1   Thumb Code    68  main.o(i.MX_USART2_UART_Init)\n ....\n 1735      UART_Transmit_IT                         0x08005d7d   Thumb Code   114  stm32l0xx_hal_uart.o(i.UART_Transmit_IT)\n 1736      i.UART_WaitOnFlagUntilTimeout            0x08005dee   Section        0  stm32l0xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)\n 1737:     i.USART1_IRQHandler                      0x08005e60   Section        0  stm32l0xx_it.o(i.USART1_IRQHandler)\n 1738      i.USART2_IRQHandler                      0x08005e70   Section        0  stm32l0xx_it.o(i.USART2_IRQHandler)\n 1739      i.USART4_5_IRQHandler                    0x08005e80   Section        0  stm32l0xx_it.o(i.USART4_5_IRQHandler)\n ....\n 1977      UART_SetConfig                           0x0800598d   Thumb Code   954  stm32l0xx_hal_uart.o(i.UART_SetConfig)\n 1978      UART_WaitOnFlagUntilTimeout              0x08005def   Thumb Code   112  stm32l0xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)\n 1979:     USART1_IRQHandler                        0x08005e61   Thumb Code    10  stm32l0xx_it.o(i.USART1_IRQHandler)\n 1980      USART2_IRQHandler                        0x08005e71   Thumb Code    10  stm32l0xx_it.o(i.USART2_IRQHandler)\n 1981      USART4_5_IRQHandler                      0x08005e81   Thumb Code    10  stm32l0xx_it.o(i.USART4_5_IRQHandler)\n ....\n 2074      huart2                                   0x200005a8   Data         112  main.o(.bss)\n 2075      huart4                                   0x20000618   Data         112  main.o(.bss)\n 2076:     hdma_usart1_tx                           0x20000688   Data          64  main.o(.bss)\n 2077      hdma_usart2_rx                           0x200006c8   Data          64  main.o(.bss)\n 2078      hdma_usart2_tx                           0x20000708   Data          64  main.o(.bss)\n ....\n 2253      0x08004dcc   0x08004dcc   0x00000060   Code   RO          744    i.MX_SPI1_Init      main.o\n 2254      0x08004e2c   0x08004e2c   0x00000118   Code   RO          745    i.MX_TIM3_Init      main.o\n 2255:     0x08004f44   0x08004f44   0x0000005c   Code   RO          746    i.MX_USART1_UART_Init  main.o\n 2256      0x08004fa0   0x08004fa0   0x00000060   Code   RO          747    i.MX_USART2_UART_Init  main.o\n 2257      0x08005000   0x08005000   0x0000005c   Code   RO          748    i.MX_USART4_UART_Init  main.o\n ....\n 2296      0x08005dee   0x08005dee   0x00000070   Code   RO         2706    i.UART_WaitOnFlagUntilTimeout  stm32l0xx_hal_uart.o\n 2297      0x08005e5e   0x08005e5e   0x00000002   PAD\n 2298:     0x08005e60   0x08005e60   0x00000010   Code   RO          869    i.USART1_IRQHandler  stm32l0xx_it.o\n 2299      0x08005e70   0x08005e70   0x00000010   Code   RO          870    i.USART2_IRQHandler  stm32l0xx_it.o\n 2300      0x08005e80   0x08005e80   0x00000010   Code   RO          871    i.USART4_5_IRQHandler  stm32l0xx_it.o\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\rfid.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_adc.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_adc_ex.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_cortex.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_dma.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_flash.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_flash_ex.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_flash_ramfunc.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_gpio.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_i2c.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_i2c_ex.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_msp.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_pwr.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_pwr_ex.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_rcc.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_rcc_ex.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_spi.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_tim.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_tim_ex.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_uart.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_hal_uart_ex.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\stm32l0xx_it.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\system_stm32l0xx.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\technician.crf:\n    <binary>\n\n2111 matches across 48 files\n\n\nSearching 147 files for \"uart_tx_callback\"\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\Src\\main.c:\n   94  \n   95  // ----------------------------------------------------------------\n   96: volatile unsigned short uart_tx_callback[5] = {0, 0, 0, 0, 0}; // {0xffff, 0xffff, 0xffff, 0xffff, 0xffff}; // 5 indexes for UART0 to UART4. 0xffff indicates after power on\n   97  volatile unsigned short uart_rx_callback[5] = {0, 0, 0, 0, 0}; // {0xffff, 0xffff, 0xffff, 0xffff, 0xffff}; // 5 indexes for UART0 to UART4\n   98  // @@@note: See at main.h defines of comm numbers. Ensure that they fit numbers as deined by CUBE !.\n   ..\n  310  {\n  311  \tif (huart->Instance == USART1) // debug channel\n  312: \t\tuart_tx_callback[1] = 1;\n  313  \t\n  314  \tif (huart->Instance == USART2) { // If Transmission to SOM ended\n  315: \t\tuart_tx_callback[2] = 1;\n  316  \t\tdebug_var0 = 10;\n  317  \t}\n  318  \t\n  319  \tif (huart->Instance == USART4) // RFID\n  320: \t\tuart_tx_callback[4] = 1;\n  321  }\t\n  322  // --------------------------------------------------------------------------\n  ...\n  462  \t\t// if just ended transmission to SOM:\n  463  \t\t// ---------------------------------\n  464: \t\tif (uart_tx_callback[SOM_COMM_UART_NUM]) { \n  465: \t\t\tuart_tx_callback[SOM_COMM_UART_NUM] = 0;\n  466  \t\t\tinit_receiving_from_som(); // Prepare for receiving new message from SOM\n  467  \t\t}\n  ...\n  632  \t\t\tdebug_var0 = 39;\n  633  \t\t\tmain_loop_tasks &= (~DEBUG_TERMINAL_MAIN_LOOP_TASK_BIT);\n  634: \t\t\tuart_tx_callback[DEBUG_COMM_UART_NUM] = 0;\n  635  \t\t\t\tsend_debug_values();\n  636  \t\t\tdebug_var0 = 40;\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\host_from_comm.c:\n   12  extern UART_HandleTypeDef huart2;\n   13  \n   14: extern unsigned short uart_tx_callback[5];\n   15  extern unsigned short uart_rx_callback[5];\n   16  \n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\init.c:\n   18  extern uint8_t from_rfid_string[RFID_STRING_ARRAY_SIZE];\n   19  \n   20: extern volatile unsigned short uart_tx_callback[5];\n   21  extern volatile unsigned short uart_rx_callback[5];\n   22  \n   ..\n  109  {\n  110  \tno_somm_message_timer = 0;\n  111: \tuart_tx_callback[SOM_COMM_UART_NUM] = 0;\n  112  \tuart_rx_callback[SOM_COMM_UART_NUM] = 0;\n  113  \tHAL_UART_Receive_DMA(&huart2, som_rx_buffer, NUM_OF_HEADER_BYTES);\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\rfid.c:\n    9  extern UART_HandleTypeDef huart4;\n   10  \n   11: extern volatile unsigned short uart_tx_callback[5]; // 5 indexes for UART0 to UART4\n   12  extern volatile unsigned short uart_rx_callback[5]; // 5 indexes for UART0 to UART4\n   13  \n   ..\n   31  \tuint8_t rfid_read_temperature_string[] = {RFID_STX, 'R', 'E', 'A', 'G', 'T', RFID_EXT, 'D'};\n   32  \n   33: \tuart_tx_callback[RFID_COMM_UART_NUM] = 0;\n   34  \tuart_rx_callback[RFID_COMM_UART_NUM] = 0;\n   35  \t\n   ..\n   54  \tuint8_t rfid_counter_tx_string[] = {RFID_STX, 'R', 'E', 'A', 'G', 'C', RFID_EXT, 'S'}; // command is \"REAGC\" (ASCII string). 'S' at end is checksum\n   55  \n   56: \tuart_tx_callback[RFID_COMM_UART_NUM] = 0;\n   57  \tuart_rx_callback[RFID_COMM_UART_NUM] = 0;\n   58  \t\n   ..\n   76  \tuint8_t rfid_counter_tx_string[] = {RFID_STX, 'R', 'E', 'A', 'I', 'N', 'C', 'C', RFID_EXT, 'P'}; // command is \"REAGC\" (ASCII string). 'P' at end is checksum\n   77  \n   78: \tuart_tx_callback[RFID_COMM_UART_NUM] = 0;\n   79  \tuart_rx_callback[RFID_COMM_UART_NUM] = 0;\n   80  \t\n   ..\n   99  \tuint8_t rfid_counter_tx_string[14]; \n  100  \t\n  101: \tuart_tx_callback[RFID_COMM_UART_NUM] = 0;\n  102  \tuart_rx_callback[RFID_COMM_UART_NUM] = 0;\n  103  \t\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\host_from_comm.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\init.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\main.crf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\Proj7_0.axf:\n    <binary>\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\Proj7_0.map:\n   97      init.o(i.init_receiving_from_som) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Receive_DMA) for HAL_UART_Receive_DMA\n   98      init.o(i.init_receiving_from_som) refers to main.o(.data) for no_somm_message_timer\n   99:     init.o(i.init_receiving_from_som) refers to main.o(.bss) for uart_tx_callback\n  100      init.o(i.init_receiving_from_som) refers to host_from_comm.o(.bss) for som_rx_buffer\n  101      init.o(i.init_rgb_leds) refers to stm32l0xx_hal_gpio.o(i.HAL_GPIO_WritePin) for HAL_GPIO_WritePin\n  ...\n  121      rfid.o(i.get_rfid_counter) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Receive_IT) for HAL_UART_Receive_IT\n  122      rfid.o(i.get_rfid_counter) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Transmit) for HAL_UART_Transmit\n  123:     rfid.o(i.get_rfid_counter) refers to main.o(.bss) for uart_tx_callback\n  124      rfid.o(i.get_rfid_counter) refers to rfid.o(.data) for rfid_task\n  125      rfid.o(i.get_rfid_temperature) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Receive_IT) for HAL_UART_Receive_IT\n  126      rfid.o(i.get_rfid_temperature) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Transmit) for HAL_UART_Transmit\n  127:     rfid.o(i.get_rfid_temperature) refers to main.o(.bss) for uart_tx_callback\n  128      rfid.o(i.get_rfid_temperature) refers to rfid.o(.data) for rfid_task\n  129      rfid.o(i.increment_rfid_counter) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Receive_IT) for HAL_UART_Receive_IT\n  130      rfid.o(i.increment_rfid_counter) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Transmit) for HAL_UART_Transmit\n  131:     rfid.o(i.increment_rfid_counter) refers to main.o(.bss) for uart_tx_callback\n  132      rfid.o(i.increment_rfid_counter) refers to rfid.o(.data) for rfid_task\n  133      rfid.o(i.reset_rfid_counter) refers to strcat.o(.text) for strcat\n  134      rfid.o(i.reset_rfid_counter) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Receive_IT) for HAL_UART_Receive_IT\n  135      rfid.o(i.reset_rfid_counter) refers to stm32l0xx_hal_uart.o(i.HAL_UART_Transmit) for HAL_UART_Transmit\n  136:     rfid.o(i.reset_rfid_counter) refers to main.o(.bss) for uart_tx_callback\n  137      rfid.o(i.reset_rfid_counter) refers to rfid.o(.data) for rfid_task\n  138      rfid.o(i.rfid_temp_ascii_to_int) refers to main.o(.data) for from_rfid_string\n  ...\n  166      main.o(i.HAL_UART_RxCpltCallback) refers to main.o(.data) for debug_var0\n  167      main.o(i.HAL_UART_RxCpltCallback) refers to host_from_comm.o(.bss) for som_rx_buffer\n  168:     main.o(i.HAL_UART_TxCpltCallback) refers to main.o(.bss) for uart_tx_callback\n  169      main.o(i.HAL_UART_TxCpltCallback) refers to main.o(.data) for debug_var0\n  170      main.o(i.MX_ADC_Init) refers to stm32l0xx_hal_adc.o(i.HAL_ADC_Init) for HAL_ADC_Init\n  ...\n 2079      PWM_timer2_OC_params                     0x20000748   Data          16  main.o(.bss)\n 2080      PWM_timer3_OC_params                     0x20000758   Data          16  main.o(.bss)\n 2081:     uart_tx_callback                         0x20000768   Data          10  main.o(.bss)\n 2082      uart_rx_callback                         0x20000772   Data          10  main.o(.bss)\n 2083      __initial_sp                             0x20000b80   Data           0  startup_stm32l073xx.o(STACK)\n\nC:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM\\Proj7_0\\rfid.crf:\n    <binary>\n\n33 matches across 10 files\n",
+			"settings":
+			{
+				"buffer_size": 30933,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "MDK-ARM/init.c",
+			"settings":
+			{
+				"buffer_size": 4261,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Inc",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM"
+	],
+	"file_history":
+	[
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM/ADC.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM/heater.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM/pid.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM/init.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM/motor.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM/progress.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Inc/miscel.h",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Src/stm32l0xx_it.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM/host_from_comm.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Inc/commserv.h",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Inc/discreets.h",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Inc/error.h",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM/host_to_comm.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Inc/ADC.h",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Inc/ir_temp.h",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/MDK-ARM/ir_temp.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Src/main.c",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Inc/constant.h",
+		"/C/Software_projects/FreMon_ZipThaw_202/FIles/From_Guy/Software0_0130/Inc/motor.h"
+	],
+	"find":
+	{
+		"height": 40.0
+	},
+	"find_in_files":
+	{
+		"height": 107.2,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"uart_tx_callback",
+			"USART1",
+			"rfid_task",
+			"SEND_TO_TERMINAL",
+			"UART_HandleTypeDef",
+			"PWM_UNLIMITED_MAX_VALUE"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"path": "C:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\Inc"
+		},
+		{
+			"path": "C:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\Src"
+		},
+		{
+			"path": "C:\\Software_projects\\FreMon_ZipThaw_202\\FIles\\From_Guy\\Software0_0130\\MDK-ARM"
+		}
+	],
+	"groups":
+	[
+		{
+			"selected": 8,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Src/main.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 39339,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								32303,
+								32297
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 18358.4,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "MDK-ARM/motor.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7232,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6458,
+								6458
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "MDK-ARM/progress.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3589,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								888,
+								888
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 158.4,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "MDK-ARM/discreets.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2191,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1175,
+								1175
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 529.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "MDK-ARM/commserv.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5618,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								788,
+								788
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 32.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "MDK-ARM/host_from_comm.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5005,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								956,
+								956
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2156.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "MDK-ARM/error.c",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 47,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 30933,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										189,
+										205
+									],
+									[
+										287,
+										303
+									],
+									[
+										769,
+										775
+									],
+									[
+										1020,
+										1026
+									],
+									[
+										1219,
+										1225
+									],
+									[
+										1444,
+										1450
+									],
+									[
+										1621,
+										1627
+									],
+									[
+										1740,
+										1746
+									],
+									[
+										1909,
+										1915
+									],
+									[
+										2018,
+										2024
+									],
+									[
+										2045,
+										2051
+									],
+									[
+										2243,
+										2249
+									],
+									[
+										2289,
+										2295
+									],
+									[
+										2356,
+										2362
+									],
+									[
+										2641,
+										2647
+									],
+									[
+										2794,
+										2800
+									],
+									[
+										2841,
+										2847
+									],
+									[
+										2895,
+										2901
+									],
+									[
+										2977,
+										2983
+									],
+									[
+										3022,
+										3028
+									],
+									[
+										3079,
+										3085
+									],
+									[
+										3117,
+										3123
+									],
+									[
+										3362,
+										3368
+									],
+									[
+										3443,
+										3449
+									],
+									[
+										3476,
+										3482
+									],
+									[
+										3510,
+										3516
+									],
+									[
+										3562,
+										3568
+									],
+									[
+										3618,
+										3624
+									],
+									[
+										3683,
+										3689
+									],
+									[
+										3744,
+										3750
+									],
+									[
+										3801,
+										3807
+									],
+									[
+										3875,
+										3881
+									],
+									[
+										3946,
+										3952
+									],
+									[
+										3996,
+										4002
+									],
+									[
+										4074,
+										4080
+									],
+									[
+										4222,
+										4228
+									],
+									[
+										4256,
+										4262
+									],
+									[
+										4313,
+										4319
+									],
+									[
+										4363,
+										4369
+									],
+									[
+										4405,
+										4411
+									],
+									[
+										4459,
+										4465
+									],
+									[
+										4584,
+										4590
+									],
+									[
+										4631,
+										4637
+									],
+									[
+										4687,
+										4693
+									],
+									[
+										4772,
+										4778
+									],
+									[
+										4818,
+										4824
+									],
+									[
+										4875,
+										4881
+									],
+									[
+										4913,
+										4919
+									],
+									[
+										5019,
+										5025
+									],
+									[
+										5104,
+										5110
+									],
+									[
+										5162,
+										5168
+									],
+									[
+										5204,
+										5210
+									],
+									[
+										5260,
+										5266
+									],
+									[
+										5541,
+										5547
+									],
+									[
+										5748,
+										5754
+									],
+									[
+										5885,
+										5891
+									],
+									[
+										5911,
+										5917
+									],
+									[
+										5980,
+										5986
+									],
+									[
+										6041,
+										6047
+									],
+									[
+										6092,
+										6098
+									],
+									[
+										6176,
+										6182
+									],
+									[
+										6227,
+										6233
+									],
+									[
+										6576,
+										6582
+									],
+									[
+										6596,
+										6602
+									],
+									[
+										6926,
+										6932
+									],
+									[
+										7187,
+										7193
+									],
+									[
+										7382,
+										7388
+									],
+									[
+										7432,
+										7438
+									],
+									[
+										7798,
+										7804
+									],
+									[
+										7831,
+										7837
+									],
+									[
+										8164,
+										8170
+									],
+									[
+										8399,
+										8405
+									],
+									[
+										10622,
+										10628
+									],
+									[
+										10666,
+										10672
+									],
+									[
+										11240,
+										11246
+									],
+									[
+										11454,
+										11460
+									],
+									[
+										11556,
+										11562
+									],
+									[
+										11638,
+										11644
+									],
+									[
+										11720,
+										11726
+									],
+									[
+										12248,
+										12254
+									],
+									[
+										12625,
+										12631
+									],
+									[
+										12849,
+										12855
+									],
+									[
+										12925,
+										12931
+									],
+									[
+										13009,
+										13015
+									],
+									[
+										13632,
+										13638
+									],
+									[
+										13655,
+										13661
+									],
+									[
+										14086,
+										14092
+									],
+									[
+										14193,
+										14199
+									],
+									[
+										14288,
+										14294
+									],
+									[
+										14757,
+										14763
+									],
+									[
+										14782,
+										14788
+									],
+									[
+										15294,
+										15300
+									],
+									[
+										15808,
+										15814
+									],
+									[
+										15933,
+										15939
+									],
+									[
+										16543,
+										16549
+									],
+									[
+										17021,
+										17027
+									],
+									[
+										17100,
+										17106
+									],
+									[
+										17132,
+										17138
+									],
+									[
+										17213,
+										17219
+									],
+									[
+										17735,
+										17741
+									],
+									[
+										17822,
+										17828
+									],
+									[
+										18355,
+										18361
+									],
+									[
+										18444,
+										18450
+									],
+									[
+										18917,
+										18923
+									],
+									[
+										19482,
+										19488
+									],
+									[
+										19985,
+										19991
+									],
+									[
+										23603,
+										23619
+									],
+									[
+										24087,
+										24103
+									],
+									[
+										24203,
+										24219
+									],
+									[
+										24329,
+										24345
+									],
+									[
+										24561,
+										24577
+									],
+									[
+										24611,
+										24627
+									],
+									[
+										24856,
+										24872
+									],
+									[
+										25133,
+										25149
+									],
+									[
+										25409,
+										25425
+									],
+									[
+										25555,
+										25571
+									],
+									[
+										25894,
+										25910
+									],
+									[
+										26169,
+										26185
+									],
+									[
+										26448,
+										26464
+									],
+									[
+										26737,
+										26753
+									],
+									[
+										26906,
+										26922
+									],
+									[
+										27852,
+										27868
+									],
+									[
+										28373,
+										28389
+									],
+									[
+										28771,
+										28787
+									],
+									[
+										29179,
+										29195
+									],
+									[
+										29654,
+										29670
+									],
+									[
+										30096,
+										30112
+									],
+									[
+										30502,
+										30518
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								23363,
+								23363
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 3,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 8419.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "MDK-ARM/init.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4261,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3483,
+								3483
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 115.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 72.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"ADC_go"
+			]
+		],
+		"width": 592.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 212.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
