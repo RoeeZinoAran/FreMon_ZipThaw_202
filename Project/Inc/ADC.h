@@ -9,7 +9,7 @@
 /*! \ingroup 
   Define Name: HEATER0_CURRENT_ADC_CHANNEL
   Unit: [N/A]
-  Define Value: 
+  Define Value: 0
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -19,7 +19,7 @@
 /*! \ingroup 
   Define Name: HEATER1_CURRENT_ADC_CHANNEL
   Unit: [N/A]
-  Define Value: 
+  Define Value: 1
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -29,7 +29,7 @@
 /*! \ingroup 
   Define Name: NTC_IN_ADC_CHANNEL
   Unit: [N/A]
-  Define Value: 
+  Define Value: 2
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -39,7 +39,7 @@
 /*! \ingroup 
   Define Name: NTC_OUT_ADC_CHANNEL
   Unit: [N/A]
-  Define Value: 
+  Define Value: 3
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -49,7 +49,7 @@
 /*! \ingroup 
   Define Name: WEIGHT_ADC_CHANNEL
   Unit: [N/A]
-  Define Value: 
+  Define Value: 4
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -59,7 +59,7 @@
 /*! \ingroup 
   Define Name: P3V3_ADC_CHANNEL
   Unit: [N/A]
-  Define Value: 
+  Define Value: 5
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -69,7 +69,7 @@
 /*! \ingroup 
   Define Name: P24V0_ADC_CHANNEL
   Unit: [N/A]
-  Define Value: 
+  Define Value: 6
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -79,7 +79,7 @@
 /*! \ingroup 
   Define Name: NTC_EXCITATION_VOLTAGE_mV
   Unit: [N/A]
-  Define Value: 
+  Define Value: 3000
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -89,7 +89,7 @@
 /*! \ingroup 
   Define Name: PRESSURE_EXCITATION_VOLTAGE_mV
   Unit: [N/A]
-  Define Value: 
+  Define Value: 3000
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -99,7 +99,7 @@
 /*! \ingroup 
   Define Name: NTCS_HISTORY_DEPTH
   Unit: [N/A]
-  Define Value: 
+  Define Value: 8
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -109,7 +109,7 @@
 /*! \ingroup 
   Define Name: ERRONEOUS_TEMPERATURE_DEVIATION
   Unit: [N/A]
-  Define Value: 
+  Define Value: 3000
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -119,7 +119,7 @@
 /*! \ingroup 
   Define Name: NUM_OF_ADC_CHANNELS
   Unit: [N/A]
-  Define Value: 
+  Define Value: 8
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -135,6 +135,7 @@ void calib_adc(void);
 void filter_ntcs(void);
 
 
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNUSED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 //#define NUM_OF_ADC_CHANNELS   20
 // 8 because we have channels 0 to 6 + channel 17 which is internal reference

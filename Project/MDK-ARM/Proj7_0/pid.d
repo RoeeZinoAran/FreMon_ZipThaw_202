@@ -1,6 +1,6 @@
 proj7_0\pid.o: pid.c
-proj7_0\pid.o: ../Inc/pid_params.h
 proj7_0\pid.o: ../Inc/pid.h
+proj7_0\pid.o: ../Inc/pid_params.h
 proj7_0\pid.o: ../Inc/heater.h
 proj7_0\pid.o: ../Inc/discreets.h
 proj7_0\pid.o: ../Inc/main.h

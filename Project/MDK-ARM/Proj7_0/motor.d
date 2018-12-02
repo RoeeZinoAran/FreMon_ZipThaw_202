@@ -1,4 +1,5 @@
 proj7_0\motor.o: motor.c
+proj7_0\motor.o: ../Inc/motor.h
 proj7_0\motor.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h
 proj7_0\motor.o: ../Inc/stm32l0xx_hal_conf.h
 proj7_0\motor.o: ../Inc/main.h
@@ -35,6 +36,5 @@ proj7_0\motor.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_tim_ex.h
 proj7_0\motor.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h
 proj7_0\motor.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h
 proj7_0\motor.o: ../Inc/discreets.h
-proj7_0\motor.o: ../Inc/motor.h
 proj7_0\motor.o: ../Inc/extern_structs.h
 proj7_0\motor.o: ../Inc/miscel.h

@@ -105,6 +105,7 @@ Section Cross References
     ir_temp.o(i.get_ir_temperature) refers to main.o(.bss) for hi2c1
     ir_temp.o(i.interpret_ir_temperature) refers to ir_temp.o(.data) for ir_returned_string
     miscel.o(i.calculate_crc8) refers to miscel.o(.constdata) for crc8_Table
+    miscel.o(i.calculate_crc8) refers to miscel.o(.bss) for debug9834475
     miscel.o(i.int_to_str) refers to uidiv.o(.text) for __aeabi_uidivmod
     motor.o(i.init_L6470) refers to motor.o(i.update_agitation_motor_register) for update_agitation_motor_register
     motor.o(i.init_L6470) refers to stm32l0xx_hal.o(i.HAL_Delay) for HAL_Delay
@@ -935,7 +936,6 @@ Removing Unused input sections from the image.
     Removing miscel.o(.rev16_text), (4 bytes).
     Removing miscel.o(.revsh_text), (4 bytes).
     Removing miscel.o(i.int_to_str), (270 bytes).
-    Removing miscel.o(.bss), (200 bytes).
     Removing motor.o(.rev16_text), (4 bytes).
     Removing motor.o(.revsh_text), (4 bytes).
     Removing motor.o(i.read_agitation_motor_register), (2 bytes).
@@ -1381,7 +1381,7 @@ Removing Unused input sections from the image.
     Removing system_stm32l0xx.o(i.SystemCoreClockUpdate), (252 bytes).
     Removing stm32l0xx_hal_tim.o(i.__ARM_common_switch8), (28 bytes).
 
-469 unused section(s) (total 38018 bytes) removed from the image.
+468 unused section(s) (total 37818 bytes) removed from the image.
 
 ==============================================================================
 
@@ -1415,24 +1415,24 @@ Image Symbol Table
     ../Src/main.c                            0x00000000   Number         0  main.o ABSOLUTE
     ../Src/stm32l0xx_hal_msp.c               0x00000000   Number         0  stm32l0xx_hal_msp.o ABSOLUTE
     ../Src/stm32l0xx_it.c                    0x00000000   Number         0  stm32l0xx_it.o ABSOLUTE
-    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
-    ../clib/microlib/division.c              0x00000000   Number         0  idiv.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/division.c              0x00000000   Number         0  idiv.o ABSOLUTE
+    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
     ../clib/microlib/string/memset.c         0x00000000   Number         0  memseta.o ABSOLUTE
@@ -1746,80 +1746,81 @@ Image Symbol Table
     i.build_and_send_message_to_som          0x08005f34   Section        0  host_to_comm.o(i.build_and_send_message_to_som)
     i.calc_pid                               0x08006174   Section        0  pid.o(i.calc_pid)
     i.calculate_crc8                         0x080063a4   Section        0  miscel.o(i.calculate_crc8)
-    i.calib_adc                              0x080063c8   Section        0  adc.o(i.calib_adc)
-    i.errors_top                             0x080063d8   Section        0  error.o(i.errors_top)
-    i.filter_ntcs                            0x080063dc   Section        0  adc.o(i.filter_ntcs)
-    i.get_board_temperature                  0x0800652c   Section        0  board_temp.o(i.get_board_temperature)
-    i.get_door_state                         0x08006564   Section        0  discreets.o(i.get_door_state)
-    i.get_from_som_message_header_values     0x08006580   Section        0  host_from_comm.o(i.get_from_som_message_header_values)
-    i.get_ir_temperature                     0x080066ac   Section        0  ir_temp.o(i.get_ir_temperature)
-    i.get_motor_index                        0x080066d8   Section        0  discreets.o(i.get_motor_index)
-    i.get_rfid_temperature                   0x080066f4   Section        0  rfid.o(i.get_rfid_temperature)
-    i.get_som_comm_address                   0x08006744   Section        0  discreets.o(i.get_som_comm_address)
-    i.init                                   0x0800678c   Section        0  init.o(i.init)
-    i.init_L6470                             0x080067b8   Section        0  motor.o(i.init_L6470)
-    i.init_heating_pwm                       0x08006998   Section        0  init.o(i.init_heating_pwm)
-    i.init_receiving_from_som                0x080069dc   Section        0  init.o(i.init_receiving_from_som)
-    i.init_rgb_leds                          0x08006a18   Section        0  init.o(i.init_rgb_leds)
-    i.interpret_ir_temperature               0x08006a48   Section        0  ir_temp.o(i.interpret_ir_temperature)
-    i.interpret_pcb_temperature              0x08006a80   Section        0  board_temp.o(i.interpret_pcb_temperature)
-    i.main                                   0x08006aac   Section        0  main.o(i.main)
-    i.ntc_resistance_to_temp                 0x08006ed0   Section        0  adc.o(i.ntc_resistance_to_temp)
-    i.resistance_to_weight                   0x08006f58   Section        0  adc.o(i.resistance_to_weight)
-    i.rfid_temp_ascii_to_int                 0x08006f60   Section        0  rfid.o(i.rfid_temp_ascii_to_int)
-    i.rgb_leds                               0x08006fbc   Section        0  discreets.o(i.rgb_leds)
-    i.serve_agitation_and_heater_opcode      0x08007038   Section        0  commserv.o(i.serve_agitation_and_heater_opcode)
-    i.serve_host_comm                        0x0800703c   Section        0  host_from_comm.o(i.serve_host_comm)
-    i.serve_led_buzzer_opcode                0x0800707c   Section        0  commserv.o(i.serve_led_buzzer_opcode)
-    i.serve_opcode                           0x080070cc   Section        0  commserv.o(i.serve_opcode)
-    i.serve_start_stop_thawing_opcode        0x08007104   Section        0  commserv.o(i.serve_start_stop_thawing_opcode)
-    i.serve_technician_opcode                0x0800713c   Section        0  commserv.o(i.serve_technician_opcode)
-    i.stage_and_rpogress                     0x08007178   Section        0  progress.o(i.stage_and_rpogress)
-    i.standby_stage                          0x080071b4   Section        0  progress.o(i.standby_stage)
-    i.temp_to_percent                        0x080071b8   Section        0  progress.o(i.temp_to_percent)
-    i.thawing_stage                          0x0800721c   Section        0  progress.o(i.thawing_stage)
-    i.translate_adc                          0x0800724c   Section        0  adc.o(i.translate_adc)
-    i.update_agitation_motor_register        0x08007408   Section        0  motor.o(i.update_agitation_motor_register)
-    i.update_agitation_motor_speed           0x08007470   Section        0  motor.o(i.update_agitation_motor_speed)
-    i.update_heaters_power                   0x080074c8   Section        0  heater.o(i.update_heaters_power)
-    .constdata                               0x08007584   Section      364  adc.o(.constdata)
-    .constdata                               0x080076f0   Section      256  miscel.o(.constdata)
-    .constdata                               0x080077f0   Section       32  motor.o(.constdata)
-    .constdata                               0x08007810   Section       33  system_stm32l0xx.o(.constdata)
-    .data                                    0x20000000   Section       10  adc.o(.data)
+    i.calib_adc                              0x080063d4   Section        0  adc.o(i.calib_adc)
+    i.errors_top                             0x080063e4   Section        0  error.o(i.errors_top)
+    i.filter_ntcs                            0x080063e8   Section        0  adc.o(i.filter_ntcs)
+    i.get_board_temperature                  0x08006538   Section        0  board_temp.o(i.get_board_temperature)
+    i.get_door_state                         0x08006570   Section        0  discreets.o(i.get_door_state)
+    i.get_from_som_message_header_values     0x0800658c   Section        0  host_from_comm.o(i.get_from_som_message_header_values)
+    i.get_ir_temperature                     0x080066b8   Section        0  ir_temp.o(i.get_ir_temperature)
+    i.get_motor_index                        0x080066e4   Section        0  discreets.o(i.get_motor_index)
+    i.get_rfid_temperature                   0x08006700   Section        0  rfid.o(i.get_rfid_temperature)
+    i.get_som_comm_address                   0x08006750   Section        0  discreets.o(i.get_som_comm_address)
+    i.init                                   0x08006798   Section        0  init.o(i.init)
+    i.init_L6470                             0x080067c4   Section        0  motor.o(i.init_L6470)
+    i.init_heating_pwm                       0x080069a4   Section        0  init.o(i.init_heating_pwm)
+    i.init_receiving_from_som                0x080069e8   Section        0  init.o(i.init_receiving_from_som)
+    i.init_rgb_leds                          0x08006a24   Section        0  init.o(i.init_rgb_leds)
+    i.interpret_ir_temperature               0x08006a54   Section        0  ir_temp.o(i.interpret_ir_temperature)
+    i.interpret_pcb_temperature              0x08006a8c   Section        0  board_temp.o(i.interpret_pcb_temperature)
+    i.main                                   0x08006ab8   Section        0  main.o(i.main)
+    i.ntc_resistance_to_temp                 0x08006edc   Section        0  adc.o(i.ntc_resistance_to_temp)
+    i.resistance_to_weight                   0x08006f64   Section        0  adc.o(i.resistance_to_weight)
+    i.rfid_temp_ascii_to_int                 0x08006f6c   Section        0  rfid.o(i.rfid_temp_ascii_to_int)
+    i.rgb_leds                               0x08006fc8   Section        0  discreets.o(i.rgb_leds)
+    i.serve_agitation_and_heater_opcode      0x08007044   Section        0  commserv.o(i.serve_agitation_and_heater_opcode)
+    i.serve_host_comm                        0x08007048   Section        0  host_from_comm.o(i.serve_host_comm)
+    i.serve_led_buzzer_opcode                0x08007088   Section        0  commserv.o(i.serve_led_buzzer_opcode)
+    i.serve_opcode                           0x080070d8   Section        0  commserv.o(i.serve_opcode)
+    i.serve_start_stop_thawing_opcode        0x08007110   Section        0  commserv.o(i.serve_start_stop_thawing_opcode)
+    i.serve_technician_opcode                0x08007148   Section        0  commserv.o(i.serve_technician_opcode)
+    i.stage_and_rpogress                     0x08007184   Section        0  progress.o(i.stage_and_rpogress)
+    i.standby_stage                          0x080071c0   Section        0  progress.o(i.standby_stage)
+    i.temp_to_percent                        0x080071c4   Section        0  progress.o(i.temp_to_percent)
+    i.thawing_stage                          0x08007228   Section        0  progress.o(i.thawing_stage)
+    i.translate_adc                          0x08007258   Section        0  adc.o(i.translate_adc)
+    i.update_agitation_motor_register        0x08007414   Section        0  motor.o(i.update_agitation_motor_register)
+    i.update_agitation_motor_speed           0x0800747c   Section        0  motor.o(i.update_agitation_motor_speed)
+    i.update_heaters_power                   0x080074d4   Section        0  heater.o(i.update_heaters_power)
+    .constdata                               0x08007590   Section      364  adc.o(.constdata)
+    .constdata                               0x080076fc   Section      256  miscel.o(.constdata)
+    .constdata                               0x080077fc   Section       32  motor.o(.constdata)
+    .constdata                               0x0800781c   Section       33  system_stm32l0xx.o(.constdata)
+    .data                                    0x20000000   Section        6  adc.o(.data)
     adc_full_scale_mv                        0x20000000   Data           4  adc.o(.data)
-    NTCs_temperature_history_pointer         0x20000008   Data           2  adc.o(.data)
-    .data                                    0x2000000a   Section        2  board_temp.o(.data)
-    lm75b_returned_string                    0x2000000a   Data           2  board_temp.o(.data)
-    .data                                    0x2000000c   Section        3  host_from_comm.o(.data)
-    .data                                    0x20000010   Section        6  host_to_comm.o(.data)
-    blinking_counter                         0x20000014   Data           2  host_to_comm.o(.data)
-    .data                                    0x20000016   Section        4  ir_temp.o(.data)
-    ir_returned_string                       0x20000016   Data           4  ir_temp.o(.data)
-    .data                                    0x2000001a   Section        4  motor.o(.data)
-    door_closed_time_cnt                     0x2000001c   Data           2  motor.o(.data)
-    .data                                    0x20000020   Section       52  pid.o(.data)
-    pid_p_contst                             0x20000020   Data           8  pid.o(.data)
-    pid_i_contst                             0x20000028   Data           8  pid.o(.data)
-    pid_d_contst                             0x20000030   Data           8  pid.o(.data)
-    pid_error                                0x20000038   Data           8  pid.o(.data)
-    pid_error_mx                             0x20000040   Data           8  pid.o(.data)
-    pid_integral                             0x20000048   Data           8  pid.o(.data)
-    pid_integral_pointer                     0x20000050   Data           2  pid.o(.data)
-    calc_num                                 0x20000052   Data           2  pid.o(.data)
-    .data                                    0x20000054   Section        4  rfid.o(.data)
-    .data                                    0x20000058   Section       78  main.o(.data)
-    s1                                       0x200000a4   Data           2  main.o(.data)
-    .data                                    0x200000a8   Section        4  stm32l0xx_hal.o(.data)
-    .data                                    0x200000ac   Section        4  system_stm32l0xx.o(.data)
-    .bss                                     0x200000b0   Section       96  adc.o(.bss)
-    NTCs_temperature_history                 0x200000d0   Data          64  adc.o(.bss)
-    .bss                                     0x20000110   Section      235  host_from_comm.o(.bss)
-    .bss                                     0x200001fb   Section      140  host_to_comm.o(.bss)
-    .bss                                     0x20000288   Section      160  pid.o(.bss)
-    pid_integral_history                     0x20000288   Data         160  pid.o(.bss)
-    .bss                                     0x20000328   Section     1108  main.o(.bss)
-    STACK                                    0x20000780   Section     1024  startup_stm32l073xx.o(STACK)
+    NTCs_temperature_history_pointer         0x20000004   Data           2  adc.o(.data)
+    .data                                    0x20000006   Section        2  board_temp.o(.data)
+    lm75b_returned_string                    0x20000006   Data           2  board_temp.o(.data)
+    .data                                    0x20000008   Section        3  host_from_comm.o(.data)
+    .data                                    0x2000000c   Section        6  host_to_comm.o(.data)
+    blinking_counter                         0x20000010   Data           2  host_to_comm.o(.data)
+    .data                                    0x20000012   Section        4  ir_temp.o(.data)
+    ir_returned_string                       0x20000012   Data           4  ir_temp.o(.data)
+    .data                                    0x20000016   Section        4  motor.o(.data)
+    door_closed_time_cnt                     0x20000018   Data           2  motor.o(.data)
+    .data                                    0x2000001c   Section       52  pid.o(.data)
+    pid_p_contst                             0x2000001c   Data           8  pid.o(.data)
+    pid_i_contst                             0x20000024   Data           8  pid.o(.data)
+    pid_d_contst                             0x2000002c   Data           8  pid.o(.data)
+    pid_error                                0x20000034   Data           8  pid.o(.data)
+    pid_error_mx                             0x2000003c   Data           8  pid.o(.data)
+    pid_integral                             0x20000044   Data           8  pid.o(.data)
+    pid_integral_pointer                     0x2000004c   Data           2  pid.o(.data)
+    calc_num                                 0x2000004e   Data           2  pid.o(.data)
+    .data                                    0x20000050   Section        4  rfid.o(.data)
+    .data                                    0x20000054   Section       78  main.o(.data)
+    s1                                       0x200000a0   Data           2  main.o(.data)
+    .data                                    0x200000a4   Section        4  stm32l0xx_hal.o(.data)
+    .data                                    0x200000a8   Section        4  system_stm32l0xx.o(.data)
+    .bss                                     0x200000ac   Section       96  adc.o(.bss)
+    NTCs_temperature_history                 0x200000cc   Data          64  adc.o(.bss)
+    .bss                                     0x2000010c   Section      235  host_from_comm.o(.bss)
+    .bss                                     0x200001f7   Section      140  host_to_comm.o(.bss)
+    .bss                                     0x20000284   Section      200  miscel.o(.bss)
+    .bss                                     0x2000034c   Section      160  pid.o(.bss)
+    pid_integral_history                     0x2000034c   Data         160  pid.o(.bss)
+    .bss                                     0x200003ec   Section     1108  main.o(.bss)
+    STACK                                    0x20000840   Section     1024  startup_stm32l073xx.o(STACK)
 
     Global Symbols
 
@@ -1987,100 +1988,100 @@ Image Symbol Table
     after_thawing_stage                      0x08005ee5   Thumb Code    66  progress.o(i.after_thawing_stage)
     build_and_send_message_to_som            0x08005f35   Thumb Code   550  host_to_comm.o(i.build_and_send_message_to_som)
     calc_pid                                 0x08006175   Thumb Code   508  pid.o(i.calc_pid)
-    calculate_crc8                           0x080063a5   Thumb Code    30  miscel.o(i.calculate_crc8)
-    calib_adc                                0x080063c9   Thumb Code     8  adc.o(i.calib_adc)
-    errors_top                               0x080063d9   Thumb Code     2  error.o(i.errors_top)
-    filter_ntcs                              0x080063dd   Thumb Code   318  adc.o(i.filter_ntcs)
-    get_board_temperature                    0x0800652d   Thumb Code    42  board_temp.o(i.get_board_temperature)
-    get_door_state                           0x08006565   Thumb Code    18  discreets.o(i.get_door_state)
-    get_from_som_message_header_values       0x08006581   Thumb Code   276  host_from_comm.o(i.get_from_som_message_header_values)
-    get_ir_temperature                       0x080066ad   Thumb Code    30  ir_temp.o(i.get_ir_temperature)
-    get_motor_index                          0x080066d9   Thumb Code    18  discreets.o(i.get_motor_index)
-    get_rfid_temperature                     0x080066f5   Thumb Code    54  rfid.o(i.get_rfid_temperature)
-    get_som_comm_address                     0x08006745   Thumb Code    68  discreets.o(i.get_som_comm_address)
-    init                                     0x0800678d   Thumb Code    34  init.o(i.init)
-    init_L6470                               0x080067b9   Thumb Code   478  motor.o(i.init_L6470)
-    init_heating_pwm                         0x08006999   Thumb Code    58  init.o(i.init_heating_pwm)
-    init_receiving_from_som                  0x080069dd   Thumb Code    34  init.o(i.init_receiving_from_som)
-    init_rgb_leds                            0x08006a19   Thumb Code    42  init.o(i.init_rgb_leds)
-    interpret_ir_temperature                 0x08006a49   Thumb Code    42  ir_temp.o(i.interpret_ir_temperature)
-    interpret_pcb_temperature                0x08006a81   Thumb Code    40  board_temp.o(i.interpret_pcb_temperature)
-    main                                     0x08006aad   Thumb Code   976  main.o(i.main)
-    ntc_resistance_to_temp                   0x08006ed1   Thumb Code   126  adc.o(i.ntc_resistance_to_temp)
-    resistance_to_weight                     0x08006f59   Thumb Code     6  adc.o(i.resistance_to_weight)
-    rfid_temp_ascii_to_int                   0x08006f61   Thumb Code    78  rfid.o(i.rfid_temp_ascii_to_int)
-    rgb_leds                                 0x08006fbd   Thumb Code   116  discreets.o(i.rgb_leds)
-    serve_agitation_and_heater_opcode        0x08007039   Thumb Code     2  commserv.o(i.serve_agitation_and_heater_opcode)
-    serve_host_comm                          0x0800703d   Thumb Code    50  host_from_comm.o(i.serve_host_comm)
-    serve_led_buzzer_opcode                  0x0800707d   Thumb Code    62  commserv.o(i.serve_led_buzzer_opcode)
-    serve_opcode                             0x080070cd   Thumb Code    52  commserv.o(i.serve_opcode)
-    serve_start_stop_thawing_opcode          0x08007105   Thumb Code    46  commserv.o(i.serve_start_stop_thawing_opcode)
-    serve_technician_opcode                  0x0800713d   Thumb Code    52  commserv.o(i.serve_technician_opcode)
-    stage_and_rpogress                       0x08007179   Thumb Code    56  progress.o(i.stage_and_rpogress)
-    standby_stage                            0x080071b5   Thumb Code     2  progress.o(i.standby_stage)
-    temp_to_percent                          0x080071b9   Thumb Code    76  progress.o(i.temp_to_percent)
-    thawing_stage                            0x0800721d   Thumb Code    44  progress.o(i.thawing_stage)
-    translate_adc                            0x0800724d   Thumb Code   416  adc.o(i.translate_adc)
-    update_agitation_motor_register          0x08007409   Thumb Code    92  motor.o(i.update_agitation_motor_register)
-    update_agitation_motor_speed             0x08007471   Thumb Code    74  motor.o(i.update_agitation_motor_speed)
-    update_heaters_power                     0x080074c9   Thumb Code   162  heater.o(i.update_heaters_power)
-    ntc_table                                0x08007584   Data         364  adc.o(.constdata)
-    crc8_Table                               0x080076f0   Data         256  miscel.o(.constdata)
-    L6470_spi_arg_len                        0x080077f0   Data          32  motor.o(.constdata)
-    AHBPrescTable                            0x08007810   Data          16  system_stm32l0xx.o(.constdata)
-    APBPrescTable                            0x08007820   Data           8  system_stm32l0xx.o(.constdata)
-    PLLMulTable                              0x08007828   Data           9  system_stm32l0xx.o(.constdata)
-    Region$$Table$$Base                      0x08007834   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08007854   Number         0  anon$$obj.o(Region$$Table)
-    i11                                      0x20000004   Data           4  adc.o(.data)
-    from_som_data_start_index                0x2000000c   Data           2  host_from_comm.o(.data)
-    comm_err_array_index                     0x2000000e   Data           1  host_from_comm.o(.data)
-    debug_sdlfjh83345                        0x20000010   Data           4  host_to_comm.o(.data)
-    motor1092                                0x2000001a   Data           2  motor.o(.data)
-    dummy                                    0x20000054   Data           2  rfid.o(.data)
-    rfid_task                                0x20000056   Data           2  rfid.o(.data)
-    debug_var0                               0x20000058   Data           2  main.o(.data)
-    adc_conversion_callback                  0x2000005a   Data           2  main.o(.data)
-    ir_conversion_callback                   0x2000005c   Data           2  main.o(.data)
-    pcb_temperature_callback                 0x2000005e   Data           2  main.o(.data)
-    after_thawing_time                       0x20000060   Data           2  main.o(.data)
-    main_loop_tasks                          0x20000064   Data           4  main.o(.data)
-    safety_error                             0x20000068   Data           2  main.o(.data)
-    rfid_count                               0x2000006a   Data           2  main.o(.data)
-    from_rfid_string                         0x2000006c   Data          40  main.o(.data)
-    pcb_temperature_string                   0x20000094   Data           2  main.o(.data)
-    no_somm_message_timer                    0x20000096   Data           2  main.o(.data)
-    motor_index_timer                        0x20000098   Data           2  main.o(.data)
-    delay_var0                               0x2000009a   Data           2  main.o(.data)
-    timer_20mS_period                        0x2000009c   Data           2  main.o(.data)
-    timer_100mS_period                       0x2000009e   Data           2  main.o(.data)
-    timer_1S_period                          0x200000a0   Data           2  main.o(.data)
-    one_second_passed_bits                   0x200000a2   Data           2  main.o(.data)
-    uwTick                                   0x200000a8   Data           4  stm32l0xx_hal.o(.data)
-    SystemCoreClock                          0x200000ac   Data           4  system_stm32l0xx.o(.data)
-    adc_raw_results                          0x200000b0   Data          32  adc.o(.bss)
-    som_rx_buffer                            0x20000110   Data         135  host_from_comm.o(.bss)
-    comm_err_array                           0x20000197   Data         100  host_from_comm.o(.bss)
-    som_tx_buffer                            0x200001fb   Data         140  host_to_comm.o(.bss)
-    system_state                             0x20000328   Data          60  main.o(.bss)
-    from_som_message_state                   0x20000364   Data          10  main.o(.bss)
-    hadc                                     0x20000370   Data          96  main.o(.bss)
-    hdma_adc                                 0x200003d0   Data          64  main.o(.bss)
-    hi2c1                                    0x20000410   Data          76  main.o(.bss)
-    hi2c2                                    0x2000045c   Data          76  main.o(.bss)
-    hspi1                                    0x200004a8   Data          88  main.o(.bss)
-    htim3                                    0x20000500   Data          56  main.o(.bss)
-    huart1                                   0x20000538   Data         112  main.o(.bss)
-    huart2                                   0x200005a8   Data         112  main.o(.bss)
-    huart4                                   0x20000618   Data         112  main.o(.bss)
-    hdma_usart1_tx                           0x20000688   Data          64  main.o(.bss)
-    hdma_usart2_rx                           0x200006c8   Data          64  main.o(.bss)
-    hdma_usart2_tx                           0x20000708   Data          64  main.o(.bss)
-    PWM_timer2_OC_params                     0x20000748   Data          16  main.o(.bss)
-    PWM_timer3_OC_params                     0x20000758   Data          16  main.o(.bss)
-    uart_tx_callback                         0x20000768   Data          10  main.o(.bss)
-    uart_rx_callback                         0x20000772   Data          10  main.o(.bss)
-    __initial_sp                             0x20000b80   Data           0  startup_stm32l073xx.o(STACK)
+    calculate_crc8                           0x080063a5   Thumb Code    38  miscel.o(i.calculate_crc8)
+    calib_adc                                0x080063d5   Thumb Code     8  adc.o(i.calib_adc)
+    errors_top                               0x080063e5   Thumb Code     2  error.o(i.errors_top)
+    filter_ntcs                              0x080063e9   Thumb Code   318  adc.o(i.filter_ntcs)
+    get_board_temperature                    0x08006539   Thumb Code    42  board_temp.o(i.get_board_temperature)
+    get_door_state                           0x08006571   Thumb Code    18  discreets.o(i.get_door_state)
+    get_from_som_message_header_values       0x0800658d   Thumb Code   276  host_from_comm.o(i.get_from_som_message_header_values)
+    get_ir_temperature                       0x080066b9   Thumb Code    30  ir_temp.o(i.get_ir_temperature)
+    get_motor_index                          0x080066e5   Thumb Code    18  discreets.o(i.get_motor_index)
+    get_rfid_temperature                     0x08006701   Thumb Code    54  rfid.o(i.get_rfid_temperature)
+    get_som_comm_address                     0x08006751   Thumb Code    68  discreets.o(i.get_som_comm_address)
+    init                                     0x08006799   Thumb Code    34  init.o(i.init)
+    init_L6470                               0x080067c5   Thumb Code   478  motor.o(i.init_L6470)
+    init_heating_pwm                         0x080069a5   Thumb Code    58  init.o(i.init_heating_pwm)
+    init_receiving_from_som                  0x080069e9   Thumb Code    34  init.o(i.init_receiving_from_som)
+    init_rgb_leds                            0x08006a25   Thumb Code    42  init.o(i.init_rgb_leds)
+    interpret_ir_temperature                 0x08006a55   Thumb Code    42  ir_temp.o(i.interpret_ir_temperature)
+    interpret_pcb_temperature                0x08006a8d   Thumb Code    40  board_temp.o(i.interpret_pcb_temperature)
+    main                                     0x08006ab9   Thumb Code   976  main.o(i.main)
+    ntc_resistance_to_temp                   0x08006edd   Thumb Code   126  adc.o(i.ntc_resistance_to_temp)
+    resistance_to_weight                     0x08006f65   Thumb Code     6  adc.o(i.resistance_to_weight)
+    rfid_temp_ascii_to_int                   0x08006f6d   Thumb Code    78  rfid.o(i.rfid_temp_ascii_to_int)
+    rgb_leds                                 0x08006fc9   Thumb Code   116  discreets.o(i.rgb_leds)
+    serve_agitation_and_heater_opcode        0x08007045   Thumb Code     2  commserv.o(i.serve_agitation_and_heater_opcode)
+    serve_host_comm                          0x08007049   Thumb Code    50  host_from_comm.o(i.serve_host_comm)
+    serve_led_buzzer_opcode                  0x08007089   Thumb Code    62  commserv.o(i.serve_led_buzzer_opcode)
+    serve_opcode                             0x080070d9   Thumb Code    52  commserv.o(i.serve_opcode)
+    serve_start_stop_thawing_opcode          0x08007111   Thumb Code    46  commserv.o(i.serve_start_stop_thawing_opcode)
+    serve_technician_opcode                  0x08007149   Thumb Code    52  commserv.o(i.serve_technician_opcode)
+    stage_and_rpogress                       0x08007185   Thumb Code    56  progress.o(i.stage_and_rpogress)
+    standby_stage                            0x080071c1   Thumb Code     2  progress.o(i.standby_stage)
+    temp_to_percent                          0x080071c5   Thumb Code    76  progress.o(i.temp_to_percent)
+    thawing_stage                            0x08007229   Thumb Code    44  progress.o(i.thawing_stage)
+    translate_adc                            0x08007259   Thumb Code   416  adc.o(i.translate_adc)
+    update_agitation_motor_register          0x08007415   Thumb Code    92  motor.o(i.update_agitation_motor_register)
+    update_agitation_motor_speed             0x0800747d   Thumb Code    74  motor.o(i.update_agitation_motor_speed)
+    update_heaters_power                     0x080074d5   Thumb Code   162  heater.o(i.update_heaters_power)
+    ntc_table                                0x08007590   Data         364  adc.o(.constdata)
+    crc8_Table                               0x080076fc   Data         256  miscel.o(.constdata)
+    L6470_spi_arg_len                        0x080077fc   Data          32  motor.o(.constdata)
+    AHBPrescTable                            0x0800781c   Data          16  system_stm32l0xx.o(.constdata)
+    APBPrescTable                            0x0800782c   Data           8  system_stm32l0xx.o(.constdata)
+    PLLMulTable                              0x08007834   Data           9  system_stm32l0xx.o(.constdata)
+    Region$$Table$$Base                      0x08007840   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08007860   Number         0  anon$$obj.o(Region$$Table)
+    from_som_data_start_index                0x20000008   Data           2  host_from_comm.o(.data)
+    comm_err_array_index                     0x2000000a   Data           1  host_from_comm.o(.data)
+    debug_sdlfjh83345                        0x2000000c   Data           4  host_to_comm.o(.data)
+    motor1092                                0x20000016   Data           2  motor.o(.data)
+    dummy                                    0x20000050   Data           2  rfid.o(.data)
+    rfid_task                                0x20000052   Data           2  rfid.o(.data)
+    debug_var0                               0x20000054   Data           2  main.o(.data)
+    adc_conversion_callback                  0x20000056   Data           2  main.o(.data)
+    ir_conversion_callback                   0x20000058   Data           2  main.o(.data)
+    pcb_temperature_callback                 0x2000005a   Data           2  main.o(.data)
+    after_thawing_time                       0x2000005c   Data           2  main.o(.data)
+    main_loop_tasks                          0x20000060   Data           4  main.o(.data)
+    safety_error                             0x20000064   Data           2  main.o(.data)
+    rfid_count                               0x20000066   Data           2  main.o(.data)
+    from_rfid_string                         0x20000068   Data          40  main.o(.data)
+    pcb_temperature_string                   0x20000090   Data           2  main.o(.data)
+    no_somm_message_timer                    0x20000092   Data           2  main.o(.data)
+    motor_index_timer                        0x20000094   Data           2  main.o(.data)
+    delay_var0                               0x20000096   Data           2  main.o(.data)
+    timer_20mS_period                        0x20000098   Data           2  main.o(.data)
+    timer_100mS_period                       0x2000009a   Data           2  main.o(.data)
+    timer_1S_period                          0x2000009c   Data           2  main.o(.data)
+    one_second_passed_bits                   0x2000009e   Data           2  main.o(.data)
+    uwTick                                   0x200000a4   Data           4  stm32l0xx_hal.o(.data)
+    SystemCoreClock                          0x200000a8   Data           4  system_stm32l0xx.o(.data)
+    adc_raw_results                          0x200000ac   Data          32  adc.o(.bss)
+    som_rx_buffer                            0x2000010c   Data         135  host_from_comm.o(.bss)
+    comm_err_array                           0x20000193   Data         100  host_from_comm.o(.bss)
+    som_tx_buffer                            0x200001f7   Data         140  host_to_comm.o(.bss)
+    debug9834475                             0x20000284   Data         200  miscel.o(.bss)
+    system_state                             0x200003ec   Data          60  main.o(.bss)
+    from_som_message_state                   0x20000428   Data          10  main.o(.bss)
+    hadc                                     0x20000434   Data          96  main.o(.bss)
+    hdma_adc                                 0x20000494   Data          64  main.o(.bss)
+    hi2c1                                    0x200004d4   Data          76  main.o(.bss)
+    hi2c2                                    0x20000520   Data          76  main.o(.bss)
+    hspi1                                    0x2000056c   Data          88  main.o(.bss)
+    htim3                                    0x200005c4   Data          56  main.o(.bss)
+    huart1                                   0x200005fc   Data         112  main.o(.bss)
+    huart2                                   0x2000066c   Data         112  main.o(.bss)
+    huart4                                   0x200006dc   Data         112  main.o(.bss)
+    hdma_usart1_tx                           0x2000074c   Data          64  main.o(.bss)
+    hdma_usart2_rx                           0x2000078c   Data          64  main.o(.bss)
+    hdma_usart2_tx                           0x200007cc   Data          64  main.o(.bss)
+    PWM_timer2_OC_params                     0x2000080c   Data          16  main.o(.bss)
+    PWM_timer3_OC_params                     0x2000081c   Data          16  main.o(.bss)
+    uart_tx_callback                         0x2000082c   Data          10  main.o(.bss)
+    uart_rx_callback                         0x20000836   Data          10  main.o(.bss)
+    __initial_sp                             0x20000c40   Data           0  startup_stm32l073xx.o(STACK)
 
 
 
@@ -2090,9 +2091,9 @@ Memory Map of the image
 
   Image Entry point : 0x080000c1
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00007904, Max: 0x00030000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x0000790c, Max: 0x00030000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00007854, Max: 0x00030000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00007860, Max: 0x00030000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2307,82 +2308,82 @@ Memory Map of the image
     0x08005ee4   0x08005ee4   0x00000050   Code   RO          683    i.after_thawing_stage  progress.o
     0x08005f34   0x08005f34   0x00000240   Code   RO          393    i.build_and_send_message_to_som  host_to_comm.o
     0x08006174   0x08006174   0x00000230   Code   RO          574    i.calc_pid          pid.o
-    0x080063a4   0x080063a4   0x00000024   Code   RO          501    i.calculate_crc8    miscel.o
-    0x080063c8   0x080063c8   0x00000010   Code   RO           13    i.calib_adc         adc.o
-    0x080063d8   0x080063d8   0x00000002   Code   RO          318    i.errors_top        error.o
-    0x080063da   0x080063da   0x00000002   PAD
-    0x080063dc   0x080063dc   0x00000150   Code   RO           14    i.filter_ntcs       adc.o
-    0x0800652c   0x0800652c   0x00000038   Code   RO          183    i.get_board_temperature  board_temp.o
-    0x08006564   0x08006564   0x0000001c   Code   RO          278    i.get_door_state    discreets.o
-    0x08006580   0x08006580   0x0000012c   Code   RO          356    i.get_from_som_message_header_values  host_from_comm.o
-    0x080066ac   0x080066ac   0x0000002c   Code   RO          464    i.get_ir_temperature  ir_temp.o
-    0x080066d8   0x080066d8   0x0000001c   Code   RO          279    i.get_motor_index   discreets.o
-    0x080066f4   0x080066f4   0x00000050   Code   RO          601    i.get_rfid_temperature  rfid.o
-    0x08006744   0x08006744   0x00000048   Code   RO          280    i.get_som_comm_address  discreets.o
-    0x0800678c   0x0800678c   0x0000002c   Code   RO          418    i.init              init.o
-    0x080067b8   0x080067b8   0x000001de   Code   RO          531    i.init_L6470        motor.o
-    0x08006996   0x08006996   0x00000002   PAD
-    0x08006998   0x08006998   0x00000044   Code   RO          419    i.init_heating_pwm  init.o
-    0x080069dc   0x080069dc   0x0000003c   Code   RO          420    i.init_receiving_from_som  init.o
-    0x08006a18   0x08006a18   0x00000030   Code   RO          421    i.init_rgb_leds     init.o
-    0x08006a48   0x08006a48   0x00000038   Code   RO          465    i.interpret_ir_temperature  ir_temp.o
-    0x08006a80   0x08006a80   0x0000002c   Code   RO          184    i.interpret_pcb_temperature  board_temp.o
-    0x08006aac   0x08006aac   0x00000424   Code   RO          751    i.main              main.o
-    0x08006ed0   0x08006ed0   0x00000088   Code   RO           15    i.ntc_resistance_to_temp  adc.o
-    0x08006f58   0x08006f58   0x00000006   Code   RO           16    i.resistance_to_weight  adc.o
-    0x08006f5e   0x08006f5e   0x00000002   PAD
-    0x08006f60   0x08006f60   0x0000005c   Code   RO          604    i.rfid_temp_ascii_to_int  rfid.o
-    0x08006fbc   0x08006fbc   0x0000007c   Code   RO          281    i.rgb_leds          discreets.o
-    0x08007038   0x08007038   0x00000002   Code   RO          215    i.serve_agitation_and_heater_opcode  commserv.o
-    0x0800703a   0x0800703a   0x00000002   PAD
-    0x0800703c   0x0800703c   0x00000040   Code   RO          357    i.serve_host_comm   host_from_comm.o
-    0x0800707c   0x0800707c   0x00000050   Code   RO          216    i.serve_led_buzzer_opcode  commserv.o
-    0x080070cc   0x080070cc   0x00000038   Code   RO          217    i.serve_opcode      commserv.o
-    0x08007104   0x08007104   0x00000038   Code   RO          218    i.serve_start_stop_thawing_opcode  commserv.o
-    0x0800713c   0x0800713c   0x0000003c   Code   RO          219    i.serve_technician_opcode  commserv.o
-    0x08007178   0x08007178   0x0000003c   Code   RO          684    i.stage_and_rpogress  progress.o
-    0x080071b4   0x080071b4   0x00000002   Code   RO          685    i.standby_stage     progress.o
-    0x080071b6   0x080071b6   0x00000002   PAD
-    0x080071b8   0x080071b8   0x00000064   Code   RO          686    i.temp_to_percent   progress.o
-    0x0800721c   0x0800721c   0x00000030   Code   RO          687    i.thawing_stage     progress.o
-    0x0800724c   0x0800724c   0x000001bc   Code   RO           17    i.translate_adc     adc.o
-    0x08007408   0x08007408   0x00000068   Code   RO          533    i.update_agitation_motor_register  motor.o
-    0x08007470   0x08007470   0x00000058   Code   RO          534    i.update_agitation_motor_speed  motor.o
-    0x080074c8   0x080074c8   0x000000bc   Code   RO          335    i.update_heaters_power  heater.o
-    0x08007584   0x08007584   0x0000016c   Data   RO           19    .constdata          adc.o
-    0x080076f0   0x080076f0   0x00000100   Data   RO          504    .constdata          miscel.o
-    0x080077f0   0x080077f0   0x00000020   Data   RO          535    .constdata          motor.o
-    0x08007810   0x08007810   0x00000021   Data   RO         4192    .constdata          system_stm32l0xx.o
-    0x08007831   0x08007831   0x00000003   PAD
-    0x08007834   0x08007834   0x00000020   Data   RO         4260    Region$$Table       anon$$obj.o
+    0x080063a4   0x080063a4   0x00000030   Code   RO          501    i.calculate_crc8    miscel.o
+    0x080063d4   0x080063d4   0x00000010   Code   RO           13    i.calib_adc         adc.o
+    0x080063e4   0x080063e4   0x00000002   Code   RO          318    i.errors_top        error.o
+    0x080063e6   0x080063e6   0x00000002   PAD
+    0x080063e8   0x080063e8   0x00000150   Code   RO           14    i.filter_ntcs       adc.o
+    0x08006538   0x08006538   0x00000038   Code   RO          183    i.get_board_temperature  board_temp.o
+    0x08006570   0x08006570   0x0000001c   Code   RO          278    i.get_door_state    discreets.o
+    0x0800658c   0x0800658c   0x0000012c   Code   RO          356    i.get_from_som_message_header_values  host_from_comm.o
+    0x080066b8   0x080066b8   0x0000002c   Code   RO          464    i.get_ir_temperature  ir_temp.o
+    0x080066e4   0x080066e4   0x0000001c   Code   RO          279    i.get_motor_index   discreets.o
+    0x08006700   0x08006700   0x00000050   Code   RO          601    i.get_rfid_temperature  rfid.o
+    0x08006750   0x08006750   0x00000048   Code   RO          280    i.get_som_comm_address  discreets.o
+    0x08006798   0x08006798   0x0000002c   Code   RO          418    i.init              init.o
+    0x080067c4   0x080067c4   0x000001de   Code   RO          531    i.init_L6470        motor.o
+    0x080069a2   0x080069a2   0x00000002   PAD
+    0x080069a4   0x080069a4   0x00000044   Code   RO          419    i.init_heating_pwm  init.o
+    0x080069e8   0x080069e8   0x0000003c   Code   RO          420    i.init_receiving_from_som  init.o
+    0x08006a24   0x08006a24   0x00000030   Code   RO          421    i.init_rgb_leds     init.o
+    0x08006a54   0x08006a54   0x00000038   Code   RO          465    i.interpret_ir_temperature  ir_temp.o
+    0x08006a8c   0x08006a8c   0x0000002c   Code   RO          184    i.interpret_pcb_temperature  board_temp.o
+    0x08006ab8   0x08006ab8   0x00000424   Code   RO          751    i.main              main.o
+    0x08006edc   0x08006edc   0x00000088   Code   RO           15    i.ntc_resistance_to_temp  adc.o
+    0x08006f64   0x08006f64   0x00000006   Code   RO           16    i.resistance_to_weight  adc.o
+    0x08006f6a   0x08006f6a   0x00000002   PAD
+    0x08006f6c   0x08006f6c   0x0000005c   Code   RO          604    i.rfid_temp_ascii_to_int  rfid.o
+    0x08006fc8   0x08006fc8   0x0000007c   Code   RO          281    i.rgb_leds          discreets.o
+    0x08007044   0x08007044   0x00000002   Code   RO          215    i.serve_agitation_and_heater_opcode  commserv.o
+    0x08007046   0x08007046   0x00000002   PAD
+    0x08007048   0x08007048   0x00000040   Code   RO          357    i.serve_host_comm   host_from_comm.o
+    0x08007088   0x08007088   0x00000050   Code   RO          216    i.serve_led_buzzer_opcode  commserv.o
+    0x080070d8   0x080070d8   0x00000038   Code   RO          217    i.serve_opcode      commserv.o
+    0x08007110   0x08007110   0x00000038   Code   RO          218    i.serve_start_stop_thawing_opcode  commserv.o
+    0x08007148   0x08007148   0x0000003c   Code   RO          219    i.serve_technician_opcode  commserv.o
+    0x08007184   0x08007184   0x0000003c   Code   RO          684    i.stage_and_rpogress  progress.o
+    0x080071c0   0x080071c0   0x00000002   Code   RO          685    i.standby_stage     progress.o
+    0x080071c2   0x080071c2   0x00000002   PAD
+    0x080071c4   0x080071c4   0x00000064   Code   RO          686    i.temp_to_percent   progress.o
+    0x08007228   0x08007228   0x00000030   Code   RO          687    i.thawing_stage     progress.o
+    0x08007258   0x08007258   0x000001bc   Code   RO           17    i.translate_adc     adc.o
+    0x08007414   0x08007414   0x00000068   Code   RO          533    i.update_agitation_motor_register  motor.o
+    0x0800747c   0x0800747c   0x00000058   Code   RO          534    i.update_agitation_motor_speed  motor.o
+    0x080074d4   0x080074d4   0x000000bc   Code   RO          335    i.update_heaters_power  heater.o
+    0x08007590   0x08007590   0x0000016c   Data   RO           19    .constdata          adc.o
+    0x080076fc   0x080076fc   0x00000100   Data   RO          504    .constdata          miscel.o
+    0x080077fc   0x080077fc   0x00000020   Data   RO          535    .constdata          motor.o
+    0x0800781c   0x0800781c   0x00000021   Data   RO         4192    .constdata          system_stm32l0xx.o
+    0x0800783d   0x0800783d   0x00000003   PAD
+    0x08007840   0x08007840   0x00000020   Data   RO         4260    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08007854, Size: 0x00000b80, Max: 0x00005000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08007860, Size: 0x00000c40, Max: 0x00005000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08007854   0x0000000a   Data   RW           20    .data               adc.o
-    0x2000000a   0x0800785e   0x00000002   Data   RW          185    .data               board_temp.o
-    0x2000000c   0x08007860   0x00000003   Data   RW          359    .data               host_from_comm.o
-    0x2000000f   0x08007863   0x00000001   PAD
-    0x20000010   0x08007864   0x00000006   Data   RW          395    .data               host_to_comm.o
-    0x20000016   0x0800786a   0x00000004   Data   RW          466    .data               ir_temp.o
-    0x2000001a   0x0800786e   0x00000004   Data   RW          536    .data               motor.o
-    0x2000001e   0x08007872   0x00000002   PAD
-    0x20000020   0x08007874   0x00000034   Data   RW          576    .data               pid.o
-    0x20000054   0x080078a8   0x00000004   Data   RW          605    .data               rfid.o
-    0x20000058   0x080078ac   0x0000004e   Data   RW          753    .data               main.o
-    0x200000a6   0x080078fa   0x00000002   PAD
-    0x200000a8   0x080078fc   0x00000004   Data   RW         3090    .data               stm32l0xx_hal.o
-    0x200000ac   0x08007900   0x00000004   Data   RW         4193    .data               system_stm32l0xx.o
-    0x200000b0        -       0x00000060   Zero   RW           18    .bss                adc.o
-    0x20000110        -       0x000000eb   Zero   RW          358    .bss                host_from_comm.o
-    0x200001fb        -       0x0000008c   Zero   RW          394    .bss                host_to_comm.o
-    0x20000287   0x08007904   0x00000001   PAD
-    0x20000288        -       0x000000a0   Zero   RW          575    .bss                pid.o
-    0x20000328        -       0x00000454   Zero   RW          752    .bss                main.o
-    0x2000077c   0x08007904   0x00000004   PAD
-    0x20000780        -       0x00000400   Zero   RW            1    STACK               startup_stm32l073xx.o
+    0x20000000   0x08007860   0x00000006   Data   RW           20    .data               adc.o
+    0x20000006   0x08007866   0x00000002   Data   RW          185    .data               board_temp.o
+    0x20000008   0x08007868   0x00000003   Data   RW          359    .data               host_from_comm.o
+    0x2000000b   0x0800786b   0x00000001   PAD
+    0x2000000c   0x0800786c   0x00000006   Data   RW          395    .data               host_to_comm.o
+    0x20000012   0x08007872   0x00000004   Data   RW          466    .data               ir_temp.o
+    0x20000016   0x08007876   0x00000004   Data   RW          536    .data               motor.o
+    0x2000001a   0x0800787a   0x00000002   PAD
+    0x2000001c   0x0800787c   0x00000034   Data   RW          576    .data               pid.o
+    0x20000050   0x080078b0   0x00000004   Data   RW          605    .data               rfid.o
+    0x20000054   0x080078b4   0x0000004e   Data   RW          753    .data               main.o
+    0x200000a2   0x08007902   0x00000002   PAD
+    0x200000a4   0x08007904   0x00000004   Data   RW         3090    .data               stm32l0xx_hal.o
+    0x200000a8   0x08007908   0x00000004   Data   RW         4193    .data               system_stm32l0xx.o
+    0x200000ac        -       0x00000060   Zero   RW           18    .bss                adc.o
+    0x2000010c        -       0x000000eb   Zero   RW          358    .bss                host_from_comm.o
+    0x200001f7        -       0x0000008c   Zero   RW          394    .bss                host_to_comm.o
+    0x20000283   0x0800790c   0x00000001   PAD
+    0x20000284        -       0x000000c8   Zero   RW          503    .bss                miscel.o
+    0x2000034c        -       0x000000a0   Zero   RW          575    .bss                pid.o
+    0x200003ec        -       0x00000454   Zero   RW          752    .bss                main.o
+    0x20000840        -       0x00000400   Zero   RW            1    STACK               startup_stm32l073xx.o
 
 
 ==============================================================================
@@ -2392,22 +2393,22 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       970         76        364         10         96     417526   adc.o
+       970         76        364          6         96     417510   adc.o
        100         18          0          2          0       1697   board_temp.o
-       254         40          0          0          0       2253   commserv.o
+       254         40          0          0          0       2257   commserv.o
        252         32          0          0          0       2001   discreets.o
-         2          0          0          0          0        365   error.o
+         2          0          0          0          0        369   error.o
        188         26          0          0          0        499   heater.o
        364         38          0          3        235       2386   host_from_comm.o
-       576         26          0          6        140       1793   host_to_comm.o
-       220         52          0          0          0       1692   init.o
+       576         26          0          6        140       1789   host_to_comm.o
+       220         52          0          0          0       1696   init.o
        100         28          0          4          0       1595   ir_temp.o
       3932        538          0         78       1108      14306   main.o
-        36          6        256          0          0       1183   miscel.o
-       670         26         32          4          0       2592   motor.o
-       560         52          0         52        160       2155   pid.o
-       290         46          0          0          0       2289   progress.o
-       172         40          0          4          0       1922   rfid.o
+        48         10        256          0        200       1199   miscel.o
+       670         26         32          4          0       2596   motor.o
+       560         52          0         52        160       2171   pid.o
+       290         46          0          0          0       2293   progress.o
+       172         40          0          4          0       1930   rfid.o
         28          8        192          0       1024        624   startup_stm32l073xx.o
        126         18          0          4          0       3575   stm32l0xx_hal.o
       1474         62          0          0          0       7034   stm32l0xx_hal_adc.o
@@ -2428,9 +2429,9 @@ Image component sizes
        104         16         33          4          0       1187   system_stm32l0xx.o
 
     ----------------------------------------------------------------------
-     29556       1854        912        176       2768     571854   Object Totals
+     29568       1858        912        172       2964     571894   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        56          0          3          5          5          0   (incl. Padding)
+        56          0          3          5          1          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -2472,15 +2473,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     29892       1870        912        176       2768     563550   Grand Totals
-     29892       1870        912        176       2768     563550   ELF Image Totals
-     29892       1870        912        176          0          0   ROM Totals
+     29904       1874        912        172       2964     563590   Grand Totals
+     29904       1874        912        172       2964     563590   ELF Image Totals
+     29904       1874        912        172          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                30804 (  30.08kB)
-    Total RW  Size (RW Data + ZI Data)              2944 (   2.88kB)
-    Total ROM Size (Code + RO Data + RW Data)      30980 (  30.25kB)
+    Total RO  Size (Code + RO Data)                30816 (  30.09kB)
+    Total RW  Size (RW Data + ZI Data)              3136 (   3.06kB)
+    Total ROM Size (Code + RO Data + RW Data)      30988 (  30.26kB)
 
 ==============================================================================
 

@@ -1,4 +1,5 @@
 proj7_0\technician.o: technician.c
+proj7_0\technician.o: ../Inc/technician.h
 proj7_0\technician.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 proj7_0\technician.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h
 proj7_0\technician.o: ../Inc/stm32l0xx_hal_conf.h
@@ -37,7 +38,6 @@ proj7_0\technician.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart.h
 proj7_0\technician.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h
 proj7_0\technician.o: ../Inc/adc.h
 proj7_0\technician.o: ../Inc/miscel.h
-proj7_0\technician.o: ../Inc/technician.h
 proj7_0\technician.o: ../Inc/rfid.h
 proj7_0\technician.o: ../Inc/extern_structs.h
 proj7_0\technician.o: ../Inc/miscel.h

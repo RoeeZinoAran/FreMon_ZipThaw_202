@@ -1,4 +1,5 @@
 proj7_0\host_from_comm.o: host_from_comm.c
+proj7_0\host_from_comm.o: ../Inc/host_to_comm.h
 proj7_0\host_from_comm.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h
 proj7_0\host_from_comm.o: ../Inc/stm32l0xx_hal_conf.h
 proj7_0\host_from_comm.o: ../Inc/main.h
@@ -36,7 +37,6 @@ proj7_0\host_from_comm.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart
 proj7_0\host_from_comm.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h
 proj7_0\host_from_comm.o: ../Inc/constant.h
 proj7_0\host_from_comm.o: ../Inc/host_from_comm.h
-proj7_0\host_from_comm.o: ../Inc/host_to_comm.h
 proj7_0\host_from_comm.o: ../Inc/init.h
 proj7_0\host_from_comm.o: ../Inc/miscel.h
 proj7_0\host_from_comm.o: ../Inc/commserv.h
