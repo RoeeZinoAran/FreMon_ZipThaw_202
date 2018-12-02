@@ -1,0 +1,115 @@
+\t (00:00:17) allegro_free_viewer 17.2 S048 Windows SPB 64-bit Edition
+\t (00:00:17)     Journal start - Sun Dec 02 09:18:55 2018
+\t (00:00:17)         Host=ROEEZINO User=roee.zino Pid=6492 CPUs=8
+\t (00:00:17) CmdLine= C:\Users\roee.zino\AppData\Local\Programs\Cadence Design Systems\17.2\tools\bin\allegro_free_viewer.exe
+\t (00:00:17) 
+\d (00:00:17) Design opened: C:/Software_projects/FreMon_ZipThaw_202/FIles/Chamber.brd
+\i (00:00:19) trapsize 510300
+\i (00:00:20) zoom in 1 
+\i (00:00:20) setwindow pcb
+\i (00:00:20) zoom in 4356.1637 935.6291
+\i (00:00:20) trapsize 255150
+\i (00:00:20) zoom in 1 
+\i (00:00:20) setwindow pcb
+\i (00:00:20) zoom in 4356.1637 935.6291
+\i (00:00:20) trapsize 127575
+\i (00:00:20) zoom in 1 
+\i (00:00:20) setwindow pcb
+\i (00:00:20) zoom in 4345.9577 943.2836
+\i (00:00:20) trapsize 63788
+\i (00:00:22) zoom out 1 
+\i (00:00:22) setwindow pcb
+\i (00:00:22) zoom out 4275.7914 1009.6227
+\i (00:00:22) trapsize 127575
+\i (00:00:22) zoom out 1 
+\i (00:00:22) setwindow pcb
+\i (00:00:22) zoom out 4275.7914 1009.6227
+\i (00:00:22) trapsize 255150
+\i (00:00:22) zoom out 1 
+\i (00:00:22) setwindow pcb
+\i (00:00:22) zoom out 4275.7915 1009.6227
+\i (00:00:22) trapsize 510300
+\i (00:00:42) setwindow form.vf_vis
+\i (00:00:42) FORM vf_vis 9 all_colorvisible NO 
+\i (00:00:47) FORM vf_vis 1 all_colorvisible NO 
+\i (00:00:48) FORM vf_vis 1 all_colorvisible YES 
+\i (00:00:52) setwindow pcb
+\i (00:00:52) zoom in 1 
+\i (00:00:52) setwindow pcb
+\i (00:00:52) zoom in 2091.7062 1846.5153
+\i (00:00:52) trapsize 255150
+\i (00:00:52) zoom in 1 
+\i (00:00:52) setwindow pcb
+\i (00:00:52) zoom in 2091.7062 1846.5153
+\i (00:00:52) trapsize 127575
+\i (00:00:52) zoom in 1 
+\i (00:00:52) setwindow pcb
+\i (00:00:52) zoom in 2091.7062 1846.5153
+\i (00:00:52) trapsize 63788
+\i (00:00:53) zoom out 1 
+\i (00:00:53) setwindow pcb
+\i (00:00:53) zoom out 2091.7063 1846.5154
+\i (00:00:53) trapsize 127575
+\i (00:01:22) setwindow form.mini
+\i (00:01:22) FORM mini subclass PWR 
+\i (00:01:33) FORM mini subcolor 1 
+\i (00:01:35) FORM mini subcolor 0 
+\i (00:01:36) FORM mini subcolor 1 
+\i (00:01:36) FORM mini subcolor 0 
+\i (00:01:37) FORM mini subcolor 1 
+\i (00:01:40) setwindow form.vf_vis
+\i (00:01:40) FORM vf_vis 1 all_colorvisible NO 
+\i (00:01:42) FORM vf_vis 4 all_colorvisible YES 
+\i (00:01:43) FORM vf_vis 4 all_colorvisible NO 
+\i (00:01:45) FORM vf_vis 4 all_colorvisible YES 
+\i (00:01:54) FORM vf_vis colorview_list Film: ASYT 
+\i (00:02:02) setwindow pcb
+\i (00:02:02) zoom out 1 
+\i (00:02:02) setwindow pcb
+\i (00:02:02) zoom out 2709.1696 1698.5283
+\i (00:02:02) trapsize 255150
+\i (00:02:03) zoom out 1 
+\i (00:02:03) setwindow pcb
+\i (00:02:03) zoom out 2709.1695 1739.3522
+\i (00:02:03) trapsize 510300
+\i (00:02:05) zoom in 1 
+\i (00:02:05) setwindow pcb
+\i (00:02:05) zoom in 4719.7527 1953.6784
+\i (00:02:05) trapsize 255150
+\i (00:02:08) zoom in 1 
+\i (00:02:08) setwindow pcb
+\i (00:02:08) zoom in 4719.7527 1953.6784
+\i (00:02:08) trapsize 127575
+\i (00:02:09) zoom in 1 
+\i (00:02:09) setwindow pcb
+\i (00:02:09) zoom in 4719.7528 1953.6784
+\i (00:02:09) trapsize 63788
+\i (00:02:10) zoom out 1 
+\i (00:02:10) setwindow pcb
+\i (00:02:10) zoom out 4719.7528 1953.6784
+\i (00:02:10) trapsize 127575
+\i (00:02:21) show element 
+\i (00:02:25) setwindow form.find
+\i (00:02:25) FORM find groups YES 
+\i (00:02:26) FORM find groups NO 
+\i (00:02:30) FORM find find_cust_enable YES 
+\i (00:02:31) FORM find find_cust_enable NO 
+\i (00:02:34) setwindow pcb
+\i (00:02:34) grid toggle 
+\t (00:02:34) Grids are drawn 12.8000, 12.8000 apart for enhanced viewing.
+\i (00:02:35) grid toggle 
+\i (00:02:37) color192 
+\i (00:02:37) setwindow cvf.dialog
+\i (00:02:37) cvf layer_mode
+\i (00:02:39) cvf cancel
+\i (00:02:41) setwindow pcb
+\i (00:02:41) zoom out 1 
+\i (00:02:41) setwindow pcb
+\i (00:02:41) zoom out 3204.1610 2193.5195
+\i (00:02:41) trapsize 255150
+\i (00:02:44) drag_start grid 1862.0712 1979.1935
+\i (00:02:44) drag_stop 4495.2207 1081.0649
+\i (00:02:48) setwindow form.mini
+\i (00:02:48) FORM mini subclass SIG1 
+\i (00:02:57) setwindow form.vf_vis
+\
