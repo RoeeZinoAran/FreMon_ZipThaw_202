@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Proj7_0\Proj7_0.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Proj7_0\Proj7_0.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Dec 03 14:05:10 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Dec 03 15:16:42 2018
 <BR><P>
 <H3>Maximum Stack Usage =        192 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1227,13 +1227,6 @@ Global Symbols
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[e4]"></a>p_MISCEL_calculate_crc8</STRONG> (Thumb, 38 bytes, Stack size 12 bytes, miscel.o(i.p_MISCEL_calculate_crc8))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = p_MISCEL_calculate_crc8
-</UL>
-<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;p_HOST_TO_COMM_build_and_send_message_to_som
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;p_HOST_FROM_COMM_get_from_som_message_header_values
-</UL>
-
 <P><STRONG><a name="[e3]"></a>p_HOST_FROM_COMM_get_from_som_message_header_values</STRONG> (Thumb, 276 bytes, Stack size 16 bytes, host_from_comm.o(i.p_HOST_FROM_COMM_get_from_som_message_header_values))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = p_HOST_FROM_COMM_get_from_som_message_header_values &rArr; p_MISCEL_calculate_crc8
 </UL>
@@ -1253,7 +1246,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[e5]"></a>p_HOST_TO_COMM_build_and_send_message_to_som</STRONG> (Thumb, 552 bytes, Stack size 16 bytes, host_to_comm.o(i.p_HOST_TO_COMM_build_and_send_message_to_som))
+<P><STRONG><a name="[e5]"></a>p_HOST_TO_COMM_build_and_send_message_to_som</STRONG> (Thumb, 550 bytes, Stack size 16 bytes, host_to_comm.o(i.p_HOST_TO_COMM_build_and_send_message_to_som))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = p_HOST_TO_COMM_build_and_send_message_to_som &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit_DMA
@@ -1304,6 +1297,13 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = p_IR_TEMP_interpret_ir_temperature
 </UL>
 <BR>[Called By]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[e4]"></a>p_MISCEL_calculate_crc8</STRONG> (Thumb, 38 bytes, Stack size 12 bytes, miscel.o(i.p_MISCEL_calculate_crc8))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = p_MISCEL_calculate_crc8
+</UL>
+<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;p_HOST_TO_COMM_build_and_send_message_to_som
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;p_HOST_FROM_COMM_get_from_som_message_header_values
 </UL>
 
 <P><STRONG><a name="[c7]"></a>p_MOTOR_init_L6470</STRONG> (Thumb, 478 bytes, Stack size 8 bytes, motor.o(i.p_MOTOR_init_L6470))
@@ -1458,7 +1458,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b9]"></a>MX_USART1_UART_Init</STRONG> (Thumb, 62 bytes, Stack size 8 bytes, main.o(i.MX_USART1_UART_Init))
+<P><STRONG><a name="[b9]"></a>MX_USART1_UART_Init</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, main.o(i.MX_USART1_UART_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 148<LI>Call Chain = MX_USART1_UART_Init &rArr; HAL_UART_Init &rArr; UART_SetConfig &rArr; HAL_RCCEx_GetPeriphCLKFreq &rArr; HAL_RCC_GetSysClockFreq &rArr; __aeabi_uidivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
@@ -1467,7 +1467,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ba]"></a>MX_USART2_UART_Init</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, main.o(i.MX_USART2_UART_Init))
+<P><STRONG><a name="[ba]"></a>MX_USART2_UART_Init</STRONG> (Thumb, 68 bytes, Stack size 8 bytes, main.o(i.MX_USART2_UART_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 180<LI>Call Chain = MX_USART2_UART_Init &rArr; HAL_RS485Ex_Init &rArr; UART_SetConfig &rArr; HAL_RCCEx_GetPeriphCLKFreq &rArr; HAL_RCC_GetSysClockFreq &rArr; __aeabi_uidivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RS485Ex_Init

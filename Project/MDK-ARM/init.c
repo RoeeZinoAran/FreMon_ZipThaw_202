@@ -216,3 +216,4 @@ void p_INIT_receiving_from_som(void)
 	HAL_UART_Receive_DMA(&huart2, g_HOST_FROM_COMM_som_rx_buffer, C_HOST_FROM_COMM_NUM_OF_HEADER_BYTES);
 	system_state.som_comm_state = RECEIVING_MESSAGE_HEADER;
 }
+
