@@ -12,64 +12,64 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: pid_error
+  Variable Type: unsigned int [2]
   Unit: [N/A]
   Default value: N/A
-  Description: 
+  Description: Desired temperatire minus Measured temperature in  8 mC units. (Each bit
+			   represents 0.008 C).
+               It is an unsigned value because that it is used only when measured
+               temperature is lower the target temperature.
+			   Size = 2 one for each cushion.
 */
 /*--------------------------------------------------------------------------------------------------*/
-static unsigned int pid_error[2]; // 2 one for each cushion.
-// Desired temperatire minus Measured temperature in  8 mC units. (Each bit
-// represents 0.008 C).
-// It is an unsigned value because that it is used only when measured
-// temperature is lower the target temperature.
+static unsigned int pid_error[2]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: pid_error_mx
+  Variable Type: unsigned int [2]
   Unit: [N/A]
   Default value: N/A
-  Description: 
+  Description: The errors N samples before.
 */
 /*--------------------------------------------------------------------------------------------------*/
-static unsigned int pid_error_mx[2]; // the errors N samples before.
+static unsigned int pid_error_mx[2]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: pid_integral
+  Variable Type: signed int [2]
   Unit: [N/A]
   Default value: N/A
-  Description: 
+  Description: 2 one for each cushion.
 */
 /*--------------------------------------------------------------------------------------------------*/
-static signed int pid_integral[2]; // 2 one for each cushion.
+static signed int pid_integral[2]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: pid_integral_history
+  Variable Type: signed int [2][PID_INTEGRAL_DEPTH]
   Unit: [N/A]
   Default value: N/A
-  Description: 
+  Description: 2 one for each cushion.
 */
 /*--------------------------------------------------------------------------------------------------*/
-static signed int pid_integral_history[2][PID_INTEGRAL_DEPTH]; // 2 one for each cushion.
+static signed int pid_integral_history[2][PID_INTEGRAL_DEPTH]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: pid_integral_pointer
+  Variable Type: unsigned short
   Unit: [N/A]
-  Default value: N/A
-  Description: 
+  Default value: 0
+  Description: points to the next index where new data will be written tos
+               Integral of errors. Increases (becomes more positive) when 'pid_error'
+               is positive. 
 */
 /*--------------------------------------------------------------------------------------------------*/
-static unsigned short pid_integral_pointer = 0; // points to the next index where new data will be written tos
-// Integral of errors. Increases (becomes more positive) when 'pid_error'
-// is positive.
+static unsigned short pid_integral_pointer = 0; 
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -127,8 +127,12 @@ void calc_pid(void)
 				pid_integral_pointer = 0;
 		}
 		i1 = 0;
+		
 		for(s1 = 0; s1 < PID_INTEGRAL_DEPTH; s1++)
+		{
 			i1 += pid_integral_history[cushion][s1];
+		}
+			
 		pid_integral[cushion] = i1;
 		
 		/* Calculating the P part of PID and adding it to the I part with clamping as needed */

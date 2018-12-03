@@ -6,7 +6,7 @@
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: RFID_STRING_ARRAY_SIZE
   Unit: [N/A]
   Define Value: 40
@@ -16,7 +16,7 @@
 #define RFID_STRING_ARRAY_SIZE						(40)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: RFID_TIMO
   Unit: [mSec]
   Define Value: 300
@@ -26,7 +26,7 @@
 #define RFID_TIMO									(300)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: RFID_COMM_ERROR_RETURNED_TEMPERATURE
   Unit: [N/A]
   Define Value: 10000u
@@ -36,7 +36,7 @@
 #define RFID_COMM_ERROR_RETURNED_TEMPERATURE		(99900)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: RFID_NO_ANSWER_RETURNED_TEMPERATURE
   Unit: [N/A]
   Define Value: 10000u
@@ -45,12 +45,8 @@
 /*--------------------------------------------------------------------------------------------------*/
 #define RFID_NO_ANSWER_RETURNED_TEMPERATURE			(88800)
 
-/* --------------------------------------------------------------------------
- List of RFID tasks:
--------------------------------------------------------------------------- */
-
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: 
   Unit: [N/A]
   Define Value: 10000u
@@ -60,7 +56,7 @@
 #define RESET_COUNTER_RFID_TASK						(0)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: INCREMENT_COUNTER_RFID_TASK
   Unit: [N/A]
   Define Value: 1
@@ -70,7 +66,7 @@
 #define INCREMENT_COUNTER_RFID_TASK					(1)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: 
   Unit: [N/A]
   Define Value: 10000u
@@ -80,7 +76,7 @@
 #define READ_COUNTER_RFID_TASK						(2)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: 
   Unit: [N/A]
   Define Value: 10000u

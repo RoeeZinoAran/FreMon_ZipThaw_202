@@ -8,8 +8,8 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: lm75b_returned_string
+  Variable Type: uint8_t [2]
   Extern module declaration: N/A. 
   Unit: [byte]
   Default value: N/A

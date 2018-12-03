@@ -10,8 +10,8 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: hspi1
+  Variable Type: SPI_HandleTypeDef
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -21,10 +21,10 @@ extern SPI_HandleTypeDef hspi1;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: motor1092
+  Variable Type: unsigned short
   Unit: [N/A]
-  Default value: N/A
+  Default value: 0
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
@@ -32,8 +32,8 @@ volatile unsigned short motor1092 = 0;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: L6470_spi_arg_len
+  Variable Type: uint8_t [32]
   Unit: [N/A]
   Default value: N/A
   Description: A table that contains the number of data (argument only without the 'command')
@@ -47,12 +47,6 @@ const  uint8_t L6470_spi_arg_len[32] =
 	1, 1, 1, 1,    1, 2, 1, 1,  // 0x10 to 0x17 
 	2, 2, 0, 0,    0, 0, 0, 0   // 0x18 to 0x1f
 };
-
-#if 0
-	static volatile unsigned short wait_for_motor_spi_callback = 0;
-	volatile unsigned short vol0 = 0;
-	extern volatile unsigned short motor_spi_callback;
-#endif
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -250,3 +244,9 @@ void read_agitation_motor_register(uint8_t add, uint8_t rx_data[])
 #endif
 
 }
+
+#if 0
+	static volatile unsigned short wait_for_motor_spi_callback = 0;
+	volatile unsigned short vol0 = 0;
+	extern volatile unsigned short motor_spi_callback;
+#endif

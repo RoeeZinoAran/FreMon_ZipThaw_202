@@ -2,7 +2,7 @@
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: HIGHEST_TEMP_THAT_PWM_CAN_OPERATE
   Unit: [N/A]
   Define Value: 37000
@@ -14,7 +14,7 @@
 #define HIGHEST_TEMP_THAT_PWM_CAN_OPERATE  			(37000)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: THAWING_TARGET_TEMPERATURE
   Unit: [N/A]
   Define Value: 33000
@@ -22,11 +22,9 @@
 */
 /*--------------------------------------------------------------------------------------------------*/
 #define THAWING_TARGET_TEMPERATURE  				(33000)
-// 
-// --------------------------------------------------------------------------
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: LOWEST_PLASMA_TEMPERATURE
   Unit: [N/A]
   Define Value: -20000
@@ -36,7 +34,7 @@
 #define LOWEST_PLASMA_TEMPERATURE  					(-20000)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: IR_I2C_7BITS_ADD
   Unit: [N/A]
   Define Value: 0x5A
@@ -47,7 +45,7 @@
 #define PWM_MAX_VALUE   							(9999)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: PID_INTEGRAL_DEPTH
   Unit: [N/A]
   Define Value: 20
@@ -58,7 +56,7 @@
 
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: IR_I2C_7BITS_ADD
   Unit: [N/A]
   Define Value: 0x5A

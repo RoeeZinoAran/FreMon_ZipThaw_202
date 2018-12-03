@@ -11,8 +11,9 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: huart2
+  Variable Type: UART_HandleTypeDef
+  Extern module declaration: Main. 
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -22,8 +23,9 @@ extern UART_HandleTypeDef huart2;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: time_from_thawing_end
+  Variable Type: unsigned short
+  Extern module declaration: Main. 
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -33,8 +35,8 @@ extern volatile unsigned short time_from_thawing_end;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: som_tx_buffer
+  Variable Type: uint8_t [MAX_MESSAGE_LENGTH_TO_SOM + 5]
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -44,14 +46,14 @@ uint8_t som_tx_buffer[MAX_MESSAGE_LENGTH_TO_SOM + 5];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: debug_sdlfjh83345
+  Variable Type: unsigned int
   Unit: [N/A]
-  Default value: N/A
+  Default value: 0
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-volatile unsigned int debug_sdlfjh83345 = 0;
+volatile unsigned int debug_sdlfjh83345 = 0u;
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -102,16 +104,16 @@ void build_and_send_message_to_som(void)
 	*pt++ = 0; 									/* spare */
 	
 	si1 = (signed short)(system_state.ntc_temp[CUSHION0] / 100); 	/* dividing by 100 because we return in 1/10C units and not in mC units */
-	*pt++ = (uint8_t)(si1 >> 8);   									/* Temp. sensor #1 – cushion #1 MSByte in 1/10 C units */
-	*pt++ = (uint8_t)(si1 & 0xff); 									/* Temp. sensor #1 – cushion #1 LSByte in 1/10 C units */
+	*pt++ = (uint8_t)(si1 >> 8);   									/* Temp. sensor #1 ï¿½ cushion #1 MSByte in 1/10 C units */
+	*pt++ = (uint8_t)(si1 & 0xff); 									/* Temp. sensor #1 ï¿½ cushion #1 LSByte in 1/10 C units */
 	*pt++ = 0; 														/* spare */
 	*pt++ = 0; 														/* spare */
 	*pt++ = 0; 														/* spare */
 	*pt++ = 0; 														/* spare */ 
 	
 	si1 = (signed short)(system_state.ntc_temp[CUSHION1] / 100); 	/* dividing by 100 because we return in 1/10C units and not in mC units */
-	*pt++ = (uint8_t)(si1 >> 8);   // Temp. sensor #1 – cushion #2 MSByte in 1/10 C units
-	*pt++ = (uint8_t)(si1 & 0xff); // Temp. sensor #1 – cushion #2 LSByte in 1/10 C units
+	*pt++ = (uint8_t)(si1 >> 8);   // Temp. sensor #1 ï¿½ cushion #2 MSByte in 1/10 C units
+	*pt++ = (uint8_t)(si1 & 0xff); // Temp. sensor #1 ï¿½ cushion #2 LSByte in 1/10 C units
 	*pt++ = 0; // spare
 	*pt++ = 0; // spare
 	
@@ -159,7 +161,6 @@ void build_and_send_message_to_som(void)
 	{
 		*pt++ = 0; // spare
 	}
-	
 	
 	/* FirmWare version: */
 	*pt++ = (uint8_t)(FIRMWARE_VERSION >> 8);

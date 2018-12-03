@@ -1,11 +1,11 @@
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INCLUDES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
+#include "commserv.h"
 #include "host_from_comm.h"
 #include "discreets.h"
 #include "motor.h"
 #include "heater.h"
-#include "commserv.h"
 #include "extern_structs.h"
 
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GLOBAL VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%% */

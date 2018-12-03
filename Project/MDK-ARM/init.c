@@ -12,8 +12,8 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: htim3
+  Variable Type: TIM_HandleTypeDef
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -23,8 +23,8 @@ extern TIM_HandleTypeDef htim3;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: PWM_timer3_OC_params
+  Variable Type: TIM_OC_InitTypeDef
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -34,8 +34,8 @@ extern TIM_OC_InitTypeDef PWM_timer3_OC_params;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: huart2
+  Variable Type: UART_HandleTypeDef
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -45,8 +45,8 @@ extern UART_HandleTypeDef huart2;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: no_somm_message_timer
+  Variable Type: unsigned short
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -56,19 +56,19 @@ extern volatile unsigned short no_somm_message_timer;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: som_rx_buffer
+  Variable Type: uint8_t [MAX_MESSAGE_LENGTH]
   Unit: [N/A]
   Default value: N/A
-  Description: 
+  Description: Message from SOM buffer. 
 */
 /*--------------------------------------------------------------------------------------------------*/
 extern uint8_t som_rx_buffer[MAX_MESSAGE_LENGTH];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: from_rfid_string
+  Variable Type: uint8_t [RFID_STRING_ARRAY_SIZE]
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -78,8 +78,8 @@ extern uint8_t from_rfid_string[RFID_STRING_ARRAY_SIZE];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: uart_tx_callback
+  Variable Type: unsigned short [5]
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -89,8 +89,8 @@ extern volatile unsigned short uart_tx_callback[5];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: uart_rx_callback
+  Variable Type: unsigned short [5]
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -120,15 +120,14 @@ void init(void)
 	/* Emulating like RFID was read inorder to allow calling RFID again in the main loop */
 	uart_rx_callback[RFID_COMM_UART_NUM] = 1; // 
 
-	//	get_rfid_counter(from_rfid_string);
-	
+#if 0
+	get_rfid_counter(from_rfid_string);
+#endif
+
 	system_state.tasks_in_progress = STANDBY_TASK_BIT;
 	system_state.after_thawing_timer = 0;
 	system_state.progress = 0xff; // not active
 }
-// --------------------------------------------------------------------------
-
-
 
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
 /*! 
@@ -217,4 +216,3 @@ void init_receiving_from_som(void)
 	HAL_UART_Receive_DMA(&huart2, som_rx_buffer, NUM_OF_HEADER_BYTES);
 	system_state.som_comm_state = RECEIVING_MESSAGE_HEADER;
 }
-// --------------------------------------------------------------------------

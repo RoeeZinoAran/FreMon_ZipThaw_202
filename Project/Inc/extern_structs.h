@@ -6,46 +6,42 @@
 
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
-// --------------------------------------------------------------------------
-// Defining the values for  'system_state.tasks_in_progress' field:
-// --------------------------------------------------------------------------
-
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: STANDBY_TASK_BIT
   Unit: [N/A]
   Define Value: (1 <<  0)
-  Description:  
+  Description: Stand-by Task field in 'system_state.tasks_in_progress'.
 */
 /*--------------------------------------------------------------------------------------------------*/
 #define STANDBY_TASK_BIT				(1 <<  0)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: THAWING_TASK_BIT
   Unit: [N/A]
   Define Value: (1 <<  1)
-  Description:  
+  Description:  Thaing task field in 'system_state.tasks_in_progress'.
 */
 /*--------------------------------------------------------------------------------------------------*/
 #define THAWING_TASK_BIT				(1 <<  1)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: AFTER_THAWING_TASK_BIT
   Unit: [N/A]
   Define Value: (1 <<  2)
-  Description:  
+  Description:  After Thawing field in 'system_state.tasks_in_progress'.
 */
 /*--------------------------------------------------------------------------------------------------*/
 #define AFTER_THAWING_TASK_BIT			(1 <<  2)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: TECHNICIAN_TASK_BIT
   Unit: [N/A]
   Define Value: (1 << 15)
-  Description:  
+  Description: Technician task field in 'system_state.tasks_in_progress'.
 */
 /*--------------------------------------------------------------------------------------------------*/
 #define TECHNICIAN_TASK_BIT				(1 << 15)
@@ -53,7 +49,7 @@
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENUMS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$ENUMS$-------------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Enum Name: comm_rx_status
   Description: Data structure for describing the system's state. (measurements, commnucation etc...).
                Values for  --- 'system_state.som_comm_state' fields.
@@ -70,7 +66,7 @@ enum comm_rx_status
 };
 
 /*$ENUMS$-------------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Enum Name: from_som_result
   Description: Data structure for the data of the header as received from SOM's last message to MCU.
                Values for  --- 'from_som_message_state.result' fields.
@@ -87,7 +83,7 @@ enum from_som_result
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% STRUCTURES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$STRUCTURES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup
+/*
   Structure Type: sys_state
   Names and Description: 
   	   heater_current - Heater current in mAmps | 
@@ -99,12 +95,12 @@ enum from_som_result
        weight - in grams |
        rfid_temp - in mC |
        ir_temp -  in mC |
-	   pcb_temp - in mV | 
+	     pcb_temp - in mV | 
        motor_index - 1 means in index | 
        door_state - 1 means door closed |
        leds_state - Bit 0 R,  bit 1 Green,  bit 2 Blue |
        cushion_duty_cycle -  10,000 means 100% PWM. |
-	   my_som_comm_add - The specific address of this board (PCB) as defined by jumpers | 
+	     my_som_comm_add - The specific address of this board (PCB) as defined by jumpers | 
        som_comm_state - Tells if we are waiting for receiving message, or waiting that transmit to SOM will end etc... | 
        tasks_in_progress - Each bit represents one task. See defines that define each bit |
        after_thawing_timer - Counts time in seconde from end of thawing until door is opened. |
@@ -117,26 +113,26 @@ enum from_som_result
 extern struct sys_state 
 {
 	unsigned int   			heater_current[2];	
-	signed int   			ntc_temp[2];     		
+	signed int   			  ntc_temp[2];     		
 	unsigned int   			weight;          		
 	unsigned int   			p3v3;            		
 	unsigned int   			p24v0;           		
- 	signed int   			rfid_temp;       		
-  	signed int   			ir_temp;         		
-  	signed int   			pcb_temp;        		
-  	unsigned short			motor_index;     		
+ 	signed int   			  rfid_temp;       		
+  signed int   			  ir_temp;         		
+  signed int   			  pcb_temp;        		
+  unsigned short			motor_index;     		
 	unsigned short			door_state;      		
 	unsigned short			leds_state;        	
 	unsigned short			cushion_duty_cycle[2]; 
-  	unsigned short 			my_som_comm_add; 		
+  unsigned short 			my_som_comm_add; 		
 	enum comm_rx_status		som_comm_state;  		 
 	unsigned short			tasks_in_progress;	
 	unsigned short			after_thawing_timer; 
-	unsigned short      	progress;            
+  unsigned short      progress;            
 } system_state;
 
 /*$STRUCTURES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup
+/*
   Structure Type: from_som_msg
   Names and Description: 
   	   message_length -  | 
@@ -160,13 +156,14 @@ extern struct from_som_msg
 } from_som_message_state;
 
 
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNUSED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
-// --------------------------------------------------------------------------
-//extern struct prog_stat {
-//	unsigned short standby_progress;
-//	unsigned short thawing_progress;
-//} progress_status;
-// --------------------------------------------------------------------------
+#if 0
+extern struct prog_stat {
+	unsigned short standby_progress;
+	unsigned short thawing_progress;
+} progress_status;
+
+#endif
 
 
-//

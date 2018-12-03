@@ -11,8 +11,8 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: hadc
+  Variable Type: ADC_HandleTypeDef
   Extern module declaration: Main. 
   Unit: [N/A]
   Default value: N/A
@@ -23,8 +23,8 @@ extern ADC_HandleTypeDef hadc;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: adc_conversion_callback
+  Variable Type: unsigned short
   Extern module declaration: Main.
   Unit: [N/A]
   Default value: N/A

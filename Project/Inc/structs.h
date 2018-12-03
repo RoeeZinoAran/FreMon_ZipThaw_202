@@ -8,7 +8,7 @@
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: STANDBY_TASK_BIT
   Unit: [N/A]
   Define Value: (1 <<  0)
@@ -18,7 +18,7 @@
 #define STANDBY_TASK_BIT				(1 <<  0)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: THAWING_TASK_BIT
   Unit: [N/A]
   Define Value: (1 <<  1)
@@ -28,7 +28,7 @@
 #define THAWING_TASK_BIT              	(1 <<  1)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: AFTER_THAWING_TASK_BIT
   Unit: [N/A]
   Define Value: (1 <<  2)
@@ -38,7 +38,7 @@
 #define AFTER_THAWING_TASK_BIT			(1 <<  2)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: TECHNICIAN_TASK_BIT
   Unit: [N/A]
   Define Value: 
@@ -50,7 +50,7 @@
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENUMS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$ENUMS$-------------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Enum Name: from_som_result
   Description: Data structure for the data of the header as received from SOM's last message to MCU.
                Values for  --- 'from_som_message_state.result' ---   field.
@@ -65,7 +65,7 @@ enum from_som_result
 };
 
 /*$ENUMS$-------------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Enum Name: from_som_result
   Description: Data structure for the data of the header as received from SOM's last message to MCU.
                Values for  --- 'from_som_message_state.result' ---   field.
@@ -84,7 +84,7 @@ enum comm_rx_status
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% STRUCTURES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$STRUCTURES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup
+/*
   Structure Type: sys_state
   Names and Description: 
   	   heater_current - Heater current in mAmps | 
@@ -96,12 +96,12 @@ enum comm_rx_status
        weight - in grams |
        rfid_temp - in mC |
        ir_temp -  in mC |
-	   pcb_temp - in mV | 
+	     pcb_temp - in mV | 
        motor_index - 1 means in index | 
        door_state - 1 means door closed |
        leds_state - Bit 0 R,  bit 1 Green,  bit 2 Blue |
        cushion_duty_cycle -  10,000 means 100% PWM. |
-	   my_som_comm_add - The specific address of this board (PCB) as defined by jumpers | 
+	     my_som_comm_add - The specific address of this board (PCB) as defined by jumpers | 
        som_comm_state - Tells if we are waiting for receiving message, or waiting that transmit to SOM will end etc... | 
        tasks_in_progress - Each bit represents one task. See defines that define each bit |
        after_thawing_timer - Counts time in seconde from end of thawing until door is opened. |
@@ -131,13 +131,17 @@ struct sys_state
 	unsigned short			after_thawing_timer;
 	unsigned short      	progress;           
 } system_state;
-// --------------------------------------------------------------------------
 
-/*$ENUMS$-------------------------------------------------------------------------------------------*/
-/*! \ingroup 
-  Enum Name: from_som_msg
-  Description: Data structure for the data of the header as received from SOM's last message to MCU.
-               Values for  --- 'from_som_message_state.result' ---   field.
+/*$STRUCTURES$-----------------------------------------------------------------------------------------*/
+/*
+  Structure Type: from_som_msg
+  Names and Description: 
+  	   message_length - Heater current in mAmps | 
+       message_id  | 
+       sender_id  |
+       receiver_id  | 
+       opcode_type  | 
+       opcode_sub_type 
 */
 /*--------------------------------------------------------------------------------------------------*/
 struct from_som_msg 
@@ -150,8 +154,6 @@ struct from_som_msg
 	uint8_t  				opcode_sub_type;
 	enum from_som_result 	result; // tells the status of thelast received message (CRC_ERROR, PREAMBLE_ERROR, MESSAGE_OK etc...)
 } from_som_message_state;
-// --------------------------------------------------------------------------
-
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNUSED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 

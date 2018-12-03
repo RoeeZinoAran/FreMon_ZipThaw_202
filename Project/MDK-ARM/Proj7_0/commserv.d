@@ -1,4 +1,5 @@
 proj7_0\commserv.o: commserv.c
+proj7_0\commserv.o: ../Inc/commserv.h
 proj7_0\commserv.o: ../Inc/host_from_comm.h
 proj7_0\commserv.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal.h
 proj7_0\commserv.o: ../Inc/stm32l0xx_hal_conf.h
@@ -38,6 +39,5 @@ proj7_0\commserv.o: ../Drivers/STM32L0xx_HAL_Driver/Inc/stm32l0xx_hal_uart_ex.h
 proj7_0\commserv.o: ../Inc/discreets.h
 proj7_0\commserv.o: ../Inc/motor.h
 proj7_0\commserv.o: ../Inc/heater.h
-proj7_0\commserv.o: ../Inc/commserv.h
 proj7_0\commserv.o: ../Inc/extern_structs.h
 proj7_0\commserv.o: ../Inc/miscel.h

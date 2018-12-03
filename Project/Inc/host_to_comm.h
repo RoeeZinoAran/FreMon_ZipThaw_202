@@ -6,7 +6,7 @@
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: MAX_MESSAGE_LENGTH_TO_SOM
   Unit: [bytes]
   Define Value: 135
@@ -16,7 +16,7 @@
 #define MAX_MESSAGE_LENGTH_TO_SOM  (135)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: NUM_OF_TO_SOM_BYTES
   Unit: [bytes]
   Define Value: 128

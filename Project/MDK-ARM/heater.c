@@ -9,8 +9,8 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: htim3
+  Variable Type: TIM_HandleTypeDef
   Unit: [N/A]
   Extern module declaration: Main. 
   Default value: N/A
@@ -56,8 +56,7 @@ extern unsigned short safety_error;
 /*--------------------------------------------------------------------------------------------------*/
 void update_heaters_power(void)
 {
-	// If door is open then shut PWM off (0% duty cycle):
-	// -------------------------------------------------
+	/* If door is open then shut PWM off (0% duty cycle). */
 	if ((system_state.door_state == DOOR_OPEN) || (safety_error >= 1000)) 
 	{
 		system_state.cushion_duty_cycle[CUSHION0] = 0;

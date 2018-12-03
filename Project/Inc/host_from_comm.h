@@ -6,7 +6,7 @@
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: NUMBER_OF_HEADER_BYTES_FROM_SOM
   Unit: [N/A]
   Define Value: 4
@@ -16,7 +16,7 @@
 #define NUMBER_OF_HEADER_BYTES_FROM_SOM   	(4)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: MAX_MESSAGE_LENGTH
   Unit: [N/A]
   Define Value: 135
@@ -26,7 +26,7 @@
 #define MAX_MESSAGE_LENGTH    				(135)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: NUM_OF_HEADER_BYTES
   Unit: [N/A]
   Define Value: 3
@@ -40,7 +40,7 @@
 //#define FROM_SOM_MESSAGE_BODY_LENGTH      28
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: NO_SOM_MESSAGE_TIMO
   Unit: [N/A]
   Define Value: 1500

@@ -9,8 +9,8 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: htim2
+  Variable Type: TIM_HandleTypeDef
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -20,8 +20,8 @@ extern TIM_HandleTypeDef htim2;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: PWM_timer2_OC_params
+  Variable Type: TIM_OC_InitTypeDef
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -31,8 +31,8 @@ extern TIM_OC_InitTypeDef PWM_timer2_OC_params;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: motor_index
+  Variable Type: unsigned short
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -42,11 +42,11 @@ volatile unsigned short motor_index;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: door_state
+  Variable Type: unsigned short
   Unit: [N/A]
   Default value: N/A
-  Description: 
+  Description: External door status (open - close).
 */
 /*--------------------------------------------------------------------------------------------------*/
 volatile unsigned short door_state;

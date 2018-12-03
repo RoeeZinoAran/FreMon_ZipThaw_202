@@ -36,13 +36,13 @@
   *
   ******************************************************************************
   */
-/* Includes ------------------------------------------------------------------*/
+
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INCLUDES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
 #include "main.h"
 #include "stm32l0xx_hal.h"
 
 /* USER CODE BEGIN Includes */
-
-//#define SEND_TO_TERMINAL 1
 
 #include "host_from_comm.h"
 #include "host_to_comm.h"
@@ -59,12 +59,16 @@
 #include "pid.h"
 #include "progress.h"
 #include "main.h"
-
 #include "structs.h"
 
-/* USER CODE END Includes */
 
-/* Private variables ---------------------------------------------------------*/
+
+#if 0
+  #define SEND_TO_TERMINAL 1
+#endif
+
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GLOBAL VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
 ADC_HandleTypeDef hadc;
 DMA_HandleTypeDef hdma_adc;
 
@@ -82,34 +86,25 @@ DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart2_tx;
 
-/* USER CODE BEGIN PV */
-/* Private variables ---------------------------------------------------------*/
 
 TIM_OC_InitTypeDef PWM_timer2_OC_params; // structure for controlling PWMs' duty cycles
 TIM_OC_InitTypeDef PWM_timer3_OC_params; // structure for controlling PWMs' duty cycles
 
-// ----------------------------------------------------------------
 volatile unsigned short debug_var0;
-// ----------------------------------------------------------------
-
-// ----------------------------------------------------------------
 volatile unsigned short uart_tx_callback[5] = {0, 0, 0, 0, 0}; // {0xffff, 0xffff, 0xffff, 0xffff, 0xffff}; // 5 indexes for UART0 to UART4. 0xffff indicates after power on
 volatile unsigned short uart_rx_callback[5] = {0, 0, 0, 0, 0}; // {0xffff, 0xffff, 0xffff, 0xffff, 0xffff}; // 5 indexes for UART0 to UART4
+
 // @@@note: See at main.h defines of comm numbers. Ensure that they fit numbers as deined by CUBE !.
 
 volatile unsigned short adc_conversion_callback   = 0xffff; // 0xffff for indicating after power on
 volatile unsigned short ir_conversion_callback    = 0xffff; // 0xffff for indicating after power on
 volatile unsigned short pcb_temperature_callback  = 0xffff; // 0xffff for indicating after power on
-//volatile unsigned short motor_spi_callback = 0xffff;
-// ----------------------------------------------------------------
 
-// ----------------------------------------------------------------
+//volatile unsigned short motor_spi_callback = 0xffff;
+
 volatile unsigned short after_thawing_time = 0;
 // counting the time in seconds from end of thawing until door is open.
-// ----------------------------------------------------------------
 
-
-// ----------------------------------------------------------------
 volatile unsigned int   main_loop_tasks = 0;
 // Every bits of this variable when set indicates that a task has to be
 // performed in next main loop.  See defines in main.h
@@ -173,7 +168,7 @@ volatile unsigned short one_second_passed_bits = 0;
 
 /* USER CODE END PV */
 
-/* Private function prototypes -----------------------------------------------*/
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOCAL DECLARATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
@@ -185,18 +180,9 @@ static void MX_TIM3_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_USART4_UART_Init(void);
-
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
                                 
 
-/* USER CODE BEGIN PFP */
-/* Private function prototypes -----------------------------------------------*/
-
-/* USER CODE END PFP */
-
-/* USER CODE BEGIN 0 */
-
-// --------------------------------------------------------------------------
 void HAL_SYSTICK_Callback(void)
 {
 	static unsigned short s1 = 0;

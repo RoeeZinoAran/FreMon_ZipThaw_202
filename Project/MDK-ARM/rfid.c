@@ -130,13 +130,14 @@ void get_rfid_temperature(uint8_t *str)
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
 /*! \ingroup
 \brief Interface function:
-	The function shall 
+	The function shall get RF-ID counter.
 \return Void
 \DerivedDesc N/A.
-\param Void
+\param uint8_t* str - Outcome string from RF-ID device.
+	   Range: Not NULL.
 */
 /*--------------------------------------------------------------------------------------------------*/
-void get_rfid_counter(uint8_t *str)
+void get_rfid_counter(uint8_t* str)
 {
 
 	uint8_t rfid_counter_tx_string[] = {RFID_STX, 'R', 'E', 'A', 'G', 'C', RFID_EXT, 'S'}; // command is "REAGC" (ASCII string). 'S' at end is checksum
@@ -156,13 +157,14 @@ void get_rfid_counter(uint8_t *str)
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
 /*! \ingroup
 \brief Interface function:
-	The function shall 
+	The function shall increment counter of RF-ID device.
 \return Void
 \DerivedDesc N/A.
-\param Void
+\param uint8_t* str - Outcome string from RF-ID device.
+	   Range: Not NULL.
 */
 /*--------------------------------------------------------------------------------------------------*/
-void increment_rfid_counter(uint8_t *str)
+void increment_rfid_counter(uint8_t* str)
 {
 //	unsigned short s1;
 	uint8_t rfid_counter_tx_string[] = {RFID_STX, 'R', 'E', 'A', 'I', 'N', 'C', 'C', RFID_EXT, 'P'}; // command is "REAGC" (ASCII string). 'P' at end is checksum
@@ -182,13 +184,14 @@ void increment_rfid_counter(uint8_t *str)
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
 /*! \ingroup
 \brief Interface function:
-	The function shall 
+	The function shall reset RF-ID device.
 \return Void
 \DerivedDesc N/A.
-\param Void
+\param uint8_t* str - Outcome string from RF-ID device.
+	   Range: Not NULL.
 */
 /*--------------------------------------------------------------------------------------------------*/
-void reset_rfid_counter(uint8_t *str)
+void reset_rfid_counter(uint8_t* str)
 {
 //	unsigned short s1;
 
@@ -241,6 +244,8 @@ signed int rfid_temp_ascii_to_int(void)
 	
 	return i1;
 }
+
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNUSED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 #if 0
 

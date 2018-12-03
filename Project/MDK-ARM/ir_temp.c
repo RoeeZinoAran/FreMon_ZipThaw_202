@@ -7,9 +7,38 @@
 
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GLOBAL VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
+/*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
+/*! 
+  Variable Name: hi2c1
+  Variable Type: I2C_HandleTypeDef
+  Unit: [N/A]
+  Default value: N/A
+  Description: 
+*/
+/*--------------------------------------------------------------------------------------------------*/
 extern I2C_HandleTypeDef hi2c1;
+
+/*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
+/*! 
+  Variable Name: ir_conversion_callback
+  Variable Type: unsigned short
+  Unit: [N/A]
+  Default value: N/A
+  Description: 
+*/
+/*--------------------------------------------------------------------------------------------------*/
 extern volatile unsigned short ir_conversion_callback;
-static uint8_t ir_returned_string[4]; // the 3 bytes returned by the MLX90614 IR  device
+
+/*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
+/*! 
+  Variable Name: ir_returned_string
+  Variable Type: uint8_t [4]
+  Unit: [N/A]
+  Default value: N/A
+  Description: The 3 bytes returned by the MLX90614 IR device.
+*/
+/*--------------------------------------------------------------------------------------------------*/
+static uint8_t ir_returned_string[4]; 
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOCAL DECLARATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 

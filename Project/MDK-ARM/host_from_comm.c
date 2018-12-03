@@ -15,8 +15,9 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: huart2
+  Variable Type: UART_HandleTypeDef
+  Extern module declaration: Main. 
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -26,8 +27,9 @@ extern UART_HandleTypeDef huart2;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: uart_tx_callback
+  Variable Type: unsigned short [5]
+  Extern module declaration: Main. 
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -37,8 +39,9 @@ extern unsigned short uart_tx_callback[5];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: uart_rx_callback
+  Variable Type: unsigned short [5]
+  Extern module declaration: Main. 
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -48,8 +51,9 @@ extern unsigned short uart_rx_callback[5];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: no_somm_message_timer
+  Variable Type: unsigned short
+  Extern module declaration: Main. 
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -59,8 +63,8 @@ extern unsigned short no_somm_message_timer;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: som_rx_buffer
+  Variable Type: uint8_t [MAX_MESSAGE_LENGTH]
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -81,8 +85,8 @@ unsigned short from_som_data_start_index;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: comm_err_array
+  Variable Type: uint8_t [100]
   Unit: [N/A]
   Default value: N/A
   Description: 
@@ -92,10 +96,10 @@ volatile uint8_t comm_err_array[100];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
+  Variable Name: comm_err_array_index
+  Variable Type: uint8_t
   Unit: [N/A]
-  Default value: N/A
+  Default value: 0
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/

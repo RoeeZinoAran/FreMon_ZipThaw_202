@@ -6,7 +6,7 @@
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: HEATER0_CURRENT_ADC_CHANNEL
   Unit: [N/A]
   Define Value: 0
@@ -16,7 +16,7 @@
 #define HEATER0_CURRENT_ADC_CHANNEL 	(0)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: HEATER1_CURRENT_ADC_CHANNEL
   Unit: [N/A]
   Define Value: 1
@@ -26,7 +26,7 @@
 #define HEATER1_CURRENT_ADC_CHANNEL   	(1)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: NTC_IN_ADC_CHANNEL
   Unit: [N/A]
   Define Value: 2
@@ -36,7 +36,7 @@
 #define NTC_IN_ADC_CHANNEL          	(2)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: NTC_OUT_ADC_CHANNEL
   Unit: [N/A]
   Define Value: 3
@@ -46,7 +46,7 @@
 #define NTC_OUT_ADC_CHANNEL         	(3)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: WEIGHT_ADC_CHANNEL
   Unit: [N/A]
   Define Value: 4
@@ -56,7 +56,7 @@
 #define WEIGHT_ADC_CHANNEL          	(4)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: P3V3_ADC_CHANNEL
   Unit: [N/A]
   Define Value: 5
@@ -66,7 +66,7 @@
 #define P3V3_ADC_CHANNEL          		(5)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: P24V0_ADC_CHANNEL
   Unit: [N/A]
   Define Value: 6
@@ -76,7 +76,7 @@
 #define P24V0_ADC_CHANNEL          		(6)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: NTC_EXCITATION_VOLTAGE_mV
   Unit: [N/A]
   Define Value: 3000
@@ -86,7 +86,7 @@
 #define NTC_EXCITATION_VOLTAGE_mV        (3000)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: PRESSURE_EXCITATION_VOLTAGE_mV
   Unit: [N/A]
   Define Value: 3000
@@ -96,7 +96,7 @@
 #define PRESSURE_EXCITATION_VOLTAGE_mV   (3000)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: NTCS_HISTORY_DEPTH
   Unit: [N/A]
   Define Value: 8
@@ -106,7 +106,7 @@
 #define NTCS_HISTORY_DEPTH  				(8)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: ERRONEOUS_TEMPERATURE_DEVIATION
   Unit: [N/A]
   Define Value: 3000
@@ -116,7 +116,7 @@
 #define ERRONEOUS_TEMPERATURE_DEVIATION  	(3000)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
-/*! \ingroup 
+/*
   Define Name: NUM_OF_ADC_CHANNELS
   Unit: [N/A]
   Define Value: 8
