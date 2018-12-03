@@ -21,18 +21,18 @@ extern SPI_HandleTypeDef hspi1;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: motor1092
+  Variable Name: g_MOTOR_motor1092
   Variable Type: unsigned short
   Unit: [N/A]
   Default value: 0
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-volatile unsigned short motor1092 = 0;
+volatile unsigned short g_MOTOR_motor1092 = 0;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: L6470_spi_arg_len
+  Variable Name: g_MOTOR_l6470_spi_arg_len
   Variable Type: uint8_t [32]
   Unit: [N/A]
   Default value: N/A
@@ -40,7 +40,7 @@ volatile unsigned short motor1092 = 0;
                bytes of a command.
 */
 /*--------------------------------------------------------------------------------------------------*/
-const  uint8_t L6470_spi_arg_len[32] = 
+const uint8_t g_MOTOR_l6470_spi_arg_len[32] = 
 {
 	0, 3, 2, 3,    3, 2, 2, 2,  // 0 to  7
 	2, 1, 1, 1,    1, 2, 1, 1,  // 8 to 0x0f
@@ -59,15 +59,15 @@ const  uint8_t L6470_spi_arg_len[32] =
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void update_agitation_motor_speed(void)
+void p_MOTOR_update_agitation_motor_speed(void)
 {
 	static unsigned short door_closed_time_cnt = 0;
 #define DOOR_DEBOUNCH_CONSTANT  2
 	
-	if (system_state.door_state == DOOR_OPEN) /* If door is open then shut PWM off (0% duty cycle) */ 
+	if (system_state.g_DISCREETS_door_state == C_DISCREETS_DOOR_OPEN) /* If door is open then shut PWM off (0% duty cycle) */ 
 	{
 		/* Run. bit 0 of first byte (of four) is direction.  Last 20 bits are speed. */
-		update_agitation_motor_register(0x50, 0x00, 0x00, 0x00); 
+		p_MOTOR_update_agitation_motor_register(0x50, 0x00, 0x00, 0x00); 
 		door_closed_time_cnt = 0;
 	}
 	else	/* if door closed */ 
@@ -75,7 +75,7 @@ void update_agitation_motor_speed(void)
 		if (door_closed_time_cnt == DOOR_DEBOUNCH_CONSTANT) 
 		{
 			/* Run. bit 0 of first byte (of four) is direction.  Last 20 bits are speed. */
-			update_agitation_motor_register(0x50, 0x00, 0x1c, 0x00); 
+			p_MOTOR_update_agitation_motor_register(0x50, 0x00, 0x1c, 0x00); 
 		}
 		else 
 		{
@@ -96,75 +96,75 @@ void update_agitation_motor_speed(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void init_L6470(void)
+void p_MOTOR_init_L6470(void)
 {
 	
-	update_agitation_motor_register(0, 0, 0, 0);
-	update_agitation_motor_register(0, 0, 0, 0);
-	update_agitation_motor_register(0, 0, 0, 0);
-	update_agitation_motor_register(0, 0, 0, 0);
+	p_MOTOR_update_agitation_motor_register(0, 0, 0, 0);
+	p_MOTOR_update_agitation_motor_register(0, 0, 0, 0);
+	p_MOTOR_update_agitation_motor_register(0, 0, 0, 0);
+	p_MOTOR_update_agitation_motor_register(0, 0, 0, 0);
 
 	/* 	Updating reset (Default) values.
    		Those lines are only for restoring the default (after reset) values of the registers */
 
-	update_agitation_motor_register(0x01, 0x00, 0x00, 0x00);
-	update_agitation_motor_register(0x02, 0x00, 0x00, 0x00);
-	update_agitation_motor_register(0x03, 0x00, 0x00, 0x00);
-	update_agitation_motor_register(0x04, 0x00, 0x00, 0x00);
-	update_agitation_motor_register(0x05, 0x00, 0x8a, 0x00);
-	update_agitation_motor_register(0x06, 0x00, 0x8a, 0x00);
-	update_agitation_motor_register(0x07, 0x00, 0x41, 0x00);
-	update_agitation_motor_register(0x08, 0x00, 0x00, 0x00);
-	update_agitation_motor_register(0x09, 0x29, 0x00, 0x00);
-	update_agitation_motor_register(0x0a, 0x29, 0x00, 0x00);
-	update_agitation_motor_register(0x0b, 0x29, 0x00, 0x00);
-	update_agitation_motor_register(0x0c, 0x29, 0x00, 0x00);
-	update_agitation_motor_register(0x0d, 0x04, 0x08, 0x00);
-	update_agitation_motor_register(0x0e, 0x19, 0x00, 0x00);
-	update_agitation_motor_register(0x0f, 0x29, 0x00, 0x00);
-	update_agitation_motor_register(0x10, 0x29, 0x00, 0x00);
-	update_agitation_motor_register(0x11, 0x00, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x01, 0x00, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x02, 0x00, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x03, 0x00, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x04, 0x00, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x05, 0x00, 0x8a, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x06, 0x00, 0x8a, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x07, 0x00, 0x41, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x08, 0x00, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x09, 0x29, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x0a, 0x29, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x0b, 0x29, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x0c, 0x29, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x0d, 0x04, 0x08, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x0e, 0x19, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x0f, 0x29, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x10, 0x29, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x11, 0x00, 0x00, 0x00);
 
 #if 0
-	update_agitation_motor_register(0x12, 0x00, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x12, 0x00, 0x00, 0x00);
 #endif
 	
-	update_agitation_motor_register(0x13, 0x08, 0x00, 0x00);
-	update_agitation_motor_register(0x14, 0x40, 0x00, 0x00);
-	update_agitation_motor_register(0x15, 0x00, 0x27, 0x00);
-	update_agitation_motor_register(0x16, 0x07, 0x00, 0x00);
-	update_agitation_motor_register(0x17, 0xff, 0x00, 0x00);
-	update_agitation_motor_register(0x18, 0x2e, 0x88, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x13, 0x08, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x14, 0x40, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x15, 0x00, 0x27, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x16, 0x07, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x17, 0xff, 0x00, 0x00);
+	p_MOTOR_update_agitation_motor_register(0x18, 0x2e, 0x88, 0x00);
    // End of restoring reset values of registers
 	
 	
-	update_agitation_motor_register(0x16, 0x27,    0, 0); // STEP_MODE (bits 2:0 = 7 mean 1/128 step)
-	update_agitation_motor_register(0x07, 0x00, 0x20, 0); // MAX_SPEED
+	p_MOTOR_update_agitation_motor_register(0x16, 0x27,    0, 0); // STEP_MODE (bits 2:0 = 7 mean 1/128 step)
+	p_MOTOR_update_agitation_motor_register(0x07, 0x00, 0x20, 0); // MAX_SPEED
 
 #if 0
-	update_agitation_motor_register(0x15, 0x03, 0xff, 0); // FS_SPD
+	p_MOTOR_update_agitation_motor_register(0x15, 0x03, 0xff, 0); // FS_SPD
 #endif
 
-	update_agitation_motor_register(0x15, 0x01, 0xff, 0); // FS_SPD
-	update_agitation_motor_register(0x05, 0x03, 0xfd, 0); // ACC
-	update_agitation_motor_register(0x06, 0x03, 0xfd, 0); // DEC
-	update_agitation_motor_register(0x13, 0x0f, 0xfd, 0); // OCD_TH
-	update_agitation_motor_register(0x18, 0x00, 0x10, 0); // CONFIG
-	update_agitation_motor_register(0x08, 0x00, 0x02, 0); // MIN_SPEED
-	update_agitation_motor_register(0x07, 0x03, 0xf0, 0); // MAX_SPEED
-	update_agitation_motor_register(0x07, 0x03, 0xf0, 0); // MAX_SPEED
+	p_MOTOR_update_agitation_motor_register(0x15, 0x01, 0xff, 0); // FS_SPD
+	p_MOTOR_update_agitation_motor_register(0x05, 0x03, 0xfd, 0); // ACC
+	p_MOTOR_update_agitation_motor_register(0x06, 0x03, 0xfd, 0); // DEC
+	p_MOTOR_update_agitation_motor_register(0x13, 0x0f, 0xfd, 0); // OCD_TH
+	p_MOTOR_update_agitation_motor_register(0x18, 0x00, 0x10, 0); // CONFIG
+	p_MOTOR_update_agitation_motor_register(0x08, 0x00, 0x02, 0); // MIN_SPEED
+	p_MOTOR_update_agitation_motor_register(0x07, 0x03, 0xf0, 0); // MAX_SPEED
+	p_MOTOR_update_agitation_motor_register(0x07, 0x03, 0xf0, 0); // MAX_SPEED
 
 #if 0
 	pdate_agitation_motor_register(0x0A, 0x70, 0x00, 0); // KVAL_RUN
-	update_agitation_motor_register(0x0A, 0x86, 0x00, 0); // KVAL_RUN
+	p_MOTOR_update_agitation_motor_register(0x0A, 0x86, 0x00, 0); // KVAL_RUN
 #endif
 
-	update_agitation_motor_register(0x0A, 0x96, 0x00, 0); // KVAL_RUN
+	p_MOTOR_update_agitation_motor_register(0x0A, 0x96, 0x00, 0); // KVAL_RUN
 	HAL_Delay(50);
-	update_agitation_motor_register(0x50, 0x00, 0x1c, 0x00); // Run. bit 0 of first byte (of four) is direction.  Last 20 bits are speed.
+	p_MOTOR_update_agitation_motor_register(0x50, 0x00, 0x1c, 0x00); // Run. bit 0 of first byte (of four) is direction.  Last 20 bits are speed.
 
 #if 0
-	update_agitation_motor_register(0x50, 0x00, 0x00, 0x00); // Run. bit 0 of first byte (of four) is direction.  Last 20 bits are speed.
+	p_MOTOR_update_agitation_motor_register(0x50, 0x00, 0x00, 0x00); // Run. bit 0 of first byte (of four) is direction.  Last 20 bits are speed.
 #endif
 
 }
@@ -182,7 +182,7 @@ void init_L6470(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void update_agitation_motor_register(uint8_t add, uint8_t d0, uint8_t d1, uint8_t d2)
+void p_MOTOR_update_agitation_motor_register(uint8_t add, uint8_t d0, uint8_t d1, uint8_t d2)
 {
 	uint8_t 		num_of_bytes; /* total number of bytes including the command */
 	uint8_t 		str1[4];
@@ -194,7 +194,7 @@ void update_agitation_motor_register(uint8_t add, uint8_t d0, uint8_t d1, uint8_
 	}
 	else
 	{
-		num_of_bytes = 1 + L6470_spi_arg_len[add];
+		num_of_bytes = 1 + g_MOTOR_l6470_spi_arg_len[add];
 	}
 	
 	str1[0] = add;
@@ -221,7 +221,7 @@ void update_agitation_motor_register(uint8_t add, uint8_t d0, uint8_t d1, uint8_
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void read_agitation_motor_register(uint8_t add, uint8_t rx_data[])
+void p_MOTOR_read_agitation_motor_register(uint8_t add, uint8_t rx_data[])
 {
 
 #if 0
@@ -230,7 +230,7 @@ void read_agitation_motor_register(uint8_t add, uint8_t rx_data[])
 	
 	unsigned short s1;
 	
-	num_of_bytes = 1 + L6470_spi_arg_len[add];
+	num_of_bytes = 1 + g_MOTOR_l6470_spi_arg_len[add];
 
 	tx_data[0] = 0x20 | add;
 	

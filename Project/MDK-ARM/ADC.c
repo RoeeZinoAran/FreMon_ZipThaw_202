@@ -7,7 +7,60 @@
 #include "miscel.h"
 #include "extern_structs.h"
 
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/*$DEFINES$-----------------------------------------------------------------------------------------*/
+/*
+  Define Name: C_ADC_FULL_SCALE_MILI_V
+  Unit: [mVolts]
+  Define Value: 3300
+  Description: ADC full scale. 
+*/
+/*--------------------------------------------------------------------------------------------------*/
+#define C_ADC_FULL_SCALE_MILI_V 	(3300)
+
+/*$DEFINES$-----------------------------------------------------------------------------------------*/
+/*
+  Define Name: C_ADC_V_REF
+  Unit: [mVolts]
+  Define Value: 4096
+  Description: ADC voltage referance (for 12 bit convertor). 
+*/
+/*--------------------------------------------------------------------------------------------------*/
+#define C_ADC_V_REF					(4096)
+
+/*$DEFINES$-----------------------------------------------------------------------------------------*/
+/*
+  Define Name: C_ADC_SERIES_RES_VOLTAGE
+  Unit: [mVolts]
+  Define Value: 4990
+  Description: ADC series voltage. 
+*/
+/*--------------------------------------------------------------------------------------------------*/
+#define C_ADC_SERIES_RES_VOLTAGE 	(4990)
+
+/*$DEFINES$-----------------------------------------------------------------------------------------*/
+/*
+  Define Name: C_ADC_TEMP_ERROR_90_DEG
+  Unit: [degree]
+  Define Value: 90000
+  Description: ADC tempture error code. 
+*/
+/*--------------------------------------------------------------------------------------------------*/
+#define C_ADC_TEMP_ERROR_90_DEG 	(90000)
+
+/*$DEFINES$-----------------------------------------------------------------------------------------*/
+/*
+  Define Name: C_ADC_NTCS_RESISTANCE
+  Unit: [homs]
+  Define Value: 10000
+  Description: NTCS resistance. 
+*/
+/*--------------------------------------------------------------------------------------------------*/
+#define C_ADC_NTCS_RESISTANCE 		(10000)
+
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GLOBAL VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
@@ -23,7 +76,7 @@ extern ADC_HandleTypeDef hadc;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: adc_conversion_callback
+  Variable Name: g_MAIN_adc_conversion_callback
   Variable Type: unsigned short
   Extern module declaration: Main.
   Unit: [N/A]
@@ -31,33 +84,22 @@ extern ADC_HandleTypeDef hadc;
   Description: Function callback for ADC converstion.
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern volatile unsigned short adc_conversion_callback;
+extern volatile unsigned short g_MAIN_adc_conversion_callback;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: 
-  Variable Type: 
-  Unit: [N/A]
-  Default value: N/A
-  Description: 
-*/
-/*--------------------------------------------------------------------------------------------------*/
-static volatile unsigned int  adc_full_scale_mv; /* Need to convert to define value (3300) */
-
-/*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
-/*! 
-  Variable Name: adc_raw_results
+  Variable Name: g_ADC_adc_raw_results
   Variable Type: uint32_t [NUM_OF_ADC_CHANNELS]
   Unit: [N/A]
   Default value: N/A
   Description: ADC raw results handler.
 */
 /*--------------------------------------------------------------------------------------------------*/
-uint32_t adc_raw_results [NUM_OF_ADC_CHANNELS];
+uint32_t g_ADC_adc_raw_results [NUM_OF_ADC_CHANNELS];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: adc_raw_results
+  Variable Name: g_ADC_adc_raw_results
   Variable Type: uint32_t [NUM_OF_ADC_CHANNELS]
   Unit: [N/A]
   Default value: As described below.
@@ -66,7 +108,7 @@ uint32_t adc_raw_results [NUM_OF_ADC_CHANNELS];
                etc...
 */
 /*--------------------------------------------------------------------------------------------------*/
-const unsigned int ntc_table[] = 
+const unsigned int g_ADC_ntc_table[] = 
 {
 	177969, // -30 C
 	167327, // -29 C
@@ -172,12 +214,12 @@ const unsigned int ntc_table[] =
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void ADC_go(void)
+void p_ADC_start_conv(void)
 {
-	adc_conversion_callback = 0;
+	g_MAIN_adc_conversion_callback = 0;
 	
 	/* Activating ADC conversions in DMA mode */
-	HAL_ADC_Start_DMA(&hadc, adc_raw_results, NUM_OF_ADC_CHANNELS);
+	HAL_ADC_Start_DMA(&hadc, g_ADC_adc_raw_results, NUM_OF_ADC_CHANNELS);
 }
 
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
@@ -189,6 +231,7 @@ void ADC_go(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
+
 void filter_ntcs(void)
 {
 	static signed int   	NTCs_temperature_history[2][NTCS_HISTORY_DEPTH];
@@ -273,88 +316,89 @@ void filter_ntcs(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void translate_adc(void)
+void p_ADC_translate_adc(void)
 {
 	volatile signed int 	is1;
 	volatile unsigned int   resistance;
 	unsigned short 			s1;
 	
-	if (adc_raw_results[3] < 1800)
+	if (g_ADC_adc_raw_results[3] < 1800)
 	{
 		s1++;
 	}
 	
 	/* Heater curent 0 */
-	is1 = adc_raw_results[HEATER0_CURRENT_ADC_CHANNEL] * adc_full_scale_mv;
-	is1 /= 4096;
-	if (is1 < 3300) /* 0.1 Vcc which is 0.33V is the offset of the current measurement. */
+	is1 = g_ADC_adc_raw_results[HEATER0_CURRENT_ADC_CHANNEL] * C_ADC_FULL_SCALE_MILI_V;
+	is1 /= C_ADC_V_REF;
+	if (is1 < C_ADC_FULL_SCALE_MILI_V) /* 0.1 Vcc which is 0.33V is the offset of the current measurement. */
 	{
 		is1 = 0;
 	}
 	else
 	{
-		is1 -= 3300;
+		is1 -= C_ADC_FULL_SCALE_MILI_V;
 	}
 	is1 *= 1000; /* for mAmp (and Not Amp) */
 	is1 /= 264;  /* The measuring device gives 264mV / Amp */
 	system_state.heater_current[CUSHION0] = is1;
 
 	/* Heater curent 1 */
-	is1 = adc_raw_results[HEATER1_CURRENT_ADC_CHANNEL] * adc_full_scale_mv;
-	is1 /= 4096;
-	if (is1 < 3300) 	/* 0.1 Vcc which is 0.33V is the offset f the current measurement. */
+	is1 = g_ADC_adc_raw_results[HEATER1_CURRENT_ADC_CHANNEL] * C_ADC_FULL_SCALE_MILI_V;
+	is1 /= C_ADC_V_REF;
+	if (is1 < C_ADC_FULL_SCALE_MILI_V) 	/* 0.1 Vcc which is 0.33V is the offset f the current measurement. */
 	{
 		is1 = 0;
 	}
 	else
 	{
-		is1 -= 3300;
+		is1 -= C_ADC_FULL_SCALE_MILI_V;
 	}
 	is1 *= 1000; 		/* For mAmp (and Not Amp) */
 	is1 /= 264;  		/* The measuring device gives 264mV / Amp */
 	system_state.heater_current[CUSHION1] = is1;
 	
-   
+	
+  
    	/* NTCs */
 	for(s1 = 0; s1 < 2; s1++) /* Loop for 2 NTCs */ 
 	{ 
-	 	resistance = NTC_EXCITATION_VOLTAGE_mV * 4096; 	/* 4096 is the resolution (12 bits) of the ADC_go */
-		resistance /= adc_full_scale_mv;
-		resistance *= 10000; 							/* 10000 is the series resistance */
-		resistance /= adc_raw_results[s1 ? NTC_OUT_ADC_CHANNEL : NTC_IN_ADC_CHANNEL];
-		resistance -= 10000; 							/* 10000 is the series resistance_to_weight */
+	 	resistance = NTC_EXCITATION_VOLTAGE_mV * C_ADC_V_REF; 
+		resistance /= C_ADC_FULL_SCALE_MILI_V;
+		resistance *= C_ADC_NTCS_RESISTANCE; 							
+		resistance /= g_ADC_adc_raw_results[s1 ? NTC_OUT_ADC_CHANNEL : NTC_IN_ADC_CHANNEL];
+		resistance -= C_ADC_NTCS_RESISTANCE; 						
 		if (s1)
 		{
-			system_state.ntc_temp[CUSHION0] = ntc_resistance_to_temp(resistance);
+			system_state.ntc_temp[CUSHION0] = p_ADC_ntc_resistance_to_temp(resistance);
 		}
 		 else
 		 {
-			 system_state.ntc_temp[CUSHION1] = ntc_resistance_to_temp(resistance);
+			 system_state.ntc_temp[CUSHION1] = p_ADC_ntc_resistance_to_temp(resistance);
 		 }
 	}
    
 	 /* Filtering NTCs */
-	 filter_ntcs();
-   
+	 p_ADC_translate_adc();
+
 	/* Pressure (weight) */
-	resistance = PRESSURE_EXCITATION_VOLTAGE_mV * 4096; /* 4096 is the resolution (12 bits) of the ADC */
-	resistance /= adc_full_scale_mv;
-	resistance *= 4990; 								/* 4990 is the series resistance*/
-	resistance /= adc_raw_results[WEIGHT_ADC_CHANNEL];
-	resistance -= 4990; 								/* 4990 is the series resistance */
-	system_state.weight = resistance_to_weight(resistance);
+	resistance = PRESSURE_EXCITATION_VOLTAGE_mV * C_ADC_V_REF; /* 4096 is the resolution (12 bits) of the ADC */
+	resistance /= C_ADC_FULL_SCALE_MILI_V;
+	resistance *= C_ADC_SERIES_RES_VOLTAGE; 								/* 4990 is the series resistance*/
+	resistance /= g_ADC_adc_raw_results[WEIGHT_ADC_CHANNEL];
+	resistance -= C_ADC_SERIES_RES_VOLTAGE; 								/* 4990 is the series resistance */
+	system_state.weight = p_ADC_resistance_to_weight(resistance);
 	
 	 
 	/* 3.3V supply */
-	is1 = adc_raw_results[P3V3_ADC_CHANNEL] * adc_full_scale_mv;
-	is1 /= 4096;
+	is1 = g_ADC_adc_raw_results[P3V3_ADC_CHANNEL] * C_ADC_FULL_SCALE_MILI_V;
+	is1 /= C_ADC_V_REF;
 	is1 *= 3; 											/* The resistors devide at ADC input passes 2/3 of the voltage */
 	is1 /= 2;
 	system_state.p3v3 = is1;
 
 	/* 24V supply */
-	is1 = adc_raw_results[P24V0_ADC_CHANNEL] * adc_full_scale_mv;
-	is1 /= 4096;
+	is1 = g_ADC_adc_raw_results[P24V0_ADC_CHANNEL] * C_ADC_FULL_SCALE_MILI_V;
+	is1 /= C_ADC_V_REF;
 	is1 *= 449; 										/* The resistors devide at ADC input passes 4.7/44.9 of the voltage */
 	is1 /= 47;
 	system_state.p24v0 = is1;
@@ -370,7 +414,7 @@ void translate_adc(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void calib_adc(void)
+void p_ADC_calib(void)
 {
 
 #if 0
@@ -378,14 +422,13 @@ void calib_adc(void)
 	
 	ref_int_cal = *((uint16_t*)0x1FF80078);
 	
-	ADC_go();
+	p_ADC_start_conv();
  	HAL_Delay(100); // to allow ADC conversions
-	adc_full_scale_mv  = 3000 * ((unsigned int)ref_int_cal);
-	adc_full_scale_mv /= ((unsigned int)adc_raw_results[7]);
-
+	C_ADC_FULL_SCALE_MILI_V  = 3000 * ((unsigned int)ref_int_cal);
+	C_ADC_FULL_SCALE_MILI_V /= ((unsigned int)g_ADC_adc_raw_results[7]);
+	
+	C_ADC_FULL_SCALE_MILI_V = 3300;
 #endif
-
-	adc_full_scale_mv = 3300;
 }
 
 
@@ -399,7 +442,7 @@ void calib_adc(void)
 	   Range: Full range.
 */
 /*--------------------------------------------------------------------------------------------------*/
-signed int ntc_resistance_to_temp(unsigned int ntc)
+signed int p_ADC_ntc_resistance_to_temp(unsigned int ntc)
 {
 	#define FIRST_TEMP_IN_NTC_TABLE  (-30)
 	
@@ -408,22 +451,22 @@ signed int ntc_resistance_to_temp(unsigned int ntc)
 	
 	/* finding the index in NTC table that the ntc 
 	   resistance is equal to or slightly lower then */
-	for(index = 0; index < sizeof(ntc_table); index++)
+	for(index = 0; index < sizeof(g_ADC_ntc_table); index++)
 	{
-		if (ntc >= ntc_table[index])
+		if (ntc >= g_ADC_ntc_table[index])
 		{
 			break;
 		}
 	}
 		
 	/* If we are out of table i.e. temperature is too high */
-	if (index >= (sizeof(ntc_table) - 1)) /* if resistance is too low (i.e. it is very hot) */
+	if (index >= (sizeof(g_ADC_ntc_table) - 1)) /* if resistance is too low (i.e. it is very hot) */
 	{
-		return(90000); /* return 90C (90000mC) */
+		return(C_ADC_TEMP_ERROR_90_DEG); /* return 90C (90000mC) */
 	}
 	
 	/* If NTC resistance is exactly like one of the values in the table */
-	if (ntc == ntc_table[index])
+	if (ntc == g_ADC_ntc_table[index])
 	{
 		return(1000 * (index + FIRST_TEMP_IN_NTC_TABLE));
 	}
@@ -431,9 +474,9 @@ signed int ntc_resistance_to_temp(unsigned int ntc)
 	/* If NTC value is between lines of table */
 	else 
 	{
-		temp0 = 1000 * (index + FIRST_TEMP_IN_NTC_TABLE); 	/* temperature at ntc_table[index] in mC */
-		is0   = (ntc - ntc_table[index + 0]) * 1000; 		/* 1000 is the temperature difference (in mC) between ntc_table[index + 0] abd ntc_table[index + 1] */
-		is0  /= (ntc_table[index + 0] - ntc_table[index + 1]);
+		temp0 = 1000 * (index + FIRST_TEMP_IN_NTC_TABLE); 	/* temperature at g_ADC_ntc_table[index] in mC */
+		is0   = (ntc - g_ADC_ntc_table[index + 0]) * 1000; 		/* 1000 is the temperature difference (in mC) between g_ADC_ntc_table[index + 0] abd g_ADC_ntc_table[index + 1] */
+		is0  /= (g_ADC_ntc_table[index + 0] - g_ADC_ntc_table[index + 1]);
 		return(temp0 - is0);
 	}
 }
@@ -448,7 +491,7 @@ signed int ntc_resistance_to_temp(unsigned int ntc)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-unsigned int resistance_to_weight(unsigned int resistance)
+unsigned int p_ADC_resistance_to_weight(unsigned int resistance)
 {
 	return 0; // @@@wr
 }

@@ -16,11 +16,11 @@
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PUBLIC DECLARATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
-void stage_and_rpogress(void);
-uint8_t temp_to_percent(void);
-void standby_stage(void);
-void thawing_stage(void);
-void after_thawing_stage(void);
+void p_PROGRESS_stage_and_rpogress(void);
+uint8_t p_PROGRESS_temp_to_percent(void);
+void p_PROGRESS_standby_stage(void);
+void p_PROGRESS_thawing_stage(void);
+void p_PROGRESS_after_thawing_stage(void);
 
 
 

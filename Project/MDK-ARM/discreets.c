@@ -31,25 +31,25 @@ extern TIM_OC_InitTypeDef PWM_timer2_OC_params;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: motor_index
+  Variable Name: g_DISCREETS_motor_index
   Variable Type: unsigned short
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-volatile unsigned short motor_index;
+volatile unsigned short g_DISCREETS_motor_index;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: door_state
+  Variable Name: g_DISCREETS_door_state
   Variable Type: unsigned short
   Unit: [N/A]
   Default value: N/A
   Description: External door status (open - close).
 */
 /*--------------------------------------------------------------------------------------------------*/
-volatile unsigned short door_state;
+volatile unsigned short g_DISCREETS_door_state;
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -62,7 +62,7 @@ volatile unsigned short door_state;
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-unsigned short get_som_comm_address(void)
+unsigned short p_DISCREETS_get_som_comm_address(void)
 {
 	unsigned short s1;
 	
@@ -82,9 +82,9 @@ unsigned short get_som_comm_address(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void get_motor_index(void)
+void p_DISCREETS_get_motor_index(void)
 {
-	system_state.motor_index = HAL_GPIO_ReadPin (MOTOR_INDEX_GPIO_Port, MOTOR_INDEX_Pin); /* 1 means in index */
+	system_state.g_DISCREETS_motor_index = HAL_GPIO_ReadPin (MOTOR_INDEX_GPIO_Port, MOTOR_INDEX_Pin); /* 1 means in index */
 }
 
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
@@ -96,9 +96,9 @@ void get_motor_index(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void get_door_state(void)
+void p_DISCREETS_get_door_state(void)
 {
-	system_state.door_state = HAL_GPIO_ReadPin (DOOR_STATE_GPIO_Port, DOOR_STATE_Pin);
+	system_state.g_DISCREETS_door_state = HAL_GPIO_ReadPin (DOOR_STATE_GPIO_Port, DOOR_STATE_Pin);
 }
 
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
@@ -115,7 +115,7 @@ void get_door_state(void)
 	   Range: Full range.
 */
 /*--------------------------------------------------------------------------------------------------*/
-void rgb_leds(unsigned short red, unsigned short green, unsigned short blue) 
+void p_DISCREETS_rgb_leds(unsigned short red, unsigned short green, unsigned short blue) 
 {
 	HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, red   ? GPIO_PIN_SET : GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, green ? GPIO_PIN_SET : GPIO_PIN_RESET);

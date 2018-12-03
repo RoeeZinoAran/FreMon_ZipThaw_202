@@ -33,19 +33,19 @@ extern volatile unsigned short one_second_passed_bits;
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void stage_and_rpogress(void)
+void p_PROGRESS_stage_and_rpogress(void)
 {
-	if (system_state.tasks_in_progress & STANDBY_TASK_BIT)
+	if (system_state.tasks_in_progress & C_EXTERN_STRUCTS_STANDBY_TASK_BIT)
 	{
-		standby_stage();
+		p_PROGRESS_standby_stage();
 	}
-	else if (system_state.tasks_in_progress & THAWING_TASK_BIT)
+	else if (system_state.tasks_in_progress & C_EXTERN_STRUCTS_THAWING_TASK_BIT)
 	{
-		thawing_stage();
+		p_PROGRESS_thawing_stage();
 	}
-	else if (system_state.tasks_in_progress & AFTER_THAWING_TASK_BIT)
+	else if (system_state.tasks_in_progress & C_EXTERN_STRUCTS_AFTER_THAWING_TASK_BIT)
 	{
-		after_thawing_stage();
+		p_PROGRESS_after_thawing_stage();
 	}
 }
 
@@ -58,7 +58,7 @@ void stage_and_rpogress(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void standby_stage(void)
+void p_PROGRESS_standby_stage(void)
 {
 }
 
@@ -72,11 +72,11 @@ void standby_stage(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void thawing_stage(void)
+void p_PROGRESS_thawing_stage(void)
 {
 	uint8_t c0;
 	
-	c0 = temp_to_percent();
+	c0 = p_PROGRESS_temp_to_percent();
 	
 	if (c0 == 0xff) /* if error in RFID */
 	{
@@ -92,7 +92,7 @@ void thawing_stage(void)
 	
 	if (system_state.progress >= 100) /* if 100% i.e. thawing compleeted */ 
 	{ 
-		system_state.tasks_in_progress = AFTER_THAWING_TASK_BIT;
+		system_state.tasks_in_progress = C_EXTERN_STRUCTS_AFTER_THAWING_TASK_BIT;
 	}
 }
 
@@ -106,7 +106,7 @@ void thawing_stage(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void after_thawing_stage(void)
+void p_PROGRESS_after_thawing_stage(void)
 {
 	/* If time to updated that one more second passed */
 	if (one_second_passed_bits & PROGRESS_TIMER_BIT) {
@@ -116,8 +116,8 @@ void after_thawing_stage(void)
 	}
 	
 	/* If door was open then go to standby state */
-	if (system_state.door_state == DOOR_OPEN) {
-		system_state.tasks_in_progress = STANDBY_TASK_BIT;
+	if (system_state.g_DISCREETS_door_state == C_DISCREETS_DOOR_OPEN) {
+		system_state.tasks_in_progress = C_EXTERN_STRUCTS_STANDBY_TASK_BIT;
 		system_state.after_thawing_timer = 0;
 		system_state.progress = 0xff; // inactive
 	}
@@ -132,12 +132,12 @@ void after_thawing_stage(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-uint8_t temp_to_percent(void)
+uint8_t p_PROGRESS_temp_to_percent(void)
 {
 	signed int   is1;
 	
 	/* If RFID is not readable then exit */
-	if ((system_state.rfid_temp == RFID_COMM_ERROR_RETURNED_TEMPERATURE) || (system_state.rfid_temp == RFID_NO_ANSWER_RETURNED_TEMPERATURE))
+	if ((system_state.rfid_temp == C_RFID_COMM_ERROR_RETURNED_TEMPERATURE) || (system_state.rfid_temp == C_RFID_NO_ANSWER_RETURNED_TEMPERATURE))
 	{
 		return 0xff; /* Error */	
 	}

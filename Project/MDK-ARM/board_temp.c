@@ -8,7 +8,7 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: lm75b_returned_string
+  Variable Name: g_BOARD_TEMP_ret_str
   Variable Type: uint8_t [2]
   Extern module declaration: N/A. 
   Unit: [byte]
@@ -16,11 +16,11 @@
   Description: 2 byte return value from LM75B IR device.
 */
 /*--------------------------------------------------------------------------------------------------*/
-static uint8_t lm75b_returned_string[2];
+static uint8_t g_BOARD_TEMP_ret_str[2];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: hi2c2
+  Variable Name: g_MAIN_hi2c2
   Variable Type: I2C_HandleTypeDef
   Extern module declaration: Main. 
   Unit: [N/A]
@@ -28,11 +28,11 @@ static uint8_t lm75b_returned_string[2];
   Description: I2C System interface handler.
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern I2C_HandleTypeDef hi2c2;
+extern I2C_HandleTypeDef g_MAIN_hi2c2;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: pcb_temperature_callback
+  Variable Name: g_MAIN_temputure_callback
   Variable Type: unsigned short
   Extern module declaration: Main. 
   Unit: [N/A]
@@ -40,7 +40,7 @@ extern I2C_HandleTypeDef hi2c2;
   Description: PCB tempruture callback.
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern volatile unsigned short pcb_temperature_callback;
+extern volatile unsigned short g_MAIN_temputure_callback;
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -54,14 +54,14 @@ extern volatile unsigned short pcb_temperature_callback;
 \param uint8_t* str - Not used. 
 */
 /*--------------------------------------------------------------------------------------------------*/
-void get_board_temperature(uint8_t* str)
+void p_BOAD_TEMP_get_board_temperature(uint8_t* str)
 {
 	uint8_t str2i2c[3] = {0, 0, 0};
 	
-	pcb_temperature_callback = 0;
+	g_MAIN_temputure_callback = 0;
 	
-	HAL_I2C_Master_Transmit(&hi2c2, LM75B_I2C_7BITS_ADD << 1, str2i2c, 1, 10);
-	HAL_I2C_Master_Receive_IT(&hi2c2, LM75B_I2C_7BITS_ADD << 1, lm75b_returned_string, 2);
+	HAL_I2C_Master_Transmit(&g_MAIN_hi2c2, C_BOARD_TEMP_LM75B_I2C_7BITS_ADD << 1, str2i2c, 1, 10);
+	HAL_I2C_Master_Receive_IT(&g_MAIN_hi2c2, C_BOARD_TEMP_LM75B_I2C_7BITS_ADD << 1, g_BOARD_TEMP_ret_str, 2);
 
 #if 0
 	s1 = ((unsigned short)str2i2c[0]) << 8;
@@ -82,14 +82,14 @@ void get_board_temperature(uint8_t* str)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-signed int interpret_pcb_temperature(void)
+signed int p_BOAD_TEMP_interpret_pcb_temperature(void)
 {
 	unsigned short 	s1;
 	signed short 	si1;
   	signed int   	result;
 	
-	s1 = ((unsigned short)lm75b_returned_string[0]) << 8;
-	s1 |= (unsigned short)lm75b_returned_string[1];
+	s1 = ((unsigned short)g_BOARD_TEMP_ret_str[0]) << 8;
+	s1 |= (unsigned short)g_BOARD_TEMP_ret_str[1];
 	s1 >>= 5;
 	if (s1 & (1 << 10)) // if sign bit (bit 10)
 	{

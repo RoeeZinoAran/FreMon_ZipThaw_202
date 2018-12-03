@@ -127,16 +127,17 @@
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PUBLIC DECLARATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
-void ADC_go(void);
-signed int ntc_resistance_to_temp(unsigned int ntc);
-unsigned int resistance_to_weight(unsigned int resistance);
-void translate_adc(void);
-void calib_adc(void);
-void filter_ntcs(void);
+void p_ADC_start_conv(void);
+signed int p_ADC_ntc_resistance_to_temp(unsigned int ntc);
+unsigned int p_ADC_resistance_to_weight(unsigned int resistance);
+void p_ADC_translate_adc(void);
+void p_ADC_calib(void);
+void p_ADC_translate_adc(void);
 
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% UNUSED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
+#if 0
 //#define NUM_OF_ADC_CHANNELS   20
 // 8 because we have channels 0 to 6 + channel 17 which is internal reference
 
@@ -147,3 +148,5 @@ void filter_ntcs(void);
 // This address and the following one are the 16 bits address to 
 // read VREFINT_CAL  for calibrating the ADC.
 // --------------------------------------------------------------------------
+
+#endif

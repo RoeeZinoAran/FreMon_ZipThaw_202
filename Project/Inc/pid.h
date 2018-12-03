@@ -1,5 +1,5 @@
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PUBLIC DECLARATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
-void calc_pid(void);
+void g_PID_calc_pid(void);
 

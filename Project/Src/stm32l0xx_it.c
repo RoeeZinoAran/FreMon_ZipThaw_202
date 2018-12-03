@@ -47,7 +47,7 @@ extern TIM_HandleTypeDef htim3;
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc;
 extern I2C_HandleTypeDef hi2c1;
-extern I2C_HandleTypeDef hi2c2;
+extern I2C_HandleTypeDef g_MAIN_hi2c2;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart2_tx;
@@ -91,7 +91,7 @@ void HardFault_Handler(void)
 		HAL_TIM_PWM_ConfigChannel(&htim3, &PWM_timer3_OC_params, TIM_CHANNEL_2);
 		HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 		
-		update_agitation_motor_register(0x50, 0x00, 0x00, 0x00); // Run. bit 0 of first byte (of four) is direction.  Last 20 bits are speed.
+		p_MOTOR_update_agitation_motor_register(0x50, 0x00, 0x00, 0x00); // Run. bit 0 of first byte (of four) is direction.  Last 20 bits are speed.
 
     /* USER CODE END W1_HardFault_IRQn 0 */
   }
@@ -231,10 +231,10 @@ void I2C2_IRQHandler(void)
   /* USER CODE BEGIN I2C2_IRQn 0 */
 
   /* USER CODE END I2C2_IRQn 0 */
-  if (hi2c2.Instance->ISR & (I2C_FLAG_BERR | I2C_FLAG_ARLO | I2C_FLAG_OVR)) {
-    HAL_I2C_ER_IRQHandler(&hi2c2);
+  if (g_MAIN_hi2c2.Instance->ISR & (I2C_FLAG_BERR | I2C_FLAG_ARLO | I2C_FLAG_OVR)) {
+    HAL_I2C_ER_IRQHandler(&g_MAIN_hi2c2);
   } else {
-    HAL_I2C_EV_IRQHandler(&hi2c2);
+    HAL_I2C_EV_IRQHandler(&g_MAIN_hi2c2);
   }
   /* USER CODE BEGIN I2C2_IRQn 1 */
 

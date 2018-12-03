@@ -27,7 +27,7 @@ extern UART_HandleTypeDef huart2;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: uart_tx_callback
+  Variable Name: g_MAIN_uart_tx_callback
   Variable Type: unsigned short [5]
   Extern module declaration: Main. 
   Unit: [N/A]
@@ -35,11 +35,11 @@ extern UART_HandleTypeDef huart2;
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern unsigned short uart_tx_callback[5];
+extern unsigned short g_MAIN_uart_tx_callback[5];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: uart_rx_callback
+  Variable Name: g_MAIN_uart_rx_callback
   Variable Type: unsigned short [5]
   Extern module declaration: Main. 
   Unit: [N/A]
@@ -47,11 +47,11 @@ extern unsigned short uart_tx_callback[5];
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern unsigned short uart_rx_callback[5];
+extern unsigned short g_MAIN_uart_rx_callback[5];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: no_somm_message_timer
+  Variable Name: g_MAIN_no_somm_message_timer
   Variable Type: unsigned short
   Extern module declaration: Main. 
   Unit: [N/A]
@@ -59,51 +59,51 @@ extern unsigned short uart_rx_callback[5];
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern unsigned short no_somm_message_timer;
+extern unsigned short g_MAIN_no_somm_message_timer;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: som_rx_buffer
-  Variable Type: uint8_t [MAX_MESSAGE_LENGTH]
+  Variable Name: g_HOST_FROM_COMM_som_rx_buffer
+  Variable Type: uint8_t [C_HOST_FROM_COMM_MAX_MESSAGE_LENGTH]
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-uint8_t som_rx_buffer[MAX_MESSAGE_LENGTH];
+uint8_t g_HOST_FROM_COMM_som_rx_buffer[C_HOST_FROM_COMM_MAX_MESSAGE_LENGTH];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: from_som_data_start_index
+  Variable Name: g_HOST_FROM_COMM_from_som_data_start_index
   Variable Type: unsigned short
   Unit: [N/A]
   Default value: N/A
-  Description: The index in 'som_rx_buffer' where data begins
+  Description: The index in 'g_HOST_FROM_COMM_som_rx_buffer' where data begins
 */
 /*--------------------------------------------------------------------------------------------------*/
-unsigned short from_som_data_start_index; 
+unsigned short g_HOST_FROM_COMM_from_som_data_start_index; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: comm_err_array
+  Variable Name: g_HOST_FROM_COMM_comm_err_array
   Variable Type: uint8_t [100]
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-volatile uint8_t comm_err_array[100];
+volatile uint8_t g_HOST_FROM_COMM_comm_err_array[100];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: comm_err_array_index
+  Variable Name: g_HOST_FROM_COMM_comm_err_array_index
   Variable Type: uint8_t
   Unit: [N/A]
   Default value: 0
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-volatile uint8_t comm_err_array_index = 0;
+volatile uint8_t g_HOST_FROM_COMM_comm_err_array_index = 0;
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -116,7 +116,7 @@ volatile uint8_t comm_err_array_index = 0;
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void serve_host_comm(void)
+void p_HOST_FROM_COMM_serve_host_comm(void)
 {	
 	/* If a cmpleete message arrived: (complete does not mean that the 
 	   messge is OK. It only means that all bytes arrived) */
@@ -124,18 +124,18 @@ void serve_host_comm(void)
 	if (system_state.som_comm_state == COMPLETE_MESSAGE_RECEIVED) 
 	{
 		system_state.som_comm_state = ANALYZING;
-		get_from_som_message_header_values(); 	/* Parse the header values */
+		p_HOST_FROM_COMM_get_from_som_message_header_values(); 	/* Parse the header values */
 		
 		/* If after parsing found that addressed to me and all (CRC, PreAmble etc..) all OK */
 		if (from_som_message_state.result == MESSAGE_OK) 
 		{
-			serve_opcode(); 					/* Serve the command */
-			build_and_send_message_to_som();
-			no_somm_message_timer = 0;
+			p_COMMSERV_serve_opcode(); 					/* Serve the command */
+			p_HOST_TO_COMM_build_and_send_message_to_som();
+			g_MAIN_no_somm_message_timer = 0;
 		}
 		else		/* if not a proper message addressed for me then */ 
 		{ 
-			init_receiving_from_som(); /* start waiting for a new message */
+			p_INIT_receiving_from_som(); /* start waiting for a new message */
 		}
 	}
 
@@ -150,36 +150,36 @@ void serve_host_comm(void)
  	an error in the message, and even if the message is addressed to other board.
 \return unsigned short: OK if a full message received with CRC OK, and the message is addressed to me, 
         Otherwise the function shall return status FAIL1.
-\DerivedDesc The function assumes that the income message is in som_rx_buffer[].
+\DerivedDesc The function assumes that the income message is in g_HOST_FROM_COMM_som_rx_buffer[].
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-unsigned short get_from_som_message_header_values(void)
+unsigned short p_HOST_FROM_COMM_get_from_som_message_header_values(void)
 {	
 	unsigned short index = 0;
 	unsigned short crc_expected, crc_received;
 	
 	
 	/* Checking the preamble bytes */
-	if (som_rx_buffer[index] != '$') 
+	if (g_HOST_FROM_COMM_som_rx_buffer[index] != '$') 
 	{
 		from_som_message_state.result = PREAMBLE_ERROR;
-		comm_err_array[comm_err_array_index] = 111;
-		if (comm_err_array_index < 99)
+		g_HOST_FROM_COMM_comm_err_array[g_HOST_FROM_COMM_comm_err_array_index] = 111;
+		if (g_HOST_FROM_COMM_comm_err_array_index < 99)
 		{
-			comm_err_array_index++;
+			g_HOST_FROM_COMM_comm_err_array_index++;
 		}
 		return FAIL1;
 	}
 
 	index++;
-	if (som_rx_buffer[index] != '$') 
+	if (g_HOST_FROM_COMM_som_rx_buffer[index] != '$') 
 	{
 		from_som_message_state.result = PREAMBLE_ERROR;
-		comm_err_array[comm_err_array_index] = 122;
-		if (comm_err_array_index < 99)
+		g_HOST_FROM_COMM_comm_err_array[g_HOST_FROM_COMM_comm_err_array_index] = 122;
+		if (g_HOST_FROM_COMM_comm_err_array_index < 99)
 		{
-			comm_err_array_index++;
+			g_HOST_FROM_COMM_comm_err_array_index++;
 		}
 		return FAIL1;
 	}
@@ -191,12 +191,12 @@ unsigned short get_from_som_message_header_values(void)
 	
 	
 	/* Message ID */
-	from_som_message_state.message_id = (((uint16_t)som_rx_buffer[index]) << 8) | ((uint16_t)som_rx_buffer[index+1]);
+	from_som_message_state.message_id = (((uint16_t)g_HOST_FROM_COMM_som_rx_buffer[index]) << 8) | ((uint16_t)g_HOST_FROM_COMM_som_rx_buffer[index+1]);
 	index += 2;
 	
 	/* Sender and receiver IDs */
-	from_som_message_state.sender_id   = som_rx_buffer[index];
-	from_som_message_state.receiver_id = som_rx_buffer[index + 1];
+	from_som_message_state.sender_id   = g_HOST_FROM_COMM_som_rx_buffer[index];
+	from_som_message_state.receiver_id = g_HOST_FROM_COMM_som_rx_buffer[index + 1];
 	index += 2;
 	
 	
@@ -210,25 +210,25 @@ unsigned short get_from_som_message_header_values(void)
 	
 	
 	/* OpCode type and subtype */
-	from_som_message_state.opcode_type     = som_rx_buffer[index];
-	from_som_message_state.opcode_sub_type = som_rx_buffer[index + 1];
+	from_som_message_state.opcode_type     = g_HOST_FROM_COMM_som_rx_buffer[index];
+	from_som_message_state.opcode_sub_type = g_HOST_FROM_COMM_som_rx_buffer[index + 1];
 	index += 2;
 	
 	
-	/* setting the index in 'som_rx_buffer' where data begins */
-	from_som_data_start_index = index;
+	/* setting the index in 'g_HOST_FROM_COMM_som_rx_buffer' where data begins */
+	g_HOST_FROM_COMM_from_som_data_start_index = index;
 	
 	
 	/* Checking CRC */
-	crc_expected = calculate_crc8(som_rx_buffer, from_som_message_state.message_length -1); // -1 because without the last byte which is the CRC itself
-	crc_received = som_rx_buffer[from_som_message_state.message_length - 1];
+	crc_expected = p_MISCEL_calculate_crc8(g_HOST_FROM_COMM_som_rx_buffer, from_som_message_state.message_length -1); // -1 because without the last byte which is the CRC itself
+	crc_received = g_HOST_FROM_COMM_som_rx_buffer[from_som_message_state.message_length - 1];
 	if (crc_expected != crc_received) 
 	{
 		from_som_message_state.result = CRC_ERROR;
-		comm_err_array[comm_err_array_index] = 133;
-		if (comm_err_array_index < 99)
+		g_HOST_FROM_COMM_comm_err_array[g_HOST_FROM_COMM_comm_err_array_index] = 133;
+		if (g_HOST_FROM_COMM_comm_err_array_index < 99)
 		{
-			comm_err_array_index++;		
+			g_HOST_FROM_COMM_comm_err_array_index++;		
 		}
 		return(FAIL1);
 	}

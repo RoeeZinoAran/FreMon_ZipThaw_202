@@ -20,14 +20,14 @@ extern I2C_HandleTypeDef hi2c1;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: ir_conversion_callback
+  Variable Name: g_MAIN_ir_conversion_callback
   Variable Type: unsigned short
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern volatile unsigned short ir_conversion_callback;
+extern volatile unsigned short g_MAIN_ir_conversion_callback;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
@@ -42,7 +42,7 @@ static uint8_t ir_returned_string[4];
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOCAL DECLARATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
-uint8_t crc88(uint8_t inCrc, uint8_t inData);
+uint8_t p_IR_TEMP_crc88(uint8_t inCrc, uint8_t inData);
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -56,16 +56,16 @@ uint8_t crc88(uint8_t inCrc, uint8_t inData);
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void get_ir_temperature(void)
+void p_IR_TEMP_get_temperature(void)
 {
-	ir_conversion_callback = 0;
+	g_MAIN_ir_conversion_callback = 0;
 	
 #if 0
- 	HAL_I2C_Master_Transmit(&hi2c1, IR_I2C_7BITS_ADD << 1, str1i2c, 4, 10);
-	HAL_I2C_Master_Receive(&hi2c1, IR_I2C_7BITS_ADD << 1, str1i2c, 3, 10); */
+ 	HAL_I2C_Master_Transmit(&hi2c1, C_IR_TEMP_7BITS_ADD << 1, str1i2c, 4, 10);
+	HAL_I2C_Master_Receive(&hi2c1, C_IR_TEMP_7BITS_ADD << 1, str1i2c, 3, 10); */
 #endif
 
-	HAL_I2C_Mem_Read_IT(&hi2c1, IR_I2C_7BITS_ADD << 1, IR_TOBJ1_CMD, 1, ir_returned_string, 3);
+	HAL_I2C_Mem_Read_IT(&hi2c1, C_IR_TEMP_7BITS_ADD << 1, C_IR_TEMP_IR_TOBJ1_CMD, 1, ir_returned_string, 3);
 }
 
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
@@ -78,7 +78,7 @@ void get_ir_temperature(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-signed int interpret_ir_temperature(void)
+signed int p_IR_TEMP_interpret_ir_temperature(void)
 {
 	unsigned short s1;
 	  signed int   si1;
@@ -112,7 +112,7 @@ signed int interpret_ir_temperature(void)
 	   Range: Full range. 
 */
 /*--------------------------------------------------------------------------------------------------*/
-uint8_t crc88(uint8_t inCrc, uint8_t inData)
+uint8_t p_IR_TEMP_crc88(uint8_t inCrc, uint8_t inData)
 {
 	uint8_t i;
 	uint8_t data;

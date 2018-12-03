@@ -35,14 +35,14 @@ extern volatile unsigned short time_from_thawing_end;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: som_tx_buffer
-  Variable Type: uint8_t [MAX_MESSAGE_LENGTH_TO_SOM + 5]
+  Variable Name: g_HOST_TO_COMM_som_tx_buffer
+  Variable Type: uint8_t [C_HOST_TO_COMM_MAX_MSG_LEN_TO_SOM + 5]
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-uint8_t som_tx_buffer[MAX_MESSAGE_LENGTH_TO_SOM + 5];
+uint8_t g_HOST_TO_COMM_som_tx_buffer[C_HOST_TO_COMM_MAX_MSG_LEN_TO_SOM + 5];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
@@ -66,7 +66,7 @@ volatile unsigned int debug_sdlfjh83345 = 0u;
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void build_and_send_message_to_som(void)
+void p_HOST_TO_COMM_build_and_send_message_to_som(void)
 {
 	unsigned short 			s1;
  	signed short 			si1;
@@ -81,20 +81,20 @@ void build_and_send_message_to_som(void)
 		HAL_GPIO_WritePin(LED1_GPIO_Port, LED3_Pin, GPIO_PIN_RESET);
 	
 	
-	pt = som_tx_buffer;
+	pt = g_HOST_TO_COMM_som_tx_buffer;
 	
 	/* Building message header */
 	*pt++ = '$';
 	*pt++ = '$';
-	*pt++ = NUM_OF_TO_SOM_BYTES;
+	*pt++ = C_HOST_TO_COMM_NUM_OF_TO_SOM_BYTES;
 	*pt++ = from_som_message_state.message_id >> 8;
 	*pt++ = from_som_message_state.message_id & 0xff;
 	*pt++ = system_state.my_som_comm_add; 		/* sender ID (me) */
 	*pt++ = from_som_message_state.sender_id; 	/* receiver ID (SOM - the one who has sent to me) */
 	
 	/* Single bit sensors */
-	*pt++ = system_state.door_state  ? 1 : 0; 	/* 1 if door closed */
-	*pt++ = system_state.motor_index ? 1 : 0; 	/* 1 if motor at index */
+	*pt++ = system_state.g_DISCREETS_door_state  ? 1 : 0; 	/* 1 if door closed */
+	*pt++ = system_state.g_DISCREETS_motor_index ? 1 : 0; 	/* 1 if motor at index */
 	*pt++ = 0; 									/* 1 if ready for boot */
 	*pt++ = 0; 									/* spare */
 	*pt++ = 0; 									/* spare */
@@ -180,10 +180,10 @@ void build_and_send_message_to_som(void)
 
 	
 	/* ADDING CRC */
-	som_tx_buffer[NUM_OF_TO_SOM_BYTES - 1] = calculate_crc8(som_tx_buffer, NUM_OF_TO_SOM_BYTES - 1);
+	g_HOST_TO_COMM_som_tx_buffer[C_HOST_TO_COMM_NUM_OF_TO_SOM_BYTES - 1] = p_MISCEL_calculate_crc8(g_HOST_TO_COMM_som_tx_buffer, C_HOST_TO_COMM_NUM_OF_TO_SOM_BYTES - 1);
 	
 	
 	/* TRANSMITTING */
 	system_state.som_comm_state = TRANSMITTING;
-	HAL_UART_Transmit_DMA(&huart2, som_tx_buffer, NUM_OF_TO_SOM_BYTES);
+	HAL_UART_Transmit_DMA(&huart2, g_HOST_TO_COMM_som_tx_buffer, C_HOST_TO_COMM_NUM_OF_TO_SOM_BYTES);
 }

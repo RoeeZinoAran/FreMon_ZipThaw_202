@@ -8,43 +8,43 @@
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
 /*
-  Define Name: STANDBY_TASK_BIT
+  Define Name: C_EXTERN_STRUCTS_STANDBY_TASK_BIT
   Unit: [N/A]
   Define Value: (1 <<  0)
   Description: Stand-by Task field in 'system_state.tasks_in_progress'.
 */
 /*--------------------------------------------------------------------------------------------------*/
-#define STANDBY_TASK_BIT				(1 <<  0)
+#define C_EXTERN_STRUCTS_STANDBY_TASK_BIT				(1 <<  0)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
 /*
-  Define Name: THAWING_TASK_BIT
+  Define Name: C_EXTERN_STRUCTS_THAWING_TASK_BIT
   Unit: [N/A]
   Define Value: (1 <<  1)
   Description:  Thaing task field in 'system_state.tasks_in_progress'.
 */
 /*--------------------------------------------------------------------------------------------------*/
-#define THAWING_TASK_BIT				(1 <<  1)
+#define C_EXTERN_STRUCTS_THAWING_TASK_BIT				(1 <<  1)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
 /*
-  Define Name: AFTER_THAWING_TASK_BIT
+  Define Name: C_EXTERN_STRUCTS_AFTER_THAWING_TASK_BIT
   Unit: [N/A]
   Define Value: (1 <<  2)
   Description:  After Thawing field in 'system_state.tasks_in_progress'.
 */
 /*--------------------------------------------------------------------------------------------------*/
-#define AFTER_THAWING_TASK_BIT			(1 <<  2)
+#define C_EXTERN_STRUCTS_AFTER_THAWING_TASK_BIT			(1 <<  2)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
 /*
-  Define Name: TECHNICIAN_TASK_BIT
+  Define Name: C_EXTERN_STRUCTS_TECHNICIAN_TASK_BIT
   Unit: [N/A]
   Define Value: (1 << 15)
   Description: Technician task field in 'system_state.tasks_in_progress'.
 */
 /*--------------------------------------------------------------------------------------------------*/
-#define TECHNICIAN_TASK_BIT				(1 << 15)
+#define C_EXTERN_STRUCTS_TECHNICIAN_TASK_BIT				(1 << 15)
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ENUMS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -56,7 +56,7 @@
 */
 /*--------------------------------------------------------------------------------------------------*/
 enum comm_rx_status
-{ // 
+{  
    TRANSMITTING, 
    RECEIVING_MESSAGE_HEADER, 
    RECEIVING_MESSAGE_BODY, 
@@ -96,8 +96,8 @@ enum from_som_result
        rfid_temp - in mC |
        ir_temp -  in mC |
 	     pcb_temp - in mV | 
-       motor_index - 1 means in index | 
-       door_state - 1 means door closed |
+       g_DISCREETS_motor_index - 1 means in index | 
+       g_DISCREETS_door_state - 1 means door closed |
        leds_state - Bit 0 R,  bit 1 Green,  bit 2 Blue |
        cushion_duty_cycle -  10,000 means 100% PWM. |
 	     my_som_comm_add - The specific address of this board (PCB) as defined by jumpers | 
@@ -120,8 +120,8 @@ extern struct sys_state
  	signed int   			  rfid_temp;       		
   signed int   			  ir_temp;         		
   signed int   			  pcb_temp;        		
-  unsigned short			motor_index;     		
-	unsigned short			door_state;      		
+  unsigned short			g_DISCREETS_motor_index;     		
+	unsigned short			g_DISCREETS_door_state;      		
 	unsigned short			leds_state;        	
 	unsigned short			cushion_duty_cycle[2]; 
   unsigned short 			my_som_comm_add; 		

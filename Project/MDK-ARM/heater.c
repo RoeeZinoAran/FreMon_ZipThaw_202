@@ -33,7 +33,7 @@ extern TIM_OC_InitTypeDef PWM_timer3_OC_params;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: safety_error
+  Variable Name: g_MAIN_safety_error
   Variable Type: unsigned short
   Extern module declaration: Main. 
   Unit: [N/A]
@@ -41,7 +41,7 @@ extern TIM_OC_InitTypeDef PWM_timer3_OC_params;
   Description: Indicate safety error bit.
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern unsigned short safety_error;
+extern unsigned short g_MAIN_safety_error;
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -54,10 +54,10 @@ extern unsigned short safety_error;
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void update_heaters_power(void)
+void p_HEATER_update_heaters_power(void)
 {
 	/* If door is open then shut PWM off (0% duty cycle). */
-	if ((system_state.door_state == DOOR_OPEN) || (safety_error >= 1000)) 
+	if ((system_state.g_DISCREETS_door_state == C_DISCREETS_DOOR_OPEN) || (g_MAIN_safety_error >= 1000)) 
 	{
 		system_state.cushion_duty_cycle[CUSHION0] = 0;
 		system_state.cushion_duty_cycle[CUSHION1] = 0;
@@ -68,7 +68,7 @@ void update_heaters_power(void)
 	{
 		HAL_GPIO_WritePin(HeaterEnChamber_GPIO_Port, HeaterEnChamber_Pin, GPIO_PIN_SET);
 		
-		/* PWM_timer3_OC_params.Pulse = PWM_UNLIMITED_MAX_VALUE - system_state.cushion_duty_cycle[CUSHION0]; */
+		/* PWM_timer3_OC_params.Pulse = C_HEATER_PWM_UNLIMITED_MAX_VALUE - system_state.cushion_duty_cycle[CUSHION0]; */
 		PWM_timer3_OC_params.Pulse = system_state.cushion_duty_cycle[CUSHION0];
 		if (PWM_timer3_OC_params.Pulse >= 10000) 
 		{
@@ -78,7 +78,7 @@ void update_heaters_power(void)
 		HAL_TIM_PWM_ConfigChannel(&htim3, &PWM_timer3_OC_params, TIM_CHANNEL_1);
 		HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 
-		/* PWM_timer3_OC_params.Pulse = PWM_UNLIMITED_MAX_VALUE - system_state.cushion_duty_cycle[CUSHION1]; */
+		/* PWM_timer3_OC_params.Pulse = C_HEATER_PWM_UNLIMITED_MAX_VALUE - system_state.cushion_duty_cycle[CUSHION1]; */
 		PWM_timer3_OC_params.Pulse = system_state.cushion_duty_cycle[CUSHION1];
 		if (PWM_timer3_OC_params.Pulse >= 10000) 
 		{

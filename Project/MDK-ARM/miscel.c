@@ -3,29 +3,41 @@
 
 #include "miscel.h"
 
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+/*$DEFINES$-----------------------------------------------------------------------------------------*/
+/*
+  Define Name: C_MISCEL_INITAL_VALUE
+  Unit: [N/A]
+  Define Value: 0x96
+  Description:  CRC-8 inital value.
+*/
+/*--------------------------------------------------------------------------------------------------*/
+#define C_MISCEL_INITAL_VALUE 		(0x96)
+
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GLOBAL VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: debug9834475
+  Variable Name: g_MISCEL_debug9834475
   Variable Type: int [50]
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-volatile int debug9834475[50];
+volatile int g_MISCEL_debug9834475[50];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: crc8_Table
+  Variable Name: g_MISCEL_crc8_table
   Variable Type: uint8_t
   Unit: [N/A]
   Default value: N/A
-  Description: 
+  Description: CRC-8 calculation look up table.
 */
 /*--------------------------------------------------------------------------------------------------*/
-const uint8_t crc8_Table[] =
+const uint8_t g_MISCEL_crc8_table[] =
 {
 	0,  94, 188, 226,  97,  63, 221, 131, 194, 156, 126,  32, 163, 253,  31,  65,
 	157, 195,  33, 127, 252, 162,  64,  30,  95,   1, 227, 189,  62,  96, 130, 220,
@@ -62,7 +74,7 @@ const uint8_t crc8_Table[] =
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void int_to_str(signed int din, char* str, unsigned short len, unsigned short after_dec)
+void p_MISCEL_int_to_str(signed int din, char* str, unsigned short len, unsigned short after_dec)
 {
 	unsigned short 	s1;
     signed short 	index;
@@ -149,13 +161,13 @@ void int_to_str(signed int din, char* str, unsigned short len, unsigned short af
 	   Range: Full range.
 */
 /*--------------------------------------------------------------------------------------------------*/
-uint8_t calculate_crc8(uint8_t* msg_array, uint8_t msg_size)
+uint8_t p_MISCEL_calculate_crc8(uint8_t* msg_array, uint8_t msg_size)
 {
-	uint8_t crc = 0x96; /* initial_Value */
+	uint8_t crc = C_MISCEL_INITAL_VALUE;
 	for (uint8_t idx = 0; idx < msg_size; idx++) 
 	{                           
-		crc = crc8_Table[crc ^ (uint8_t)msg_array[idx]];
-			debug9834475[idx] = crc;
+		crc = g_MISCEL_crc8_table[crc ^ (uint8_t)msg_array[idx]];
+			g_MISCEL_debug9834475[idx] = crc;
 	}
 	return (crc);
 }

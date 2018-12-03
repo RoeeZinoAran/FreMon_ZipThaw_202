@@ -12,7 +12,7 @@
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: pid_error
+  Variable Name: g_PID_error
   Variable Type: unsigned int [2]
   Unit: [N/A]
   Default value: N/A
@@ -23,53 +23,53 @@
 			   Size = 2 one for each cushion.
 */
 /*--------------------------------------------------------------------------------------------------*/
-static unsigned int pid_error[2]; 
+static unsigned int g_PID_error[2]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: pid_error_mx
+  Variable Name: g_PID_error_mx
   Variable Type: unsigned int [2]
   Unit: [N/A]
   Default value: N/A
   Description: The errors N samples before.
 */
 /*--------------------------------------------------------------------------------------------------*/
-static unsigned int pid_error_mx[2]; 
+static unsigned int g_PID_error_mx[2]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: pid_integral
+  Variable Name: g_PID_pid_integral
   Variable Type: signed int [2]
   Unit: [N/A]
   Default value: N/A
   Description: 2 one for each cushion.
 */
 /*--------------------------------------------------------------------------------------------------*/
-static signed int pid_integral[2]; 
+static signed int g_PID_pid_integral[2]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: pid_integral_history
+  Variable Name: g_PID_integral_history
   Variable Type: signed int [2][PID_INTEGRAL_DEPTH]
   Unit: [N/A]
   Default value: N/A
   Description: 2 one for each cushion.
 */
 /*--------------------------------------------------------------------------------------------------*/
-static signed int pid_integral_history[2][PID_INTEGRAL_DEPTH]; 
+static signed int g_PID_integral_history[2][PID_INTEGRAL_DEPTH]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: pid_integral_pointer
+  Variable Name: g_PID_integral_pointer
   Variable Type: unsigned short
   Unit: [N/A]
   Default value: 0
   Description: points to the next index where new data will be written tos
-               Integral of errors. Increases (becomes more positive) when 'pid_error'
+               Integral of errors. Increases (becomes more positive) when 'g_PID_error'
                is positive. 
 */
 /*--------------------------------------------------------------------------------------------------*/
-static unsigned short pid_integral_pointer = 0; 
+static unsigned short g_PID_integral_pointer = 0; 
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -83,7 +83,7 @@ static unsigned short pid_integral_pointer = 0;
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void calc_pid(void)
+void g_PID_calc_pid(void)
 {
 
 	static unsigned short 	calc_num;
@@ -100,60 +100,59 @@ void calc_pid(void)
 			result[cushion] = 0;
 			for(s1 = 0; s1 < PID_INTEGRAL_DEPTH; s1++)
 			{
-				pid_integral_history[cushion][s1] = 0; /* resetting the integral */
+				/* resetting the integral */
+				g_PID_integral_history[cushion][s1] = 0; 
 			}
-			pid_integral[cushion] = 0;
+			g_PID_pid_integral[cushion] = 0;
 			continue;
 		}
 		
 		/* Find value of Error */
-		pid_error[cushion] = (HIGHEST_TEMP_THAT_PWM_CAN_OPERATE / 8) - (system_state.ntc_temp[cushion] / 8); // div 8 because we calculate in 8mC (and not 1 mC) resolution
+		g_PID_error[cushion] = (HIGHEST_TEMP_THAT_PWM_CAN_OPERATE / 8) - (system_state.ntc_temp[cushion] / 8); // div 8 because we calculate in 8mC (and not 1 mC) resolution
 		
 		/* Calculate I part of PID */
-
 		/* The new value to be added to Integral */
 
-		i1 = pid_error[cushion] * pid_i_contst[cushion];
+		i1 = g_PID_error[cushion] * pid_i_contst[cushion];
 
 #if 0
-		pid_integral[cushion] -= pid_integral_history[cushion][pid_integral_pointer]; // subtracting the oldest value
-		pid_integral[cushion] += i1; // adding to the new value
+		g_PID_pid_integral[cushion] -= g_PID_integral_history[cushion][g_PID_integral_pointer]; // subtracting the oldest value
+		g_PID_pid_integral[cushion] += i1; // adding to the new value
 #endif
 		
-		pid_integral_history[cushion][pid_integral_pointer] = i1; // inserting the newest value instead of the oldest one in the history log
+		g_PID_integral_history[cushion][g_PID_integral_pointer] = i1; // inserting the newest value instead of the oldest one in the history log
 		if (cushion) { // if now the second cushion is treated (the first was already just treated)
-			pid_integral_pointer++;
-			if (pid_integral_pointer >= PID_INTEGRAL_DEPTH)
-				pid_integral_pointer = 0;
+			g_PID_integral_pointer++;
+			if (g_PID_integral_pointer >= PID_INTEGRAL_DEPTH)
+				g_PID_integral_pointer = 0;
 		}
 		i1 = 0;
 		
 		for(s1 = 0; s1 < PID_INTEGRAL_DEPTH; s1++)
 		{
-			i1 += pid_integral_history[cushion][s1];
+			i1 += g_PID_integral_history[cushion][s1];
 		}
 			
-		pid_integral[cushion] = i1;
+		g_PID_pid_integral[cushion] = i1;
 		
 		/* Calculating the P part of PID and adding it to the I part with clamping as needed */
-
-		i1 = 0xffffffff - pid_integral[cushion]; /* see how close is the Integral to max 32 bit value */
-		i2 = pid_error[cushion] * pid_p_contst[cushion];
+		i1 = 0xffffffff - g_PID_pid_integral[cushion]; /* see how close is the Integral to max 32 bit value */
+		i2 = g_PID_error[cushion] * pid_p_contst[cushion];
 		if (i2 > i1)
 		{
 			result[cushion] = 0xffffffff; /* clamp */
 		}
 		else
-			result[cushion] = pid_integral[cushion] + i2;
+			result[cushion] = g_PID_pid_integral[cushion] + i2;
 		
 		/* Calculating the D part of PID and adding it to the result with clamping as needed */
 		if (calc_num == NUM_OF_LOOPS_FOR_CALCULATING_D_PART_OF_PID) 
 		{
 			
-			if (pid_error[cushion] >= pid_error_mx[cushion])	/* if error became bigger then at last time was checked */
+			if (g_PID_error[cushion] >= g_PID_error_mx[cushion])	/* if error became bigger then at last time was checked */
 			{
 				i1 = 0xffffffff - result[cushion]; 				/* see how close is the Integral to max 32 bit value */
-				i2 = (pid_error[cushion] - pid_error_mx[cushion]) * pid_d_contst[cushion];
+				i2 = (g_PID_error[cushion] - g_PID_error_mx[cushion]) * pid_d_contst[cushion];
 				if (i2 > i1)
 					result[cushion] = 0xffffffff; 				/* clamp */
 				else
@@ -161,7 +160,7 @@ void calc_pid(void)
 			}
 			else 												/* if error became bigger then at last time was checked */
 			{ 
-				i2 = (pid_error_mx[cushion] - pid_error[cushion]) * pid_d_contst[cushion];
+				i2 = (g_PID_error_mx[cushion] - g_PID_error[cushion]) * pid_d_contst[cushion];
 				if (i2 > result[cushion])
 					result[cushion] = 0;
 				else
@@ -169,7 +168,7 @@ void calc_pid(void)
 			}
 			
 			/* Store error as was N loops before for caalculating the Derivative part of PID: */
-			pid_error_mx[cushion] = pid_error[cushion]; 
+			g_PID_error_mx[cushion] = g_PID_error[cushion]; 
 		}
 	}
 	
@@ -184,7 +183,7 @@ void calc_pid(void)
 	}
 	
 	/* Update results in structure and clump as needed */
-	if (system_state.door_state == DOOR_OPEN) 
+	if (system_state.g_DISCREETS_door_state == C_DISCREETS_DOOR_OPEN) 
 	{
 		system_state.cushion_duty_cycle[CUSHION0] = 0;
 		system_state.cushion_duty_cycle[CUSHION1] = 0;

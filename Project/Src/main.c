@@ -73,7 +73,7 @@ ADC_HandleTypeDef hadc;
 DMA_HandleTypeDef hdma_adc;
 
 I2C_HandleTypeDef hi2c1;
-I2C_HandleTypeDef hi2c2;
+I2C_HandleTypeDef g_MAIN_hi2c2;
 
 SPI_HandleTypeDef hspi1;
 
@@ -90,52 +90,52 @@ DMA_HandleTypeDef hdma_usart2_tx;
 TIM_OC_InitTypeDef PWM_timer2_OC_params; // structure for controlling PWMs' duty cycles
 TIM_OC_InitTypeDef PWM_timer3_OC_params; // structure for controlling PWMs' duty cycles
 
-volatile unsigned short debug_var0;
-volatile unsigned short uart_tx_callback[5] = {0, 0, 0, 0, 0}; // {0xffff, 0xffff, 0xffff, 0xffff, 0xffff}; // 5 indexes for UART0 to UART4. 0xffff indicates after power on
-volatile unsigned short uart_rx_callback[5] = {0, 0, 0, 0, 0}; // {0xffff, 0xffff, 0xffff, 0xffff, 0xffff}; // 5 indexes for UART0 to UART4
+volatile unsigned short g_MAIN_debug_var0;
+volatile unsigned short g_MAIN_uart_tx_callback[5] = {0, 0, 0, 0, 0}; // {0xffff, 0xffff, 0xffff, 0xffff, 0xffff}; // 5 indexes for UART0 to UART4. 0xffff indicates after power on
+volatile unsigned short g_MAIN_uart_rx_callback[5] = {0, 0, 0, 0, 0}; // {0xffff, 0xffff, 0xffff, 0xffff, 0xffff}; // 5 indexes for UART0 to UART4
 
 // @@@note: See at main.h defines of comm numbers. Ensure that they fit numbers as deined by CUBE !.
 
-volatile unsigned short adc_conversion_callback   = 0xffff; // 0xffff for indicating after power on
-volatile unsigned short ir_conversion_callback    = 0xffff; // 0xffff for indicating after power on
-volatile unsigned short pcb_temperature_callback  = 0xffff; // 0xffff for indicating after power on
+volatile unsigned short g_MAIN_adc_conversion_callback   = 0xffff; // 0xffff for indicating after power on
+volatile unsigned short g_MAIN_ir_conversion_callback    = 0xffff; // 0xffff for indicating after power on
+volatile unsigned short g_MAIN_temputure_callback  = 0xffff; // 0xffff for indicating after power on
 
 //volatile unsigned short motor_spi_callback = 0xffff;
 
-volatile unsigned short after_thawing_time = 0;
+volatile unsigned short g_MAIN_after_thawing_time = 0;
 // counting the time in seconds from end of thawing until door is open.
 
-volatile unsigned int   main_loop_tasks = 0;
+volatile unsigned int g_MAIN_main_loop_tasks = 0;
 // Every bits of this variable when set indicates that a task has to be
 // performed in next main loop.  See defines in main.h
 // ----------------------------------------------------------------
 
-unsigned short safety_error = 0;
-unsigned short rfid_count = 0;
+unsigned short g_MAIN_safety_error = 0;
+unsigned short g_MAIN_rfid_count = 0;
 
-extern uint32_t adc_raw_results[NUM_OF_ADC_CHANNELS];
-extern uint8_t som_tx_buffer[MAX_MESSAGE_LENGTH_TO_SOM + 5];
+extern uint32_t g_ADC_adc_raw_results[NUM_OF_ADC_CHANNELS];
+extern uint8_t g_HOST_TO_COMM_som_tx_buffer[C_HOST_TO_COMM_MAX_MSG_LEN_TO_SOM + 5];
 
 extern volatile unsigned short vol0;
 
-extern unsigned short rfid_task;
-uint8_t from_rfid_string[RFID_STRING_ARRAY_SIZE] = {9, 9, 9}; 
+extern unsigned short g_RFID_task;
+uint8_t g_MAIN_from_rfid_str[C_RFID_STRING_ARRAY_SIZE] = {9, 9, 9}; 
 // contain the entire string returned by the RFID device when it answers a temperature 
 // measurement request.
 
-uint8_t pcb_temperature_string[2];
+uint8_t g_MAIN_pcb_temperature_str[2];
 // contain the entire string returned by the board (PCB) temperature measurement device.
 
-extern uint8_t som_rx_buffer[MAX_MESSAGE_LENGTH];
+extern uint8_t g_HOST_FROM_COMM_som_rx_buffer[C_HOST_FROM_COMM_MAX_MESSAGE_LENGTH];
 
-volatile unsigned short no_somm_message_timer = 0;
-volatile unsigned short motor_index_timer = 0;
-volatile unsigned short delay_var0 = 0;
+volatile unsigned short g_MAIN_no_somm_message_timer = 0;
+volatile unsigned short g_MAIN_motor_index_timer = 0;
+volatile unsigned short g_MAIN_delay_var0 = 0;
 
 
-volatile unsigned short timer_20mS_period  = 0; // incremented every   1 mSec, and reset every  20 mSec.
-volatile unsigned short timer_100mS_period = 0; // incremented every  20 mSec, and reset every 100 mSec.
-volatile unsigned short timer_1S_period    = 0; // incremented every 100 mSec, and reset every   1  Sec.
+volatile unsigned short g_MAIN_timer_20mS_period  = 0; // incremented every   1 mSec, and reset every  20 mSec.
+volatile unsigned short g_MAIN_timer_100mS_period = 0; // incremented every  20 mSec, and reset every 100 mSec.
+volatile unsigned short g_MAIN_timer_1S_period    = 0; // incremented every 100 mSec, and reset every   1  Sec.
 
 //volatile unsigned short one_second_period_timer = 0;
 // incremented once every 100mSec, reset every 1 second.
@@ -182,26 +182,27 @@ static void MX_USART2_UART_Init(void);
 static void MX_USART4_UART_Init(void);
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
                                 
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 void HAL_SYSTICK_Callback(void)
 {
 	static unsigned short s1 = 0;
 	
-	if (no_somm_message_timer < 0xfff0)
-		no_somm_message_timer++;
+	if (g_MAIN_no_somm_message_timer < 0xfff0)
+		g_MAIN_no_somm_message_timer++;
 	
-	if (motor_index_timer < 0xfff0)
-		motor_index_timer++;
+	if (g_MAIN_motor_index_timer < 0xfff0)
+		g_MAIN_motor_index_timer++;
 
-	timer_20mS_period++;
-	if (timer_20mS_period >= 20) {
-		timer_20mS_period = 0;
-		timer_100mS_period++;
-		if (timer_100mS_period == 5) {
-			timer_100mS_period = 0;
-			timer_1S_period++;
-			if (timer_1S_period == 10) {
-				timer_1S_period = 0;
+	g_MAIN_timer_20mS_period++;
+	if (g_MAIN_timer_20mS_period >= 20) {
+		g_MAIN_timer_20mS_period = 0;
+		g_MAIN_timer_100mS_period++;
+		if (g_MAIN_timer_100mS_period == 5) {
+			g_MAIN_timer_100mS_period = 0;
+			g_MAIN_timer_1S_period++;
+			if (g_MAIN_timer_1S_period == 10) {
+				g_MAIN_timer_1S_period = 0;
 				one_second_passed_bits = 0xffff;
 				s1 = 1 - s1; // LED blinking
 				if (s1)
@@ -215,41 +216,41 @@ void HAL_SYSTICK_Callback(void)
 	
 	// Tasks allocation:
 	// ----------------
-	if (timer_20mS_period == 0) { // at start of every 20 mSec
-		main_loop_tasks |= ADC_MAIN_LOOP_TASK_BIT;
+	if (g_MAIN_timer_20mS_period == 0) { // at start of every 20 mSec
+		g_MAIN_main_loop_tasks |= ADC_MAIN_LOOP_TASK_BIT;
 	}
-	else if (timer_20mS_period == 4) { // at 5th. mS of every 20 mSec
-		main_loop_tasks |= STAGE_UPDATE_MAIN_LOOP_TASK_BIT;
+	else if (g_MAIN_timer_20mS_period == 4) { // at 5th. mS of every 20 mSec
+		g_MAIN_main_loop_tasks |= STAGE_UPDATE_MAIN_LOOP_TASK_BIT;
 	}
-	else if (timer_20mS_period == 8) { // at 9th. mS of every 20 mSec
-		main_loop_tasks |= SOM_SERVICE_MAIN_LOOP_TASK_BIT;
+	else if (g_MAIN_timer_20mS_period == 8) { // at 9th. mS of every 20 mSec
+		g_MAIN_main_loop_tasks |= SOM_SERVICE_MAIN_LOOP_TASK_BIT;
 	}
-	else if (timer_20mS_period ==12) { // at 13th. mS of every 20 mSec
-		if (timer_100mS_period == 0) {
-			main_loop_tasks |= IR_TEMP_MAIN_LOOP_TASK_BIT;
+	else if (g_MAIN_timer_20mS_period ==12) { // at 13th. mS of every 20 mSec
+		if (g_MAIN_timer_100mS_period == 0) {
+			g_MAIN_main_loop_tasks |= IR_TEMP_MAIN_LOOP_TASK_BIT;
 		}
-		else if (timer_100mS_period == 1) {
-			main_loop_tasks |= DOOR_CHECK_MAIN_LOOP_TASK_BIT;
-			main_loop_tasks |= SOM_ADD_UPDATE_MAIN_LOOP_TASK_BIT;
+		else if (g_MAIN_timer_100mS_period == 1) {
+			g_MAIN_main_loop_tasks |= DOOR_CHECK_MAIN_LOOP_TASK_BIT;
+			g_MAIN_main_loop_tasks |= SOM_ADD_UPDATE_MAIN_LOOP_TASK_BIT;
 		}
-		else if (timer_100mS_period == 2) {
-			main_loop_tasks |= MOTOR_MAIN_LOOP_TASK_BIT;
+		else if (g_MAIN_timer_100mS_period == 2) {
+			g_MAIN_main_loop_tasks |= MOTOR_MAIN_LOOP_TASK_BIT;
 		}
-		else if (timer_100mS_period == 3) {
-			if (timer_1S_period == 0) {
-				main_loop_tasks |= PID_CALC_MAIN_LOOP_TASK_BIT;
+		else if (g_MAIN_timer_100mS_period == 3) {
+			if (g_MAIN_timer_1S_period == 0) {
+				g_MAIN_main_loop_tasks |= PID_CALC_MAIN_LOOP_TASK_BIT;
 			}
-			else if (timer_1S_period == 4) {
-				main_loop_tasks |= HEATER_UPDATE_MAIN_LOOP_TASK_BIT;
+			else if (g_MAIN_timer_1S_period == 4) {
+				g_MAIN_main_loop_tasks |= HEATER_UPDATE_MAIN_LOOP_TASK_BIT;
 			}
-			else if (timer_1S_period == 6) {
-				main_loop_tasks |= PCB_TEMP_MAIN_LOOP_TASK_BIT;
+			else if (g_MAIN_timer_1S_period == 6) {
+				g_MAIN_main_loop_tasks |= PCB_TEMP_MAIN_LOOP_TASK_BIT;
 			}
-			else if (timer_1S_period == 7) {
-				main_loop_tasks |= DEBUG_TERMINAL_MAIN_LOOP_TASK_BIT;
+			else if (g_MAIN_timer_1S_period == 7) {
+				g_MAIN_main_loop_tasks |= DEBUG_TERMINAL_MAIN_LOOP_TASK_BIT;
 			}
-			else if (timer_1S_period == 8) { // values of this 100mS timer are 0 to 4. Only 5 values as there are 5 slots of 20mS in 100mS
-				main_loop_tasks |= RFID_TEMP_MAIN_LOOP_TASK_BIT;
+			else if (g_MAIN_timer_1S_period == 8) { // values of this 100mS timer are 0 to 4. Only 5 values as there are 5 slots of 20mS in 100mS
+				g_MAIN_main_loop_tasks |= RFID_TEMP_MAIN_LOOP_TASK_BIT;
 			}
 		}
 	}
@@ -260,7 +261,7 @@ void HAL_SYSTICK_Callback(void)
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
 	if (hadc->Instance == ADC1)
-		adc_conversion_callback = 1;
+		g_MAIN_adc_conversion_callback = 1;
 }
 // --------------------------------------------------------------------------
 
@@ -268,7 +269,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 		if (hi2c->Instance == I2C2) // PCB Temperature
-			pcb_temperature_callback = 1;
+			g_MAIN_temputure_callback = 1;
 }
 // --------------------------------------------------------------------------
 
@@ -287,7 +288,7 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi1)
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 		if (hi2c->Instance == I2C1) // IR
-			ir_conversion_callback = 1;
+			g_MAIN_ir_conversion_callback = 1;
 }
 // --------------------------------------------------------------------------
 
@@ -295,15 +296,15 @@ void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if (huart->Instance == USART1) // debug channel
-		uart_tx_callback[1] = 1;
+		g_MAIN_uart_tx_callback[1] = 1;
 	
 	if (huart->Instance == USART2) { // If Transmission to SOM ended
-		uart_tx_callback[2] = 1;
-		debug_var0 = 10;
+		g_MAIN_uart_tx_callback[2] = 1;
+		g_MAIN_debug_var0 = 10;
 	}
 	
 	if (huart->Instance == USART4) // RFID
-		uart_tx_callback[4] = 1;
+		g_MAIN_uart_tx_callback[4] = 1;
 }	
 // --------------------------------------------------------------------------
 
@@ -311,22 +312,23 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if (huart->Instance == USART1)
-		uart_rx_callback[1] = 1;
+		g_MAIN_uart_rx_callback[1] = 1;
 	
 	
 	// If data (header or body) was received from SOM:
 	// ----------------------------------------------
 	if (huart->Instance == USART2) { // Received message from SOM
-		debug_var0 = 11;
+		g_MAIN_debug_var0 = 11;
 		
 		// if just received message header:
 		// -------------------------------
-		if (system_state.som_comm_state == RECEIVING_MESSAGE_HEADER) { 
-			debug_var0 = 12;
+		if (system_state.som_comm_state == RECEIVING_MESSAGE_HEADER) 
+    { 
+			g_MAIN_debug_var0 = 12;
 			system_state.som_comm_state = RECEIVING_MESSAGE_BODY;
-			from_som_message_state.message_length = ((uint16_t)som_rx_buffer[NUM_OF_HEADER_BYTES - 1]);
-			if (from_som_message_state.message_length >= (MAX_MESSAGE_LENGTH - 2))
-				from_som_message_state.message_length = NUM_OF_HEADER_BYTES + 5;
+			from_som_message_state.message_length = ((uint16_t)g_HOST_FROM_COMM_som_rx_buffer[C_HOST_FROM_COMM_NUM_OF_HEADER_BYTES - 1]);
+			if (from_som_message_state.message_length >= (C_HOST_FROM_COMM_MAX_MESSAGE_LENGTH - 2))
+				from_som_message_state.message_length = C_HOST_FROM_COMM_NUM_OF_HEADER_BYTES + 5;
 //			if (from_som_message_state.message_length == 128)
 //				ia11111++; // for debug only
 //			if (from_som_message_state.message_length == 31)
@@ -334,33 +336,36 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			
 			// Checking that header is OK:
 			// --------------------------
-			if ((som_rx_buffer[0] != '$') || (som_rx_buffer[1] != '$')) { // If error since header does not start with "$$"
-				init_receiving_from_som();
+			if ((g_HOST_FROM_COMM_som_rx_buffer[0] != '$') || (g_HOST_FROM_COMM_som_rx_buffer[1] != '$')) { // If error since header does not start with "$$"
+				p_INIT_receiving_from_som();
 				return;
 			}
 			
 			// activate DMA to receive message body:
 			// ------------------------------------
-			debug_var0 = 13;
-			HAL_UART_Receive_DMA(&huart2, &som_rx_buffer[NUM_OF_HEADER_BYTES], from_som_message_state.message_length - NUM_OF_HEADER_BYTES); 
-			debug_var0 = 14;
+			g_MAIN_debug_var0 = 13;
+			HAL_UART_Receive_DMA(&huart2, &g_HOST_FROM_COMM_som_rx_buffer[C_HOST_FROM_COMM_NUM_OF_HEADER_BYTES], from_som_message_state.message_length - C_HOST_FROM_COMM_NUM_OF_HEADER_BYTES); 
+			g_MAIN_debug_var0 = 14;
 		}
 		
 		// if just received message body:
 		// -----------------------------
-		else if (system_state.som_comm_state == RECEIVING_MESSAGE_BODY) { 
-			debug_var0 = 15;
+		else if (system_state.som_comm_state == RECEIVING_MESSAGE_BODY) 
+    { 
+			g_MAIN_debug_var0 = 15;
 			system_state.som_comm_state = COMPLETE_MESSAGE_RECEIVED;
 		}
-		else {
-			debug_var0 = 16;
+		else 
+    {
+			g_MAIN_debug_var0 = 16;
 			system_state.som_comm_state = FAIL;
 		}
 	}
 	// ----------------------------------------------
 	
-	if (huart->Instance == USART4) {
-		uart_rx_callback[RFID_COMM_UART_NUM] = 1;
+	if (huart->Instance == USART4) 
+  {
+		g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] = 1;
 	}
 }	
 // --------------------------------------------------------------------------
@@ -416,14 +421,14 @@ int main(void)
 /* --------------------------------------------------------------------------
  Initializing stepper motor driver
 -------------------------------------------------------------------------- */
-init_L6470();
+p_MOTOR_init_L6470();
 
 	// for debug only:
   // --------------
 /*
-	read_agitation_motor_register(0x07, str11111);
-	read_agitation_motor_register(0x15, str11111);
-	read_agitation_motor_register(0x06, str11111);
+	p_MOTOR_read_agitation_motor_register(0x07, str11111);
+	p_MOTOR_read_agitation_motor_register(0x15, str11111);
+	p_MOTOR_read_agitation_motor_register(0x06, str11111);
 */
   // --------------
 	
@@ -432,8 +437,8 @@ init_L6470();
 
 	// Preparing receiving header of the first message after reset:
 	// -----------------------------------------------------------
-	no_somm_message_timer = 0;
-	HAL_UART_Receive_DMA(&huart2, som_rx_buffer, NUM_OF_HEADER_BYTES);
+	g_MAIN_no_somm_message_timer = 0;
+	HAL_UART_Receive_DMA(&huart2, g_HOST_FROM_COMM_som_rx_buffer, C_HOST_FROM_COMM_NUM_OF_HEADER_BYTES);
 	system_state.som_comm_state = RECEIVING_MESSAGE_HEADER;
 	
 	
@@ -447,24 +452,25 @@ init_L6470();
 				
 		// if just ended transmission to SOM:
 		// ---------------------------------
-		if (uart_tx_callback[SOM_COMM_UART_NUM]) { 
-			uart_tx_callback[SOM_COMM_UART_NUM] = 0;
-			init_receiving_from_som(); // Prepare for receiving new message from SOM
+		if (g_MAIN_uart_tx_callback[SOM_COMM_UART_NUM]) 
+    { 
+			g_MAIN_uart_tx_callback[SOM_COMM_UART_NUM] = 0;
+			p_INIT_receiving_from_som(); // Prepare for receiving new message from SOM
 		}
-
-		
-		get_motor_index();
+    
+    p_DISCREETS_get_motor_index();
 					
 			
 		// If no message from SOM for too long time (time out):
 		// ---------------------------------------------------
-		if (no_somm_message_timer >= NO_SOM_MESSAGE_TIMO) {
-			debug_var0 = 18;
+		if (g_MAIN_no_somm_message_timer >= C_HOST_FROM_COMM_NO_SOM_MESSAGE_TIMO) 
+    {
+			g_MAIN_debug_var0 = 18;
 //			MX_USART2_UART_Init();
 			system_state.som_comm_state = FAIL;
 			HAL_GPIO_WritePin(LED1_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
-//		HAL_UART_Receive(&huart2,som_rx_buffer, MAX_MESSAGE_LENGTH_FROM_SOM, 5); // Blocking function for empty UART buffer
-			init_receiving_from_som();
+//		HAL_UART_Receive(&huart2,g_HOST_FROM_COMM_som_rx_buffer, MAX_MESSAGE_LENGTH_FROM_SOM, 5); // Blocking function for empty UART buffer
+			p_INIT_receiving_from_som();
 		}
 		
 		
@@ -473,86 +479,94 @@ init_L6470();
 			
 		// Getting my SOM comm. address: 
 		// ----------------------------
-		if (main_loop_tasks & SOM_ADD_UPDATE_MAIN_LOOP_TASK_BIT) {
-			debug_var0 = 19;
-			main_loop_tasks &= (~SOM_ADD_UPDATE_MAIN_LOOP_TASK_BIT);
-			debug_var0 = 22;
-			system_state.my_som_comm_add = get_som_comm_address();
+		if (g_MAIN_main_loop_tasks & SOM_ADD_UPDATE_MAIN_LOOP_TASK_BIT) 
+    {
+			g_MAIN_debug_var0 = 19;
+			g_MAIN_main_loop_tasks &= (~SOM_ADD_UPDATE_MAIN_LOOP_TASK_BIT);
+			g_MAIN_debug_var0 = 22;
+			system_state.my_som_comm_add = p_DISCREETS_get_som_comm_address();
 		}
 			
 		// ADCs:
 		// ----
-		if (main_loop_tasks & ADC_MAIN_LOOP_TASK_BIT) {
-			main_loop_tasks &= (~ADC_MAIN_LOOP_TASK_BIT);
+		if (g_MAIN_main_loop_tasks & ADC_MAIN_LOOP_TASK_BIT) 
+    {
+			g_MAIN_main_loop_tasks &= (~ADC_MAIN_LOOP_TASK_BIT);
 			
 			// If NTC seems disconnected:
 			// -------------------------
-//		if ((adc_raw_results[NTC_IN_ADC_CHANNEL] < 340) || (adc_raw_results[NTC_OUT_ADC_CHANNEL] < 340)) { 
+//		if ((g_ADC_adc_raw_results[NTC_IN_ADC_CHANNEL] < 340) || (g_ADC_adc_raw_results[NTC_OUT_ADC_CHANNEL] < 340)) { 
 			if ((system_state.ntc_temp[CUSHION0] < (-30)) || (system_state.ntc_temp[CUSHION1] < (-30))) { 
-				translate_adc(); // for displaying the errorenous values
-				if (safety_error < 1000) {
-					safety_error += 5;
+				p_ADC_translate_adc(); // for displaying the errorenous values
+				if (g_MAIN_safety_error < 1000) 
+        {
+					g_MAIN_safety_error += 5;
 				}
-				else { // safety_error >= 1000
-					debug_var0 = 60;
-					update_heaters_power();
-					debug_var0 = 61;
+				else { // g_MAIN_safety_error >= 1000
+					g_MAIN_debug_var0 = 60;
+					p_HEATER_update_heaters_power();
+					g_MAIN_debug_var0 = 61;
 					HAL_GPIO_WritePin(LED1_GPIO_Port, LED3_Pin, GPIO_PIN_SET);
 				}
 			}
 			
 			// if ADC  reading does Not indicate disconnected sensor:
 			// -----------------------------------------------------
-			else { 
-				if ((safety_error >= 2) && (safety_error < 1000)){
-					safety_error -= 2;
-					debug_var0 = 62;
+			else 
+      { 
+				if ((g_MAIN_safety_error >= 2) && (g_MAIN_safety_error < 1000))
+        {
+					g_MAIN_safety_error -= 2;
+					g_MAIN_debug_var0 = 62;
 				}
 			
-				debug_var0 = 20;
+				g_MAIN_debug_var0 = 20;
 			
-				if (adc_conversion_callback) {
-					adc_conversion_callback = 0;
-					debug_var0 = 63;
+				if (g_MAIN_adc_conversion_callback) 
+        {
+					g_MAIN_adc_conversion_callback = 0;
+					g_MAIN_debug_var0 = 63;
 				} // @@@wr error code if no call back
 				
 			}
-			debug_var0 = 21; 
-			translate_adc();
-			debug_var0 = 74;
-			ADC_go();
+			g_MAIN_debug_var0 = 21; 
+			p_ADC_translate_adc();
+			g_MAIN_debug_var0 = 74;
+			p_ADC_start_conv();
 		}
 		
 			
 		// PCB temperature:
 		// ---------------
-		if (main_loop_tasks & PCB_TEMP_MAIN_LOOP_TASK_BIT) {
-			debug_var0 = 23;
-			main_loop_tasks &= (~PCB_TEMP_MAIN_LOOP_TASK_BIT);
-			if (pcb_temperature_callback) {
-				pcb_temperature_callback = 0;
-				debug_var0 = 24;
+		if (g_MAIN_main_loop_tasks & PCB_TEMP_MAIN_LOOP_TASK_BIT) 
+    {
+			g_MAIN_debug_var0 = 23;
+			g_MAIN_main_loop_tasks &= (~PCB_TEMP_MAIN_LOOP_TASK_BIT);
+			if (g_MAIN_temputure_callback) 
+      {
+				g_MAIN_temputure_callback = 0;
+				g_MAIN_debug_var0 = 24;
 			 // @@@wr error code
-				system_state.pcb_temp = interpret_pcb_temperature();
-				debug_var0 = 25;
-				get_board_temperature(pcb_temperature_string);
-				debug_var0 = 70;
+				system_state.pcb_temp = p_BOAD_TEMP_interpret_pcb_temperature();
+				g_MAIN_debug_var0 = 25;
+				p_BOAD_TEMP_get_board_temperature(g_MAIN_pcb_temperature_str);
+				g_MAIN_debug_var0 = 70;
 			}
 		}
-		
-		
-			
-		// IR temperature sensor:
+    
+    // IR temperature sensor:
 		// ---------------------
-		if (main_loop_tasks & IR_TEMP_MAIN_LOOP_TASK_BIT) {
-			debug_var0 = 26;
-			main_loop_tasks &= (~IR_TEMP_MAIN_LOOP_TASK_BIT);
-			if (ir_conversion_callback) {
-				ir_conversion_callback = 0;
-				debug_var0 = 27;
-				system_state.ir_temp = interpret_ir_temperature();
-				debug_var0 = 28;
-				get_ir_temperature();
+		if (g_MAIN_main_loop_tasks & IR_TEMP_MAIN_LOOP_TASK_BIT) 
+    {
+			g_MAIN_debug_var0 = 26;
+			g_MAIN_main_loop_tasks &= (~IR_TEMP_MAIN_LOOP_TASK_BIT);
+			if (g_MAIN_ir_conversion_callback) 
+      {
+				g_MAIN_ir_conversion_callback = 0;
+				g_MAIN_debug_var0 = 27;
+				system_state.ir_temp = p_IR_TEMP_interpret_ir_temperature();
+				g_MAIN_debug_var0 = 28;
+				p_IR_TEMP_get_temperature();
 			}
 		}
 		
@@ -560,41 +574,44 @@ init_L6470();
 			
 		// RFID temperature sensor:
 		// -----------------------
-		if (main_loop_tasks & RFID_TEMP_MAIN_LOOP_TASK_BIT) {
-			main_loop_tasks &= (~RFID_TEMP_MAIN_LOOP_TASK_BIT);
-			rfid_count++;
-			if (rfid_count >= 3) {
-				rfid_count = 0;
+		if (g_MAIN_main_loop_tasks & RFID_TEMP_MAIN_LOOP_TASK_BIT) 
+    {
+			g_MAIN_main_loop_tasks &= (~RFID_TEMP_MAIN_LOOP_TASK_BIT);
+			g_MAIN_rfid_count++;
+			if (g_MAIN_rfid_count >= 3)
+      {
+				g_MAIN_rfid_count = 0;
 			
-				debug_var0 = 29;
-				if (uart_rx_callback[RFID_COMM_UART_NUM]) { // If was answer (any answer) from RFID
-					uart_rx_callback[RFID_COMM_UART_NUM] = 0;
-					debug_var0 = 31;
-					switch(rfid_task) {
-						case READ_TEMPERATURE_RFID_TASK:
-							debug_var0 = 32;
+				g_MAIN_debug_var0 = 29;
+				if (g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM]) { // If was answer (any answer) from RFID
+					g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] = 0;
+					g_MAIN_debug_var0 = 31;
+					switch(g_RFID_task) 
+          {
+						case C_RFID_READ_TEMPERATURE_RFID_TASK:
+							g_MAIN_debug_var0 = 32;
 							system_state.rfid_temp = rfid_temp_ascii_to_int();
-							debug_var0 = 33;
-							get_rfid_temperature(from_rfid_string);
-							debug_var0 = 34;
+							g_MAIN_debug_var0 = 33;
+							p_RFID_get_temperature(g_MAIN_from_rfid_str);
+							g_MAIN_debug_var0 = 34;
 							break;
-						case READ_COUNTER_RFID_TASK:
-							debug_var0 = 35;
-							get_rfid_temperature(from_rfid_string); // @@@note changed to temperature reading
-							debug_var0 = 36;
+						case C_RFID_READ_COUNTER_RFID_TASK:
+							g_MAIN_debug_var0 = 35;
+							p_RFID_get_temperature(g_MAIN_from_rfid_str); // @@@note changed to temperature reading
+							g_MAIN_debug_var0 = 36;
 							break;
 						default:
-							debug_var0 = 81;
-							get_rfid_temperature(from_rfid_string); // @@@note changed to temperature reading
-							debug_var0 = 82;
+							g_MAIN_debug_var0 = 81;
+							p_RFID_get_temperature(g_MAIN_from_rfid_str); // @@@note changed to temperature reading
+							g_MAIN_debug_var0 = 82;
 							break;
 					}
 				}
 				else { // If was no CallBack
-					debug_var0 = 81;
-					system_state.rfid_temp = RFID_NO_ANSWER_RETURNED_TEMPERATURE; // 88.8 C indicate no answer from RFID
-					get_rfid_temperature(from_rfid_string);
-					debug_var0 = 82;
+					g_MAIN_debug_var0 = 81;
+					system_state.rfid_temp = C_RFID_NO_ANSWER_RETURNED_TEMPERATURE; // 88.8 C indicate no answer from RFID
+					p_RFID_get_temperature(g_MAIN_from_rfid_str);
+					g_MAIN_debug_var0 = 82;
 				}
 			}
 		}
@@ -602,11 +619,12 @@ init_L6470();
 
 		// Check the door state:
 		// --------------------
-		if (main_loop_tasks & DOOR_CHECK_MAIN_LOOP_TASK_BIT) {
-			debug_var0 = 37;
-			main_loop_tasks &= (~DOOR_CHECK_MAIN_LOOP_TASK_BIT);
-			get_door_state();
-			debug_var0 = 38;
+		if (g_MAIN_main_loop_tasks & DOOR_CHECK_MAIN_LOOP_TASK_BIT) 
+    {
+			g_MAIN_debug_var0 = 37;
+			g_MAIN_main_loop_tasks &= (~DOOR_CHECK_MAIN_LOOP_TASK_BIT);
+			p_DISCREETS_get_door_state();
+			g_MAIN_debug_var0 = 38;
 		}
 
 
@@ -614,80 +632,80 @@ init_L6470();
 #ifdef SEND_TO_TERMINAL
 		// If data transmision to debug UART is compleeted:
 		// -----------------------------------------------
-		if (main_loop_tasks & DEBUG_TERMINAL_MAIN_LOOP_TASK_BIT) {
-			debug_var0 = 39;
-			main_loop_tasks &= (~DEBUG_TERMINAL_MAIN_LOOP_TASK_BIT);
-			uart_tx_callback[DEBUG_COMM_UART_NUM] = 0;
-				send_debug_values();
-			debug_var0 = 40;
+		if (g_MAIN_main_loop_tasks & DEBUG_TERMINAL_MAIN_LOOP_TASK_BIT) {
+			g_MAIN_debug_var0 = 39;
+			g_MAIN_main_loop_tasks &= (~DEBUG_TERMINAL_MAIN_LOOP_TASK_BIT);
+			g_MAIN_uart_tx_callback[DEBUG_COMM_UART_NUM] = 0;
+				p_TECHNICIAN_send_debug_values();
+			g_MAIN_debug_var0 = 40;
 		}
 #endif
 			
 		// Stage and Progress:
 		// ------------------
-		if (main_loop_tasks & STAGE_UPDATE_MAIN_LOOP_TASK_BIT) {
-			debug_var0 = 41;
-			main_loop_tasks &= (~STAGE_UPDATE_MAIN_LOOP_TASK_BIT);
-			stage_and_rpogress();
-			debug_var0 = 42;
+		if (g_MAIN_main_loop_tasks & STAGE_UPDATE_MAIN_LOOP_TASK_BIT) {
+			g_MAIN_debug_var0 = 41;
+			g_MAIN_main_loop_tasks &= (~STAGE_UPDATE_MAIN_LOOP_TASK_BIT);
+			p_PROGRESS_stage_and_rpogress();
+			g_MAIN_debug_var0 = 42;
 		}
 		
 		
 		// Calculate PID:
 		// -------------
-		if (main_loop_tasks & PID_CALC_MAIN_LOOP_TASK_BIT) {
-			debug_var0 = 43;
-			main_loop_tasks &= (~PID_CALC_MAIN_LOOP_TASK_BIT);
-			calc_pid();
-			debug_var0 = 44;
+		if (g_MAIN_main_loop_tasks & PID_CALC_MAIN_LOOP_TASK_BIT) {
+			g_MAIN_debug_var0 = 43;
+			g_MAIN_main_loop_tasks &= (~PID_CALC_MAIN_LOOP_TASK_BIT);
+			g_PID_calc_pid();
+			g_MAIN_debug_var0 = 44;
 		}
 		
 		
 		// Update PWMs of heating elements:
 		// -------------------------------
-		if (main_loop_tasks & HEATER_UPDATE_MAIN_LOOP_TASK_BIT) {
-			debug_var0 = 45;
-			main_loop_tasks &= (~HEATER_UPDATE_MAIN_LOOP_TASK_BIT);
-			update_heaters_power();
-			debug_var0 = 46;
+		if (g_MAIN_main_loop_tasks & HEATER_UPDATE_MAIN_LOOP_TASK_BIT) {
+			g_MAIN_debug_var0 = 45;
+			g_MAIN_main_loop_tasks &= (~HEATER_UPDATE_MAIN_LOOP_TASK_BIT);
+			p_HEATER_update_heaters_power();
+			g_MAIN_debug_var0 = 46;
 		}
 		
 		
 		// Update agitation motor speed and check ADC calibration:
 		// ------------------------------------------------------
-		if (main_loop_tasks & MOTOR_MAIN_LOOP_TASK_BIT) {
-			debug_var0 = 47;
-			main_loop_tasks &= (~MOTOR_MAIN_LOOP_TASK_BIT);
-			update_agitation_motor_speed();
-			debug_var0 = 48;
+		if (g_MAIN_main_loop_tasks & MOTOR_MAIN_LOOP_TASK_BIT) {
+			g_MAIN_debug_var0 = 47;
+			g_MAIN_main_loop_tasks &= (~MOTOR_MAIN_LOOP_TASK_BIT);
+			p_MOTOR_update_agitation_motor_speed();
+			g_MAIN_debug_var0 = 48;
 			
 			
-			calib_adc();
-			debug_var0 = 49;
+			p_ADC_calib();
+			g_MAIN_debug_var0 = 49;
 		}
 		
 		
 		// Serve communication with host for the case a message was received:
 		// -----------------------------------------------------------------
-//		if (main_loop_tasks & SOM_SERVICE_MAIN_LOOP_TASK_BIT) {
-//			debug_var0 = 50;
-//			main_loop_tasks &= (~SOM_SERVICE_MAIN_LOOP_TASK_BIT);
-			serve_host_comm();
-//			debug_var0 = 51;
+//		if (g_MAIN_main_loop_tasks & SOM_SERVICE_MAIN_LOOP_TASK_BIT) {
+//			g_MAIN_debug_var0 = 50;
+//			g_MAIN_main_loop_tasks &= (~SOM_SERVICE_MAIN_LOOP_TASK_BIT);
+			p_HOST_FROM_COMM_serve_host_comm();
+//			g_MAIN_debug_var0 = 51;
 //		}
 		
 		
 		// Check and treat errors:
 		// ----------------------
-		errors_top();
-		debug_var0 = 52;
+		p_ERROR_top();
+		g_MAIN_debug_var0 = 52;
 		
 		
 		// Watchdog triggerring:
 		// --------------------
 		HAL_GPIO_WritePin(HOW_HOW_GPIO_Port, HOW_HOW_Pin, GPIO_PIN_SET);
-		delay_var0++;
-		delay_var0++;
+		g_MAIN_delay_var0++;
+		g_MAIN_delay_var0++;
 		HAL_GPIO_WritePin(HOW_HOW_GPIO_Port, HOW_HOW_Pin, GPIO_PIN_RESET);
 
 
@@ -903,30 +921,30 @@ static void MX_I2C1_Init(void)
 static void MX_I2C2_Init(void)
 {
 
-  hi2c2.Instance = I2C2;
-  hi2c2.Init.Timing = 0x00707CBB;
-  hi2c2.Init.OwnAddress1 = 0;
-  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c2.Init.OwnAddress2 = 0;
-  hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+  g_MAIN_hi2c2.Instance = I2C2;
+  g_MAIN_hi2c2.Init.Timing = 0x00707CBB;
+  g_MAIN_hi2c2.Init.OwnAddress1 = 0;
+  g_MAIN_hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  g_MAIN_hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  g_MAIN_hi2c2.Init.OwnAddress2 = 0;
+  g_MAIN_hi2c2.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  g_MAIN_hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  g_MAIN_hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&g_MAIN_hi2c2) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
 
     /**Configure Analogue filter 
     */
-  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  if (HAL_I2CEx_ConfigAnalogFilter(&g_MAIN_hi2c2, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
 
     /**Configure Digital filter 
     */
-  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c2, 0) != HAL_OK)
+  if (HAL_I2CEx_ConfigDigitalFilter(&g_MAIN_hi2c2, 0) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }

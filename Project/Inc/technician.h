@@ -1,4 +1,4 @@
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PUBLIC DECLARATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
-void send_debug_values(void);
+void p_TECHNICIAN_send_debug_values(void);

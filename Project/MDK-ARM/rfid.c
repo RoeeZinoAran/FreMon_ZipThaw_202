@@ -9,23 +9,33 @@
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
 /*! \ingroup 
-  Define Name: RFID_STX
+  Define Name: C_RFID_STX
   Unit: [N/A]
   Define Value: 0x02u
   Description: UART RF TX start frame byte.
 */
 /*--------------------------------------------------------------------------------------------------*/
-#define RFID_STX    (0x02u)
+#define C_RFID_STX    		(0x02u)
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
 /*! 
-  Define Name: RFID_EXT
+  Define Name: C_RFID_EXT
   Unit: [N/A]
   Define Value: 0x03u
   Description: UART RF TX end frame byte.  
 */
 /*--------------------------------------------------------------------------------------------------*/
-#define RFID_EXT    (0x03u)
+#define C_RFID_EXT    		(0x03u)
+
+/*$DEFINES$-----------------------------------------------------------------------------------------*/
+/*! 
+  Define Name: C_RFID_BAD_ACK
+  Unit: [N/A]
+  Define Value: 0x06
+  Description: RFID back ack repsonse value.
+*/
+/*--------------------------------------------------------------------------------------------------*/
+#define C_RFID_BAD_ACK 		(0x06)
 
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% GLOBAL VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -53,14 +63,14 @@ extern UART_HandleTypeDef huart4;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: uart_tx_callback
+  Variable Name: g_MAIN_uart_tx_callback
   Variable Type: unsigned short[5]
   Unit: [N/A]
   Default value: 
   Description: Callbacks for UART TX interfaces.
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern volatile unsigned short uart_tx_callback[5]; 
+extern volatile unsigned short g_MAIN_uart_tx_callback[5]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
@@ -71,29 +81,29 @@ extern volatile unsigned short uart_tx_callback[5];
   Description: Callbacks for UART RX interfaces.
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern volatile unsigned short uart_rx_callback[5]; 
+extern volatile unsigned short g_MAIN_uart_rx_callback[5]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: from_rfid_string
-  Variable Type: uint8_t [RFID_STRING_ARRAY_SIZE]
+  Variable Name: g_MAIN_from_rfid_str
+  Variable Type: uint8_t [C_RFID_STRING_ARRAY_SIZE]
   Unit: [N/A]
   Default value: N/A.
   Description: RF - ID string handler.
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern uint8_t from_rfid_string[RFID_STRING_ARRAY_SIZE]; 
+extern uint8_t g_MAIN_from_rfid_str[C_RFID_STRING_ARRAY_SIZE]; 
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: rfid_task
+  Variable Name: g_RFID_task
   Variable Type: unsigned short
   Unit: [N/A]
   Default value: N/A.
   Description: RF-ID task number.
 */
 /*--------------------------------------------------------------------------------------------------*/
-unsigned short rfid_task;
+unsigned short g_RFID_task;
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -106,16 +116,16 @@ unsigned short rfid_task;
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void get_rfid_temperature(uint8_t *str)
+void p_RFID_get_temperature(uint8_t *str)
 {
 #if 0
 	//   [STX]REARP00[ETX]U
 #endif
 
-	uint8_t rfid_read_temperature_string[] = {RFID_STX, 'R', 'E', 'A', 'G', 'T', RFID_EXT, 'D'};
+	uint8_t rfid_read_temperature_string[] = {C_RFID_STX, 'R', 'E', 'A', 'G', 'T', C_RFID_EXT, 'D'};
 
-	uart_tx_callback[RFID_COMM_UART_NUM] = 0;
-	uart_rx_callback[RFID_COMM_UART_NUM] = 0;
+	g_MAIN_uart_tx_callback[RFID_COMM_UART_NUM] = 0;
+	g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] = 0;
 	
 	/* Prepare receiving data */
 	str[0] = 0; /* first returned byte is ACK. We reset it in order not to preserve ACK from previous message (for case of failure). */
@@ -124,7 +134,7 @@ void get_rfid_temperature(uint8_t *str)
 	/* Transmit and wait until transmission end */
 	HAL_UART_Transmit(&huart4, rfid_read_temperature_string, 8, 10);
 	
-	rfid_task = READ_TEMPERATURE_RFID_TASK;
+	g_RFID_task = C_RFID_READ_TEMPERATURE_RFID_TASK;
 }
 
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
@@ -137,13 +147,13 @@ void get_rfid_temperature(uint8_t *str)
 	   Range: Not NULL.
 */
 /*--------------------------------------------------------------------------------------------------*/
-void get_rfid_counter(uint8_t* str)
+void p_RFID_get_counter(uint8_t* str)
 {
 
-	uint8_t rfid_counter_tx_string[] = {RFID_STX, 'R', 'E', 'A', 'G', 'C', RFID_EXT, 'S'}; // command is "REAGC" (ASCII string). 'S' at end is checksum
+	uint8_t rfid_counter_tx_string[] = {C_RFID_STX, 'R', 'E', 'A', 'G', 'C', C_RFID_EXT, 'S'}; // command is "REAGC" (ASCII string). 'S' at end is checksum
 
-	uart_tx_callback[RFID_COMM_UART_NUM] = 0;
-	uart_rx_callback[RFID_COMM_UART_NUM] = 0;
+	g_MAIN_uart_tx_callback[RFID_COMM_UART_NUM] = 0;
+	g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] = 0;
 	
 	/* Prepare receiving data */
 	HAL_UART_Receive_IT(&huart4, str, 36);
@@ -151,7 +161,7 @@ void get_rfid_counter(uint8_t* str)
 	/* Transmit and wait until transmission end */
 	HAL_UART_Transmit(&huart4, rfid_counter_tx_string, 8, 10);
 	
-	rfid_task = READ_COUNTER_RFID_TASK;
+	g_RFID_task = C_RFID_READ_COUNTER_RFID_TASK;
 }
 
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
@@ -164,13 +174,13 @@ void get_rfid_counter(uint8_t* str)
 	   Range: Not NULL.
 */
 /*--------------------------------------------------------------------------------------------------*/
-void increment_rfid_counter(uint8_t* str)
+void p_RFID_increment_counter(uint8_t* str)
 {
 //	unsigned short s1;
-	uint8_t rfid_counter_tx_string[] = {RFID_STX, 'R', 'E', 'A', 'I', 'N', 'C', 'C', RFID_EXT, 'P'}; // command is "REAGC" (ASCII string). 'P' at end is checksum
+	uint8_t rfid_counter_tx_string[] = {C_RFID_STX, 'R', 'E', 'A', 'I', 'N', 'C', 'C', C_RFID_EXT, 'P'}; // command is "REAGC" (ASCII string). 'P' at end is checksum
 
-	uart_tx_callback[RFID_COMM_UART_NUM] = 0;
-	uart_rx_callback[RFID_COMM_UART_NUM] = 0;
+	g_MAIN_uart_tx_callback[RFID_COMM_UART_NUM] = 0;
+	g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] = 0;
 	
 	/* Prepare receiving data */
 	HAL_UART_Receive_IT(&huart4, str, 11);
@@ -178,7 +188,7 @@ void increment_rfid_counter(uint8_t* str)
 	/* Transmit and wait until transmission end */
 	HAL_UART_Transmit(&huart4, rfid_counter_tx_string, 10, 10);
 	
-	rfid_task = INCREMENT_COUNTER_RFID_TASK;
+	g_RFID_task = C_RFID_INCREMENT_COUNTER_RFID_TASK;
 }
 
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
@@ -191,19 +201,19 @@ void increment_rfid_counter(uint8_t* str)
 	   Range: Not NULL.
 */
 /*--------------------------------------------------------------------------------------------------*/
-void reset_rfid_counter(uint8_t* str)
+void p_RFID_reset_counter(uint8_t* str)
 {
 //	unsigned short s1;
 
 	uint8_t rfid_counter_tx_string[14]; 
 	
-	uart_tx_callback[RFID_COMM_UART_NUM] = 0;
-	uart_rx_callback[RFID_COMM_UART_NUM] = 0;
+	g_MAIN_uart_tx_callback[RFID_COMM_UART_NUM] = 0;
+	g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] = 0;
 	
 	/* command is "REAGC" (ASCII string). 'A' at end is checksum */
-	rfid_counter_tx_string[0] = RFID_STX;  
+	rfid_counter_tx_string[0] = C_RFID_STX;  
 	strcat((char *)(&rfid_counter_tx_string[1]), "REARESETC");
-	rfid_counter_tx_string[10] = RFID_EXT;
+	rfid_counter_tx_string[10] = C_RFID_EXT;
 	rfid_counter_tx_string[11] = 'A';
 	rfid_counter_tx_string[12] = 0;
 	
@@ -213,7 +223,7 @@ void reset_rfid_counter(uint8_t* str)
 	/* Transmit and wait until transmission endif */
 	HAL_UART_Transmit(&huart4, rfid_counter_tx_string, 13, 10);
 	
-	rfid_task = RESET_COUNTER_RFID_TASK;
+	g_RFID_task = C_RFID_RESET_COUNTER_RFID_TASK;
 }
 
 /*$PROCEDURE$---------------------------------------------------------------------------------------*/
@@ -231,16 +241,19 @@ signed int rfid_temp_ascii_to_int(void)
 {
 	signed int i1;
 	
-	if (from_rfid_string[0] != 0x06) // if bad ACK from RFID
-		return RFID_COMM_ERROR_RETURNED_TEMPERATURE; // return 99.9C  (99900 mC).
+	if (g_MAIN_from_rfid_str[0] != C_RFID_BAD_ACK) // if bad ACK from RFID
+		return C_RFID_COMM_ERROR_RETURNED_TEMPERATURE; // return 99.9C  (99900 mC).
 	
-	i1  = (((int)((from_rfid_string[ 9] - '0'))) * 100000);
-	i1 += (((int)((from_rfid_string[10] - '0'))) * 10000);
-	i1 += (((int)((from_rfid_string[11] - '0'))) * 1000);
-	i1 += (((int)((from_rfid_string[13] - '0'))) * 100); // index 13 because index 12 is decimal point
+	i1  = (((int)((g_MAIN_from_rfid_str[ 9] - '0'))) * 100000);
+	i1 += (((int)((g_MAIN_from_rfid_str[10] - '0'))) * 10000);
+	i1 += (((int)((g_MAIN_from_rfid_str[11] - '0'))) * 1000);
+	i1 += (((int)((g_MAIN_from_rfid_str[13] - '0'))) * 100); // index 13 because index 12 is decimal point
 	
-	if (from_rfid_string[8] == '-')
+	if (g_MAIN_from_rfid_str[8] == '-')
+	{	
 		i1 *= (-1);
+	}
+		
 	
 	return i1;
 }
@@ -254,7 +267,7 @@ void get_rfid_page(uint8_t add, uint8_t *str)
 	//   [STX]REARP00[ETX]U
 
 	unsigned short s1;
-	uint8_t rfid_read_page_string[] = {RFID_STX, 'R', 'E', 'A', 'R', 'P', 0, 0, RFID_EXT, 0};
+	uint8_t rfid_read_page_string[] = {C_RFID_STX, 'R', 'E', 'A', 'R', 'P', 0, 0, C_RFID_EXT, 0};
 	uint8_t crc = 0;
 
 	rfid_read_page_string[6] = '0' + (add / 16); // address MSNibble in ASCII
@@ -279,10 +292,10 @@ void get_rfid_page(uint8_t add, uint8_t *str)
 	// Wait until receiving end:
 	// ------------------------
 	s1 = 0;
-//	while((uart_rx_callback[RFID_COMM_UART_NUM] == 0) && (s1 < 50000))
+//	while((g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] == 0) && (s1 < 50000))
 //		s1++;
 //
-//	uart_rx_callback[RFID_COMM_UART_NUM] = 0;
+//	g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] = 0;
 }
 #endif
 
@@ -291,7 +304,7 @@ void get_rfid_page(uint8_t add, uint8_t *str)
 void get_rfid_version(uint8_t *str)
 {
 	unsigned short s1;
-	uint8_t rfid_version_tx_string[] = {RFID_STX, '1', '0', '0', '1', RFID_EXT, 0x01}; // command is "1001" (ASCII string). 0x01 at end is checksum
+	uint8_t rfid_version_tx_string[] = {C_RFID_STX, '1', '0', '0', '1', C_RFID_EXT, 0x01}; // command is "1001" (ASCII string). 0x01 at end is checksum
 
 	// Prepare receiving data:
 	// ----------------------
@@ -305,10 +318,10 @@ void get_rfid_version(uint8_t *str)
 	// Wait until receiving end:
 	// ------------------------
 	s1 = 0;
-	while((uart_rx_callback[RFID_COMM_UART_NUM] == 0) && (s1 < 50000))
+	while((g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] == 0) && (s1 < 50000))
 		s1++;
 
-	uart_rx_callback[RFID_COMM_UART_NUM] = 0;
+	g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] = 0;
 }
 
 #endif

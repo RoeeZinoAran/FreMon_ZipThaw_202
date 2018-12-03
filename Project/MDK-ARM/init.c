@@ -45,58 +45,58 @@ extern UART_HandleTypeDef huart2;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: no_somm_message_timer
+  Variable Name: g_MAIN_no_somm_message_timer
   Variable Type: unsigned short
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern volatile unsigned short no_somm_message_timer;
+extern volatile unsigned short g_MAIN_no_somm_message_timer;
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: som_rx_buffer
-  Variable Type: uint8_t [MAX_MESSAGE_LENGTH]
+  Variable Name: g_HOST_FROM_COMM_som_rx_buffer
+  Variable Type: uint8_t [C_HOST_FROM_COMM_MAX_MESSAGE_LENGTH]
   Unit: [N/A]
   Default value: N/A
   Description: Message from SOM buffer. 
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern uint8_t som_rx_buffer[MAX_MESSAGE_LENGTH];
+extern uint8_t g_HOST_FROM_COMM_som_rx_buffer[C_HOST_FROM_COMM_MAX_MESSAGE_LENGTH];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: from_rfid_string
-  Variable Type: uint8_t [RFID_STRING_ARRAY_SIZE]
+  Variable Name: g_MAIN_from_rfid_str
+  Variable Type: uint8_t [C_RFID_STRING_ARRAY_SIZE]
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern uint8_t from_rfid_string[RFID_STRING_ARRAY_SIZE];
+extern uint8_t g_MAIN_from_rfid_str[C_RFID_STRING_ARRAY_SIZE];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: uart_tx_callback
+  Variable Name: g_MAIN_uart_tx_callback
   Variable Type: unsigned short [5]
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern volatile unsigned short uart_tx_callback[5];
+extern volatile unsigned short g_MAIN_uart_tx_callback[5];
 
 /*$GLOBAL VARIABLES$--------------------------------------------------------------------------------*/
 /*! 
-  Variable Name: uart_rx_callback
+  Variable Name: g_MAIN_uart_rx_callback
   Variable Type: unsigned short [5]
   Unit: [N/A]
   Default value: N/A
   Description: 
 */
 /*--------------------------------------------------------------------------------------------------*/
-extern volatile unsigned short uart_rx_callback[5];
+extern volatile unsigned short g_MAIN_uart_rx_callback[5];
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS IMPLEMENTATION %%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
@@ -112,19 +112,19 @@ extern volatile unsigned short uart_rx_callback[5];
 /*--------------------------------------------------------------------------------------------------*/
 void init(void)
 {
-	init_heating_pwm();
-	init_receiving_from_som();
-	init_rgb_leds();
-	//	calib_adc(); // Read 'VREFINT_CAL' value from MCU - the value used to measure VDDA for calibrating the ADC full scale
+	p_INIT_heating_pwm();
+	p_INIT_receiving_from_som();
+	p_INIT_rgb_leds();
+	//	p_ADC_calib(); // Read 'VREFINT_CAL' value from MCU - the value used to measure VDDA for calibrating the ADC full scale
 	
 	/* Emulating like RFID was read inorder to allow calling RFID again in the main loop */
-	uart_rx_callback[RFID_COMM_UART_NUM] = 1; // 
+	g_MAIN_uart_rx_callback[RFID_COMM_UART_NUM] = 1; // 
 
 #if 0
-	get_rfid_counter(from_rfid_string);
+	p_RFID_get_counter(g_MAIN_from_rfid_str);
 #endif
 
-	system_state.tasks_in_progress = STANDBY_TASK_BIT;
+	system_state.tasks_in_progress = C_EXTERN_STRUCTS_STANDBY_TASK_BIT;
 	system_state.after_thawing_timer = 0;
 	system_state.progress = 0xff; // not active
 }
@@ -140,7 +140,7 @@ void init(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void init_heating_pwm(void)
+void p_INIT_heating_pwm(void)
 {
 	PWM_timer3_OC_params.OCMode = TIM_OCMODE_PWM1;
 	PWM_timer3_OC_params.OCPolarity = TIM_OCPOLARITY_HIGH;
@@ -167,7 +167,7 @@ void init_heating_pwm(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void init_rgb_leds(void)
+void p_INIT_rgb_leds(void)
 {
 	HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
@@ -208,11 +208,11 @@ void init_rgb_leds(void)
 \param Void
 */
 /*--------------------------------------------------------------------------------------------------*/
-void init_receiving_from_som(void)
+void p_INIT_receiving_from_som(void)
 {
-	no_somm_message_timer = 0;
-	uart_tx_callback[SOM_COMM_UART_NUM] = 0;
-	uart_rx_callback[SOM_COMM_UART_NUM] = 0;
-	HAL_UART_Receive_DMA(&huart2, som_rx_buffer, NUM_OF_HEADER_BYTES);
+	g_MAIN_no_somm_message_timer = 0;
+	g_MAIN_uart_tx_callback[SOM_COMM_UART_NUM] = 0;
+	g_MAIN_uart_rx_callback[SOM_COMM_UART_NUM] = 0;
+	HAL_UART_Receive_DMA(&huart2, g_HOST_FROM_COMM_som_rx_buffer, C_HOST_FROM_COMM_NUM_OF_HEADER_BYTES);
 	system_state.som_comm_state = RECEIVING_MESSAGE_HEADER;
 }

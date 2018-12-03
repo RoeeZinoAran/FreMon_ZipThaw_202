@@ -35,7 +35,7 @@
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
 /*
-  Define Name: IR_I2C_7BITS_ADD
+  Define Name: C_IR_TEMP_7BITS_ADD
   Unit: [N/A]
   Define Value: 0x5A
   Description: 10,000 is the value that if sent to PWM register gives 100% duty cycle.
@@ -57,7 +57,7 @@
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
 /*
-  Define Name: IR_I2C_7BITS_ADD
+  Define Name: C_IR_TEMP_7BITS_ADD
   Unit: [N/A]
   Define Value: 0x5A
   Description:  

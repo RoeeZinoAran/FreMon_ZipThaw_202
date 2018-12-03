@@ -7,15 +7,15 @@
 
 /*$DEFINES$-----------------------------------------------------------------------------------------*/
 /*
-  Define Name: LM75B_I2C_7BITS_ADD
+  Define Name: C_BOARD_TEMP_LM75B_I2C_7BITS_ADD
   Unit: [N/A]
   Define Value: 0x48
   Description:  
 */
 /*--------------------------------------------------------------------------------------------------*/
-#define LM75B_I2C_7BITS_ADD		(0x48)
+#define C_BOARD_TEMP_LM75B_I2C_7BITS_ADD		(0x48)
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PUBLIC DECLARATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
-void get_board_temperature(uint8_t *str);
-signed int interpret_pcb_temperature(void);
+void p_BOAD_TEMP_get_board_temperature(uint8_t *str);
+signed int p_BOAD_TEMP_interpret_pcb_temperature(void);
