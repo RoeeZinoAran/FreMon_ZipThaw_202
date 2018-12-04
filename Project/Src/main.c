@@ -1,4 +1,42 @@
 
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  ** This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
+  *
+  * COPYRIGHT(c) 2018 STMicroelectronics
+  *
+  * Redistribution and use in source and binary forms, with or without modification,
+  * are permitted provided that the following conditions are met:
+  *   1. Redistributions of source code must retain the above copyright notice,
+  *      this list of conditions and the following disclaimer.
+  *   2. Redistributions in binary form must reproduce the above copyright notice,
+  *      this list of conditions and the following disclaimer in the documentation
+  *      and/or other materials provided with the distribution.
+  *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  *      may be used to endorse or promote products derived from this software
+  *      without specific prior written permission.
+  *
+  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  *
+  ******************************************************************************
+  */
+
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INCLUDES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
 #include "main.h"
@@ -89,17 +127,48 @@ uint8_t g_MAIN_pcb_temperature_str[2];
 // contain the entire string returned by the board (PCB) temperature measurement device.
 
 extern uint8_t g_HOST_FROM_COMM_som_rx_buffer[C_HOST_FROM_COMM_MAX_MESSAGE_LENGTH];
+
 volatile unsigned short g_MAIN_no_somm_message_timer = 0;
 volatile unsigned short g_MAIN_motor_index_timer = 0;
 volatile unsigned short g_MAIN_delay_var0 = 0;
+
+
 volatile unsigned short g_MAIN_timer_20mS_period  = 0; // incremented every   1 mSec, and reset every  20 mSec.
 volatile unsigned short g_MAIN_timer_100mS_period = 0; // incremented every  20 mSec, and reset every 100 mSec.
 volatile unsigned short g_MAIN_timer_1S_period    = 0; // incremented every 100 mSec, and reset every   1  Sec.
-volatile unsigned short one_second_passed_bits = 0; 
 
+//volatile unsigned short one_second_period_timer = 0;
+// incremented once every 100mSec, reset every 1 second.
+
+volatile unsigned short one_second_passed_bits = 0; 
+// made 0xffff every second. Every task that reads this variable can reset one bit of this variable after task run
+
+
+// --------------------------------------------------------------------------
+//volatile unsigned short ten_mili_second_period_timer = 0;
+// free running, (incremented at every systick), reset every 10 mili second.
+
+//volatile unsigned short ten_mili_seconds_counter = 0;
+// Count modulo 10 (0 to 9), changed every 10 mSecond so overrun every 100 mSec.
+
+//volatile unsigned short ten_mili_second_passed_bits = 0;
+// One of the 10 LSBits is set every 10 mili second:
+// Bit 0 is set after 10 mSec, bit 1 after 20 mSec... bit 9 after 100mSec.
+// Every task that reads this variable can reset one bit of this variable after
+// that task run.
+// Used to divide a 100mSec cycle to 10 time periods of 10mSec, so each task
+// can run every 100mSec but at it's specific 10mSec time slot.
+// For example: ADC can run at 1st. 10mSec,  RFID measure at next 10mSec etc...
+// In this way, since not all tasks run continously at once, the main loop
+// last much shorter time because that at every main loop on;y one (or few)
+// tasks run and not all the tasks.
+// --------------------------------------------------------------------------
+
+//volatile unsigned short tenth_second_passed = 0; // Made 1 by systick every 100 mSec.
+
+/* USER CODE END PV */
 
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOCAL DECLARATIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
-
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
@@ -649,8 +718,10 @@ p_MOTOR_init_L6470();
 
 }
 
-/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Init routines %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
-
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
 
@@ -1190,3 +1261,13 @@ void assert_failed(uint8_t* file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
